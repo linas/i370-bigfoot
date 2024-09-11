@@ -100,3 +100,9 @@ clone it, and build it. Follow the instructions there.
 Step Two: ???
 
 Step Three: Profit!
+
+## Documentation
+The CPU Architecture, including the instruction set, is documented in
+[z/Architecture Principles of Operation, Fourteenth Edition (May,
+2022)](https://www.ibm.com/docs/en/module_1678991624569/pdf/SA22-7832-13.pdf)
+This is IBM document number SA22-7832-13.
