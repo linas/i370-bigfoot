@@ -91,15 +91,14 @@ get other parts from the original bigfoot site, if you wish; or you can
 wait for them to be dusted off and cleaned up, here.
 
 ## HOWTO
-This is a collection of random notes.
+The easiest way to try the system is to install Docker, build the Docker
+container provided in the `docker` directory, and then run the
+container.
 
-Step One: Get the i370 assembler. Go to the
-[i370-binutils](https://github.com/linas/i370-binutils) github repo,
-clone it, and build it. Follow the instructions there.
-
-Step Two: ???
-
-Step Three: Profit!
+If you wish to do everything by hand, then just emulate what you find in
+`docker/i370-bigfoot/Dockerfile`. Note that Dockerfiles are kind of like
+shell scripts: this should be easy to understand and run manually, as
+needed.
 
 ## Documentation
 The CPU Architecture, including the instruction set, is documented in

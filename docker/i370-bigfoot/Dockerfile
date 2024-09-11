@@ -21,8 +21,14 @@ RUN apt-get update && apt-get -y upgrade
 RUN apt-get -y install apt-transport-https software-properties-common \
       sudo wget tzdata apt-utils
 
+# Install build tools
+RUN apt-get -y install git gcc ccache
+
 ## For using ccache
 ENV PATH /usr/lib/ccache:$PATH
+
+RUN git clone https://github.com/linas/i370-binutils
+RUN cd i370-binutils; mkdir build; cd build; ../configure; make -j
 
 # TODO: Remove this user and replace with usage of `-u` flag during runtime.
 # Create and switch user. The user is privileged with no password required
