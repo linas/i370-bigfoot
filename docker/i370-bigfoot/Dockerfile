@@ -42,11 +42,25 @@ WORKDIR /home/bigfoot
 COPY /scripts/ /home/bigfoot
 RUN sudo chown -R bigfoot:bigfoot .gdbinit
 
-ENV LAST_BINUTILS_UPDATE 2024-09-11
+# Perform git clone. These are large and time consuming.
+# Do them once, and only once; to update, do a git pull,
+# farther below.
+ENV LAST_GIT_CLONE 2024-09-11
 RUN git clone https://github.com/linas/i370-binutils
+RUN git clone https://github.com/linas/i370-gcc
+
+# Grab latest binutils
+ENV LAST_BINUTILS_UPDATE 2024-09-11
+RUN cd i370-binutils; git pull
 RUN cd i370-binutils; mkdir build; cd build; \
     ../configure --target=i370-ibm-linux; make -j12
-RUN sudo make install
+# Again, for good luck (and readable error messages)
+RUN cd i370-binutils/build; make
+RUN cd i370-binutils/build; sudo make install
+
+# Grab latest gcc
+ENV LAST_GCC_UPDATE 2024-09-11
+RUN cd i370-gcc; git pull
 
 # For images built on this
 ONBUILD USER root
