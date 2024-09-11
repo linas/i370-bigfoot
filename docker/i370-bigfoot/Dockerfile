@@ -22,16 +22,16 @@ RUN apt-get -y install apt-transport-https software-properties-common \
       sudo wget tzdata apt-utils
 
 # Install build tools
-RUN apt-get -y install git gcc ccache
+RUN apt-get -y install git gcc g++ ccache make
+# General user convenience tools
+RUN apt-get -y install tmux byobu
+# Binutils needs gmp, mpfr, texinfo, bison, flex
+RUN apt-get -y install libmpfr-dev libgmp-dev texinfo bison flex
 
-## For using ccache
+## Use ccache to minimize build times.
 ENV PATH /usr/lib/ccache:$PATH
 
-RUN git clone https://github.com/linas/i370-binutils
-RUN cd i370-binutils; mkdir build; cd build; ../configure; make -j
-
-# TODO: Remove this user and replace with usage of `-u` flag during runtime.
-# Create and switch user. The user is privileged with no password required
+# Create and switch user. The user is privileged, with no password required.
 RUN adduser --disabled-password --gecos "Bigfoot Developer" bigfoot
 RUN adduser bigfoot sudo
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
@@ -40,7 +40,13 @@ WORKDIR /home/bigfoot
 
 # Setup config files
 COPY /scripts/ /home/bigfoot
-# RUN sudo chown -R bigfoot:bigfoot .gdbinit
+RUN sudo chown -R bigfoot:bigfoot .gdbinit
+
+ENV LAST_BINUTILS_UPDATE 2024-09-11
+RUN git clone https://github.com/linas/i370-binutils
+RUN cd i370-binutils; mkdir build; cd build; \
+    ../configure --target=i370-ibm-linux; make -j12
+RUN sudo make install
 
 # For images built on this
 ONBUILD USER root
