@@ -24,7 +24,7 @@ RUN apt-get -y install apt-transport-https software-properties-common \
 # Install build tools
 RUN apt-get -y install git gcc g++ ccache make
 # General user convenience tools
-RUN apt-get -y install tmux byobu
+RUN apt-get -y install tmux byobu vim
 # Binutils needs gmp, mpfr, texinfo, bison, flex
 RUN apt-get -y install libmpfr-dev libgmp-dev texinfo bison flex
 

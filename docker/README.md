@@ -16,7 +16,12 @@ docker start -i foo
 ```
 Replace `foo` with your desired container name.
 
-A short cheat sheet:
+After the `docker start` above, you'll land in a running container.
+The home directory is `/home/bigfoot`. Binaries can be found in
+`/usr/local/bin`. For example, the assembler is named
+`i370-ibm-linux-as`.
+
+A short docker cheat sheet:
 * `docker images`
 * `docker rmi <image-hex>`
 * `docker ps -a`
@@ -28,5 +33,4 @@ A short cheat sheet:
 
 ## Notes
 1. Both `tmux` and `byobu` are installed, so you can use either for
-
    multiple windows/panes.
