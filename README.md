@@ -71,7 +71,7 @@ control it.
 
 For Linas to continue after this was pointless; the last version of
 Bigfoot was from November 1999. And that was that for the next 25 years.
- 
+
 Recently, I was contacted, and asked if I could revive the project.
 I don't know that I want to: its not as if I don't have enough to do,
 and enough interests to indulge. But what the heck, how hard can this
@@ -80,16 +80,23 @@ be? Just a little bit more work, and bingo, we're back.
 So: I don't now that I'll do this. But if I do, the instructions are
 below.
 
-## HOWTO
-This is gong to be some random notes.
+For a related project, somewhat overlapping this, see
+[PDOS, the Public Domain Operating System](https://pdos.org).
 
-Step One: get the i370 assembler. Go to the
+## Status
+Version 0.0.1 - September 2024
+
+At this time, only binutils (the assembler) has been revived. You can
+get other parts from the original bigfoot site, if you wish; or you can
+wait for them to be dusted off and cleaned up, here.
+
+## HOWTO
+This is a collection of random notes.
+
+Step One: Get the i370 assembler. Go to the
 [i370-binutils](https://github.com/linas/i370-binutils) github repo,
 clone it, and build it. Follow the instructions there.
 
 Step Two: ???
 
-Step three: Profit!
-
-### Status
-Version 0.0.1 September 2024
+Step Three: Profit!
