@@ -1,7 +1,7 @@
 # IBM i370 port of Debian Linux
 
 By popular demand, this repo might maybe someday provide instructions on
-resurecting the old
+resurrecting the old
 [i370-bigfoot project](https://linas.org/linux/i370-bigfoot.html)
 Maybe. Right now it consists of a README only, and nothing much else.
 
@@ -12,10 +12,10 @@ System/370, the 3090 and eventually, the
 [z/Architecture](https://en.wikipedia.org/wiki/Z/Architecture).
 Many of the very earliest open source projects were created on s/360,
 shepharded by [SHARE](https://en.wikipedia.org/wiki/SHARE_(computing)),
-a volunteer-run user groupd for IBM mainframes.
+a volunteer-run user grouped for IBM mainframes.
 
 In the 1990's, David Pitts ported the GNU GCC compiler to the System/370
-instruction set, targetting the IBM HLASM assembler. This created the
+instruction set, targeting the IBM HLASM assembler. This created the
 possibility of porting a vast collection of open source projects to the
 mainframe.
 
@@ -52,7 +52,7 @@ disasters struck at the same time.
 First, around September/October 1999, Linas realized that glibc required
 support for weak symbols, and this required a major redesign of the
 subroutine calling conventions, including thunks and trampolines. Argh!
-Getting this just right, while being clever and efficient, was techically
+Getting this just right, while being clever and efficient, was technically
 hard.
 
 Second, IBM announced that it, too, had a port of Linux to the
