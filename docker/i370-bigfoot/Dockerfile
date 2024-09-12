@@ -28,6 +28,9 @@ RUN apt-get -y install tmux byobu vim
 # Binutils needs gmp, mpfr, texinfo, bison, flex
 RUN apt-get -y install libmpfr-dev libgmp-dev texinfo bison flex
 
+# System/370, ESA/390 and z/Architecture Emulator
+RUN apt-get -y install hercules
+
 ## Use ccache to minimize build times.
 ENV PATH /usr/lib/ccache:$PATH
 
