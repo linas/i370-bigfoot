@@ -52,6 +52,9 @@ ENV LAST_GIT_CLONE 2024-09-11
 RUN git clone https://github.com/linas/i370-binutils
 RUN git clone https://github.com/linas/i370-gcc
 
+RUN git clone https://github.com/linas/i370-linux
+RUN git clone https://github.com/linas/i370-newlib
+
 # Grab latest binutils
 ENV LAST_BINUTILS_UPDATE 2024-09-14
 RUN cd i370-binutils; git pull
@@ -72,8 +75,6 @@ RUN cd i370-gcc; mkdir build; cd build; \
 RUN cd i370-binutils/build; make
 RUN cd i370-binutils/build; sudo make install
 
-# RUN git clone https://github.com/linas/i370-linux
-# RUN git clone https://github.com/linas/i370-newlib
 
 # For images built on this
 ONBUILD USER root
