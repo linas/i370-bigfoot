@@ -53,7 +53,7 @@ RUN git clone https://github.com/linas/i370-binutils
 RUN git clone https://github.com/linas/i370-gcc
 
 # Grab latest binutils
-ENV LAST_BINUTILS_UPDATE 2024-09-11
+ENV LAST_BINUTILS_UPDATE 2024-09-14
 RUN cd i370-binutils; git pull
 RUN cd i370-binutils; mkdir build; cd build; \
     ../configure --target=i370-ibm-linux; make -j12
@@ -62,8 +62,18 @@ RUN cd i370-binutils/build; make
 RUN cd i370-binutils/build; sudo make install
 
 # Grab latest gcc
-ENV LAST_GCC_UPDATE 2024-09-11
+ENV LAST_GCC_UPDATE 2024-09-14
 RUN cd i370-gcc; git pull
+RUN cd i370-gcc; git checkout i370-gcc-3.4.6
+RUN cd i370-gcc; mkdir build; cd build; \
+    ../configure --target=i370-ibm-linux -enable-languages="c" \
+       --disable-threads; make -j12
+# Again, for good luck (and readable error messages)
+RUN cd i370-binutils/build; make
+RUN cd i370-binutils/build; sudo make install
+
+# RUN git clone https://github.com/linas/i370-linux
+# RUN git clone https://github.com/linas/i370-newlib
 
 # For images built on this
 ONBUILD USER root

@@ -21,6 +21,10 @@ The home directory is `/home/bigfoot`. Binaries can be found in
 `/usr/local/bin`. For example, the assembler is named
 `i370-ibm-linux-as`.
 
+At this time, the container has a working versions of:
+* `binutils-2.43` which is the latest version
+* `gcc-3.4.6` which is the last version to support i370
+
 A short docker cheat sheet:
 * `docker images`
 * `docker rmi <image-hex>`
