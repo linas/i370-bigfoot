@@ -78,7 +78,7 @@ COPY /scripts/ /home/bigfoot
 RUN sudo chown -R bigfoot:bigfoot .byobu
 RUN sudo chown -R bigfoot:bigfoot .gdbinit
 RUN sudo chown -R bigfoot:bigfoot hercules
-
+RUN sudo chown -R bigfoot:bigfoot examples
 
 # For images built on this
 ONBUILD USER root
