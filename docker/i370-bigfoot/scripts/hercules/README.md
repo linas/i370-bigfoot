@@ -32,4 +32,13 @@ IPL ../examples/foo
 ```
 
 For more info, see the [examples README](../examples/README.md)
+
+### Notes
+
+The currently installed version of Hercules is version 3.15, which is
+the latest available in Debian. There is something newer, though:
+Hercules Hyperion aka Hercules/390 aka hercules version 4.0
+It supposedly fixes many issues.  Also, it has a better web page:
+
+http://hercules-390.github.io/html/
 ---
