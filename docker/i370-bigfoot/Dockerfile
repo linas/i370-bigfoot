@@ -1,5 +1,5 @@
 #
-# Image with everything installed
+# Image for bigfoot/370 with everything installed.
 #
 # Steps to build & run:
 # 1. docker build --no-cache -t bigfoot/i370-bigfoot
@@ -22,14 +22,14 @@ RUN apt-get -y install apt-transport-https software-properties-common \
       sudo wget tzdata apt-utils
 
 # Install build tools
-RUN apt-get -y install git gcc g++ ccache make
+RUN apt-get -y install git gcc g++ ccache make gdb
 # General user convenience tools
 RUN apt-get -y install tmux byobu vim
 # Binutils needs gmp, mpfr, texinfo, bison, flex
 RUN apt-get -y install libmpfr-dev libgmp-dev texinfo bison flex
 
 # System/370, ESA/390 and z/Architecture Emulator
-RUN apt-get -y install hercules
+RUN apt-get -y install hercules herculesstudio
 
 ## Use ccache to minimize build times.
 ENV PATH /usr/lib/ccache:$PATH
@@ -40,10 +40,6 @@ RUN adduser bigfoot sudo
 RUN echo '%sudo ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 USER bigfoot
 WORKDIR /home/bigfoot
-
-# Setup config files
-COPY /scripts/ /home/bigfoot
-RUN sudo chown -R bigfoot:bigfoot .gdbinit
 
 # Perform git clone. These are large and time consuming.
 # Do them once, and only once; to update, do a git pull,
@@ -74,6 +70,12 @@ RUN cd i370-gcc; mkdir build; cd build; \
 # Again, for good luck (and readable error messages)
 RUN cd i370-binutils/build; make
 RUN cd i370-binutils/build; sudo make install
+
+# Setup config files. Do this after above, so that changes here do not
+# result in a rebuild of the image. In particular, we want to avoid
+# redoing the git clone above, as those are time consuming.
+COPY /scripts/ /home/bigfoot
+RUN sudo chown -R bigfoot:bigfoot *
 
 
 # For images built on this
