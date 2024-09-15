@@ -75,6 +75,7 @@ RUN cd i370-binutils/build; sudo make install
 # result in a rebuild of the image. In particular, we want to avoid
 # redoing the git clone above, as those are time consuming.
 COPY /scripts/ /home/bigfoot
+RUN sudo chown -R bigfoot:bigfoot .byobu
 RUN sudo chown -R bigfoot:bigfoot .gdbinit
 RUN sudo chown -R bigfoot:bigfoot hercules
 
