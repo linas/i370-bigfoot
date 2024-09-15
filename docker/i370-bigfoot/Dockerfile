@@ -1,8 +1,8 @@
 #
-# Image for bigfoot/370 with everything installed.
+# Image for Bigfoot/370 with everything installed.
 #
 # Steps to build & run:
-# 1. docker build --no-cache -t bigfoot/i370-bigfoot
+# 1. docker build -t bigfoot/i370-bigfoot .
 # 2. docker run --rm -it bigfoot/i370-bigfoot
 
 # Debian Stable (Bookworm)
@@ -75,7 +75,8 @@ RUN cd i370-binutils/build; sudo make install
 # result in a rebuild of the image. In particular, we want to avoid
 # redoing the git clone above, as those are time consuming.
 COPY /scripts/ /home/bigfoot
-RUN sudo chown -R bigfoot:bigfoot *
+RUN sudo chown -R bigfoot:bigfoot .gdbinit
+RUN sudo chown -R bigfoot:bigfoot hercules
 
 
 # For images built on this

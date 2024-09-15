@@ -35,8 +35,7 @@
 #       Hercules Service Processor and Hercules Application Window
 #------------------------------------------------------------------------------
 
-
-# MODPATH   /usr/local/lib/hercules     # Where to search for modules
+# MODPATH   /usr/lib/hercules           # Where to search for modules
 # LDMOD     dyninst tcpip               # Modules to be loaded
 
 #------------------------------------------------------------------------------
@@ -49,6 +48,7 @@
   HTTPPORT  8081 noauth userid password # HTTP server port
 # HTTPROOT  /usr/local/share/hercules/  # HTTP root directory
 
+  PANTITLE  "Bigfoot/370 Emulator"
   PANRATE   FAST                        # Panel refresh rate
 
 
