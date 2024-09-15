@@ -1,9 +1,13 @@
 # IBM i370 port of Debian Linux
 
-By popular demand, this repo might maybe someday provide instructions on
-resurrecting the old
+By popular demand, this repo might maybe someday provide instructions
+on resurrecting the old
 [i370-bigfoot project](https://linas.org/linux/i370-bigfoot.html)
-Maybe. Right now it consists of a README only, and nothing much else.
+Maybe. Right now it consists of
+* This README
+* Script for a Docker image that contains the assembler, compiler
+  and the Hercules System/390 mainframe emulator.
+* Instructions on how to compile and IPL code.
 
 ## What is this?
 IBM created the [IBM System/360 ](https://en.wikipedia.org/wiki/IBM_System/360)
@@ -84,16 +88,19 @@ For a related project, somewhat overlapping this, see
 [PDOS, the Public Domain Operating System](https://pdos.org).
 
 ## Status
-Version 0.0.1 - September 2024
+Version 0.0.2 - September 2024
 
-At this time, only binutils (the assembler) has been revived. You can
-get other parts from the original bigfoot site, if you wish; or you can
-wait for them to be dusted off and cleaned up, here.
+At this time, only binutils (the assembler) and gcc (the compiler)
+have been revived. You can get other parts from the original bigfoot
+site, if you wish; or you can wait for them to be dusted off and
+cleaned up, here.
 
 ## HOWTO
 The easiest way to try the system is to install Docker, build the Docker
 container provided in the `docker` directory, and then run the
 container.
+
+The README in the docker directory explains more.
 
 If you wish to do everything by hand, then just emulate what you find in
 `docker/i370-bigfoot/Dockerfile`. Note that Dockerfiles are kind of like
