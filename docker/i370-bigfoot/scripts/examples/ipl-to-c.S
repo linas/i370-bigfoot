@@ -54,12 +54,12 @@ _start:
 	BASR	r15,0			/* load r15 with PSW              */
 	.using	.,r15			/* use r15 as base register       */
 
-	L	r13,=A(init_ksp)	/* load address of stack into r13 */
+	L	r13,=A(kstack)		/* load address of stack into r13 */
 	L	r5,=XL4'f00fdaad'	/* load eyecatcher into r5        */
-	L	r6,=A(init_ksp)		/* Verify stack address           */
+	L	r6,=A(kstack)		/* Verify stack address           */
 	L	r7,=XL4'3137c0de'	/* load another eyecatcher        */
 	LA	r11,2048(,r13);		/* go half-way up the stack       */
-	LA	r11,2048(,r13);		/* load r11 with top of stack     */
+	LA	r11,2048(,r11);		/* load r11 with top of stack     */
 	SLR	r3,r3
 	ST	r3,8(,r13)		/* terminate stack backchain      */
 	ST	r3,8(,r11)		/* terminate stack backchain      */
