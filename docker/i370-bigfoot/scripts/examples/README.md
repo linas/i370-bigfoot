@@ -8,7 +8,7 @@ and booted on the Hercules emulator.  It consists of multiple parts:
   frame pointer) and r14 (the link register). It then calls the C code,
   and, upon return, enters disabled wait.
 
-* `kernel.c`: Example C source code. It cannot do anything fancy,
+* `kernel-demo.c`: Example C source code. It cannot do anything fancy,
   because it is not linked to any C library. So all that it does is to
   create a stack (because `ipl-to-c.S` was too lazy to set this up)
   and then return a value to the caller. The returned value will be
