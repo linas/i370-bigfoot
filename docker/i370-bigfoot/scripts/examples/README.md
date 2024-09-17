@@ -26,8 +26,13 @@ and booted on the Hercules emulator.  It consists of multiple parts:
   Hercules.
 
 ## Running
+Steps to running the demo:
 
-Build everything by saying `make`.
+* Build everything by saying `make`.
+* Start the Hercules emulator.
+* Run the demo by saying `ipl /home/i370-bigfoot/examples/kernel.ipl`
+  at the Hercules prompt. The `kernel.ipl` file contains the name of
+  the actual bootable kernel, which is `kernel.bin`.
 
 
 So do this ...

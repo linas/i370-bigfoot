@@ -15,12 +15,7 @@
 	O	r1,=X'80000000'; 	/* Set AMODE 31-bit          */	\
 	ST	r1,sav+4(,0);						\
 	LPSW	sav(0);			/* oops halt the machine     */ \
-1f:	NOPR	r0;
-
-/* Define a plausible stack size. Must equal what's in the C code. */
-#define STACK_SIZE 4096
-
-#define SCRATCH 512
+1:	NOPR	r0;
 
 /* First instruction executed is here */
 /*
@@ -72,7 +67,7 @@ _start:
 	BASR	lr,r15			/* jump to C routine              */
 	.drop	r15
 	.using	.,lr			/* re-establish addressing.       */
-	HALT (SCRATCH)			/* Halt on return. */
+	HALT (384)			/* Halt on return.                */
 
 	.balign	4			/* align literal pool             */
 	.ltorg				/* dump literal pool              */
