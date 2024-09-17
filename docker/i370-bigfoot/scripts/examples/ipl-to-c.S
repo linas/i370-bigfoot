@@ -1,14 +1,13 @@
 /*
  * Shim to create an i370 binary that can be IPL'ed.
  * Copyright (c) 1999 Linas Vepstas (linas@linas.org)
- *
  */
 
 /* Stop the machine. Handy for debugging purposes, but also
  * used in a few "it can't possibly happen" situations.
  */
 #define HALT(sav)							\
-	SPKA    sav(0);			/* Ensure we can use lo core */ \
+	SPKA    0(0);			/* Ensure we can use lo core */ \
 	L	r1,=X'000A0000';	/* disabled wait             */	\
 	ST	r1,sav(,0);						\
 	L	r1,=A(1f);		/* goto label 1 forward.     */	\
@@ -16,6 +15,9 @@
 	ST	r1,sav+4(,0);						\
 	LPSW	sav(0);			/* oops halt the machine     */ \
 1:	NOPR	r0;
+
+/* Absolute address of some unused RAM. Used to assemble the PSW above. */
+#define SCRATCH 384
 
 /* First instruction executed is here */
 /*
@@ -67,7 +69,7 @@ _start:
 	BASR	lr,r15			/* jump to C routine              */
 	.drop	r15
 	.using	.,lr			/* re-establish addressing.       */
-	HALT (384)			/* Halt on return.                */
+	HALT (SCRATCH)			/* Halt on return.                */
 
 	.balign	4			/* align literal pool             */
 	.ltorg				/* dump literal pool              */

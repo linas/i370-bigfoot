@@ -51,6 +51,10 @@ Steps to running the demo:
 * Note that `r14` is the link register; it contains the location that
   the C code returns to, after exiting. Comare the value here to that
   visible in `i370-ibm-linux-objdump -D kernel-demo`.
+* Examine the system RAM. The `u 10` command will disassemble RAM starting
+  at hex address 0x10. The `r 180` will show RAM at location 0x180; this
+  particular location was used to assemble the PSW after returning from C.
+  Look at `SCRATCH` and `HALT` in `ipl-to-c.S`. The stack is at `r 1000`.
 * Use `sysclear` to reset the system (if desired). This will clear the
   PSW and the GPRs.
 

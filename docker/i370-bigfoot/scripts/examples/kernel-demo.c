@@ -17,6 +17,13 @@ char *init_ksp = stack;
 
 int start_kernel()
 {
+	init_ksp = stack;
+
+	stack[0] = 0xBA;
+	stack[1] = 0xD1;
+	stack[2] = 0xDE;
+	stack[3] = 0xA0;
+
 	/* Eyecatcher */
 	int y=0xdeadbeef;
 
