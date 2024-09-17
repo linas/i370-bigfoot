@@ -12,10 +12,10 @@ elf-stripper: elf-stripper.c
 # compiler, because it will run on the Hercules emulator.
 # The name of the stripped binary is placed in a file, since
 # that is how Hercules wants to find the bootable image.
-kernel-demo: ipl-to-c.S kernel-demo.c
+kernel-demo: ipl-to-c.S kernel-demo.c kernel-demo.lds elf-stripper
 	i370-ibm-linux-gcc -c ipl-to-c.S
 	i370-ibm-linux-gcc -c kernel-demo.c
-	i370-ibm-linux-ld ipl-to-c.o kernel-demo.o -o kernel-demo
+	i370-ibm-linux-ld -T kernel-demo.lds ipl-to-c.o kernel-demo.o -o kernel-demo
 	./elf-stripper kernel-demo > kernel.bin
 	echo "kernel.bin" > kernel.ipl
 
