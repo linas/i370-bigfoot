@@ -112,10 +112,40 @@ int main(int argc, char* argv[])
 			ntohl(shdr[i].sh_offset), ntohl(shdr[i].sh_addr),
 			ntohl(shdr[i].sh_size),
 			ntohl(shdr[i].sh_flags));
+
+		if (ntohl(shdr[i].sh_type) != SHT_PROGBITS) continue;
+
+		/* Compute the offset in the file, and seek to it. */
+		long off = ntohl(shdr[i].sh_offset);
+		int rc = fseek(fp, off, SEEK_SET);
+		if (0 != rc)
+		{
+			int norr = errno;
+			fprintf(stderr, "Error: Can't seek; errno=%d %s\n",
+				norr, strerror(norr));
+			exit(1);
+		}
+
+		/* Read sh_size bytes. */
+		size_t fsz = ntohl(shdr[i].sh_size);
+		char *code = malloc(fsz);
+		nr = fread(code, 1, fsz, fp);
+		if (fsz != nr)
+		{
+			fprintf(stderr,
+				"Error: short read, got %d bytes, expecting %ld\n", nr, fsz);
+			exit (1);
+		}
+
+		/* Write sh_size bytes. */
+		fwrite(code, 1, fsz, stdout);
+		free(code);
 	}
 
+	fprintf(stderr, "\n");
+
 	/* ------------------------------------------ */
-	/* Segments */
+	/* Report on the segments */
 	const size_t npbytes = ntohs(ehdr->e_phentsize) * ntohs(ehdr->e_phnum);
 	Elf32_Phdr* phdr = malloc(npbytes);
 	if (NULL == phdr)
@@ -154,49 +184,55 @@ int main(int argc, char* argv[])
 			ntohl(phdr[i].p_filesz), ntohl(phdr[i].p_memsz),
 			ntohl(phdr[i].p_flags));
 
+#if LETS_DUMP_SEGMENTS
+/* Heh. The elf linker created some segments for us, but this is not
+ * what we actually want to write out to get a header-less IPL file.
+ * The problem is that, unless we are careful designing our linker
+ * file, the text section (which is what we really want) won't be at
+ * the hoped-for segment location. Sigh. What we really need is a
+ * Hercules ELF loader, instead of this hack.
+ */
 		/* XXX FIXME elf-i370 fails to set the segment types. (???)
 		   Thus, we accept PT_NULL, here. */
-		if ((ntohl(phdr[i].p_type) == PT_LOAD) ||
-		    (ntohl(phdr[i].p_type) == PT_NULL))
+		if ((ntohl(phdr[i].p_type) == PT_LOAD) &&
+		    (ntohl(phdr[i].p_type) == PT_NULL)) continue;
+
+		/* Compute the offset in the file, and seek to it. */
+		/* XXX This is incorrect, unless the linker spec sets
+		 * up the text segment at address zero. This is doable,
+		 * but a pain in the neck, so we don't do this. See
+		 * note above. */
+		long off = ntohl(phdr[i].p_offset);
+		int rc = fseek(fp, off, SEEK_SET);
+		if (0 != rc)
 		{
-			/* Compute the offset in the file, and seek to it. */
-			/* XXX This is incorrect, somehow, but it works for the
-			 * demo. That is, it gets the .text segment, if that comes
-			 * first. Otherwise, its all misaligned. I don't get it. */
-			long off = ntohl(phdr[i].p_offset);
-			int rc = fseek(fp, off, SEEK_SET);
-			if (0 != rc)
-			{
-				int norr = errno;
-				fprintf(stderr, "Error: Can't seek; errno=%d %s\n",
-					norr, strerror(norr));
-				exit(1);
-			}
-
-			/* Read p_filesz bytes. */
-			size_t fsz = ntohl(phdr[i].p_filesz);
-			char *code = malloc(fsz);
-			nr = fread(code, 1, fsz, fp);
-			if (fsz != nr)
-			{
-				fprintf(stderr,
-					"Error: short read, got %d bytes, expecting %ld\n", nr, fsz);
-				exit (1);
-			}
-
-			/* Write p_filesz bytes. */
-			fwrite(code, 1, fsz, stdout);
-
-			/* Pad out the rest */
-			for (int n=fsz; n<ntohl(phdr[i].p_memsz); n++)
-				fputc(0, stdout);
-
-			free(code);
+			int norr = errno;
+			fprintf(stderr, "Error: Can't seek; errno=%d %s\n",
+				norr, strerror(norr));
+			exit(1);
 		}
-		else
+
+		/* Read p_filesz bytes. */
+		size_t fsz = ntohl(phdr[i].p_filesz);
+		char *code = malloc(fsz);
+		nr = fread(code, 1, fsz, fp);
+		if (fsz != nr)
 		{
-			fprintf(stderr, "Info: sement %d not loadable\n");
+			fprintf(stderr,
+				"Error: short read, got %d bytes, expecting %ld\n", nr, fsz);
+			exit (1);
 		}
+
+		/* Write p_filesz bytes. */
+		fwrite(code, 1, fsz, stdout);
+
+		/* Pad out the rest */
+		for (int n=fsz; n<ntohl(phdr[i].p_memsz); n++)
+			fputc(0, stdout);
+
+		free(code);
+	}
+#endif /* LETS_DUMP_SEGMENTS */
 	}
 
 	return 0;
