@@ -8,9 +8,6 @@
  *
  * You can review the resulting binary with
  * i370-ibm-linux-readelf -a kernel-demo
- *
- * This is not really needed for the demo, since the lef-header-stripper
- * gets the text segment directly.
  */
 
 OUTPUT_FORMAT("elf32-i370")

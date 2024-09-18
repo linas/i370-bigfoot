@@ -19,14 +19,6 @@ kernel-demo: ipl-to-c.S kernel-demo.c kernel-demo.lds elf-stripper
 	./elf-stripper kernel-demo > kernel.bin
 	echo "kernel.bin" > kernel.ipl
 
-# Same as above, but works without the linker spec `kernel-demo.lds`
-kernel-alt: ipl-to-c.S kernel-demo.c kernel-demo.lds elf-stripper
-	i370-ibm-linux-gcc -c ipl-to-c.S
-	i370-ibm-linux-gcc -c kernel-demo.c
-	i370-ibm-linux-ld ipl-to-c.o kernel-demo.o -o kalt-demo
-	./elf-stripper kalt-demo > kalt.bin
-	echo "kalt.bin" > kalt.ipl
-
 clean:
 	rm -f *.o
 

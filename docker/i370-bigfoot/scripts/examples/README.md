@@ -34,8 +34,11 @@ Steps to running the demo:
 
 * Build everything by saying `make`.
 * (Optional) Take a look at the ELF binary:
-  `i370-ibm-linux-objdump -D kernel-demo`.  Make note of the location
-  of various symbols and offsets.
+  `i370-ibm-linux-readelf -a kernel-demo`.  Make note of the loadable
+  segmenets.
+* (Optional) Disassemble the ELF binary:
+  `i370-ibm-linux-objdump -D kernel-demo`.  Make note of the various
+  symbols and offsets.
 * (Optional) Take a look at the raw binary: `xxd kernel.bin | less`
   Notice that the first eight bytes give a PSW that starts running at
   adress 0x10 (i.e. 16 bytes in, where the very first instruction appears.)
