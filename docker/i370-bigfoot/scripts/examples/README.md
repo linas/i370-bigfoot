@@ -54,7 +54,10 @@ Steps to running the demo:
 * Examine the system RAM. The `u 10` command will disassemble RAM starting
   at hex address 0x10. The `r 180` will show RAM at location 0x180; this
   particular location was used to assemble the PSW after returning from C.
-  Look at `SCRATCH` and `HALT` in `ipl-to-c.S`. The stack is at `r 1000`.
+  Look at `SCRATCH` and `HALT` in `ipl-to-c.S`. View the stackframe with
+  `r 1000.17f`.  Note the values 0x33 and 0x44 at 0x1128: these are the
+  arguments passed to the called subroutine.  Note assorted saved registers
+  in the stackgrame.
 * Use `sysclear` to reset the system (if desired). This will clear the
   PSW and the GPRs.
 

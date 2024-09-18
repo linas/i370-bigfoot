@@ -22,14 +22,11 @@
 /* First instruction executed is here */
 /*
  * We set up just enough to let a C lang call to be made.
- * Basically, this means just reserving some space for
- * a stack and making r13 point at it. That's all, and we can call.
+ * Basically, this means just reserving some space for a stack
+ * and making r13 point at it. That's all, and we can call.
  *
- * Note that we will be using this stack not just for startup,
- * but also for the exception handlers below ...
- *
- * Note that this stack is kind of bogus, and should be replaced by
- * something that has a guard page at the end of it.
+ * The current i370 compiler is configured to make the stack
+ * grow upwards (to larger addresses).
  *
  * Register naming convention:
  * lr == r14 == link reg
@@ -54,12 +51,11 @@ _start:
 	BASR	r15,0			/* load r15 with PSW              */
 	.using	.,r15			/* use r15 as base register       */
 
-	L	r13,=A(kstack)		/* load address of stack into r13 */
+	L	r13,=A(kstack)		/* load address of frame into r13 */
 	L	r5,=XL4'f00fdaad'	/* load eyecatcher into r5        */
 	L	r6,=A(kstack)		/* Verify stack address           */
 	L	r7,=XL4'3137c0de'	/* load another eyecatcher        */
-	LA	r11,2048(,r13);		/* go half-way up the stack       */
-	LA	r11,2048(,r11);		/* load r11 with top of stack     */
+	LA	r11,128(,r13);		/* start stack a bit up higher    */
 	SLR	r3,r3
 	ST	r3,8(,r13)		/* terminate stack backchain      */
 	ST	r3,8(,r11)		/* terminate stack backchain      */

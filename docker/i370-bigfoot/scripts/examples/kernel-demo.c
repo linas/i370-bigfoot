@@ -9,8 +9,14 @@
  * (which is never actually used), and return an eyecatcher ir GPR 15.
  */
 
-/* Defines some stack space */
+/* Define some stack space */
 char kstack[4096];
+
+/* So something. Demonstrate a function call. */
+int do_stuff(int a, int b)
+{
+	return a+b;
+}
 
 int start_kernel()
 {
@@ -18,6 +24,8 @@ int start_kernel()
 	kstack[1] = 0xD1;
 	kstack[2] = 0xDE;
 	kstack[3] = 0xA0;
+
+	do_stuff(0x33, 0x44);
 
 	/* Eyecatcher */
 	int y=0xdeadbeef;
