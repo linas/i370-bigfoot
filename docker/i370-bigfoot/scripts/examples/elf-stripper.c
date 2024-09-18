@@ -113,9 +113,10 @@ int main(int argc, char* argv[])
 		    (ntohl(phdr[i].p_type) == PT_NULL))
 		{
 			/* Compute the offset in the file, and seek to it. */
-			long off = ntohs(ehdr->e_ehsize);
-			off += ntohs(ehdr->e_phentsize) * ntohs(ehdr->e_phnum);
-			off += ntohl(phdr[i].p_offset);
+			/* XXX This is incorrect, somehow, but it works for the
+			 * demo. That is, it gets the .text segment, if that comes
+			 * first. Otherwise, its all misaligned. I don't get it. */
+			long off = ntohl(phdr[i].p_offset);
 			int rc = fseek(fp, off, SEEK_SET);
 			if (0 != rc)
 			{
