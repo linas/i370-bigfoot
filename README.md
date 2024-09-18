@@ -88,7 +88,7 @@ For a related project, somewhat overlapping this, see
 [PDOS, the Public Domain Operating System](https://pdos.org).
 
 ## Status
-Version 0.0.2 - September 2024
+Version 0.0.3 - September 2024
 
 At this time, only binutils (the assembler) and gcc (the compiler)
 have been revived. You can get other parts from the original bigfoot
@@ -106,6 +106,19 @@ If you wish to do everything by hand, then just emulate what you find in
 `docker/i370-bigfoot/Dockerfile`. Note that Dockerfiles are kind of like
 shell scripts: this should be easy to understand and run manually, as
 needed.
+
+## Demos
+Files in the [docker/i370-bigfoot/scripts/](docker/i370-bigfoot/scripts/)
+directory will be copied to `/home/i370-bigfoot/` in the Docker
+container. This allows the demos there to be run in the container.
+
+The directory
+[docker/i370-bigfoot/scripts/examples](docker/i370-bigfoot/scripts/examples)
+contains an example showing how to IPL into C code. The code runs in
+real mode (virtual memory is not enabled) and in supervisor mode (all
+the privileged instructions are available.) There is no C library in
+this demo, and thus no printing: this is just a minimal exaample of IPL
+and run.
 
 ## Documentation
 The CPU Architecture, including the instruction set, is documented in

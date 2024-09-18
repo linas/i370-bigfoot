@@ -25,7 +25,7 @@ and booted on the Hercules emulator.  It consists of multiple parts:
 * `elf-stripper.c`: Hercules cannot natively IPL ELF code. This is a
   tool that create a "raw" bootable binary from an ELF executable.
   It strips of the ELF headers, so that the binary starts at the
-  begining of the `.text` segment. As long as the first 8 bytes of the
+  beginning of the `.text` segment. As long as the first 8 bytes of the
   binary contain a (short-format) PSW, the binary will be bootable by
   Hercules.
 
@@ -35,13 +35,13 @@ Steps to running the demo:
 * Build everything by saying `make`.
 * (Optional) Take a look at the ELF binary:
   `i370-ibm-linux-readelf -a kernel-demo`.  Make note of the loadable
-  segmenets.
+  segments.
 * (Optional) Disassemble the ELF binary:
   `i370-ibm-linux-objdump -D kernel-demo`.  Make note of the various
   symbols and offsets.
 * (Optional) Take a look at the raw binary: `xxd kernel.bin | less`
   Notice that the first eight bytes give a PSW that starts running at
-  adress 0x10 (i.e. 16 bytes in, where the very first instruction appears.)
+  address 0x10 (i.e. 16 bytes in, where the very first instruction appears.)
 * Start the Hercules emulator.
 * Run the demo by saying `ipl /home/i370-bigfoot/examples/kernel.ipl`
   at the Hercules prompt. The `kernel.ipl` file contains the name of
