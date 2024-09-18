@@ -37,13 +37,30 @@
 /* start of text section */
 	.text
 
-	/* Short-format PSW, since bit-12 = 1. */
-	/* AMODE = 31 (bits 31, 32 of PSW are 01) */
+	/* Short-format PSW, since bit-12 = 1.
+	 * AMODE = 31 (bits 31, 32 of PSW are 01)
+	 * (_start - _psw) computes the distance to _start,
+	 * and 0x80000000 | or's in the high bit.
+	 */
 	.globl  _psw
 _psw:
-	.long  0x00080000,0x80000010
+	.long  0x00080000, 0x80000000 | (_start - _psw)
+
+	/* Jump over this text. It's visible with r.0ff */
+	.long  0x00000000,0x00000000
+	.long  0x00000000,0x00000000
+	.ebcdic "This is some EBCDIC text near the start of the file"
+	.balign 4
+	.long  0x00000000,0x00000000
+	.long  0x00000000,0x00000000
+	.long  0x0EBCD1C0,0x00A5C110
+	.long  0x00000000,0x00000000
+	.long  0x00000000,0x00000000
+	.ascii "And now for ASCII text, Yayy!"
+	.long  0x00000000,0x00000000
 	.long  0x00000000,0x00000000
 
+	.balign 4
 	.globl	_start
 _start:
 

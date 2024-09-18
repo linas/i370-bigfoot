@@ -46,7 +46,7 @@ Steps to running the demo:
 * Run the demo by saying `ipl /home/i370-bigfoot/examples/kernel.ipl`
   at the Hercules prompt. The `kernel.ipl` file contains the name of
   the actual bootable kernel, which is `kernel.bin`.
-* The instruction counter should run up to about 27 insns, and then enter
+* The instruction counter should run up to about 50 insns, and then enter
   the disabled wait state. Use `gpr` to view the registers. Note the
   presence of some eyecatchers in `r5` and `r7` (from `ipl-to-c.S`) and
   another in r15 (from `kernel-demo.c`). This is the only evidence that
@@ -54,12 +54,16 @@ Steps to running the demo:
 * Note that `r14` is the link register; it contains the location that
   the C code returns to, after exiting. Comare the value here to that
   visible in `i370-ibm-linux-objdump -D kernel-demo`.
-* Examine the system RAM. The `u 10` command will disassemble RAM starting
-  at hex address 0x10. The `r 180` will show RAM at location 0x180; this
-  particular location was used to assemble the PSW after returning from C.
-  Look at `SCRATCH` and `HALT` in `ipl-to-c.S`. View the stackframe with
-  `r 1000.17f`.  Note the values 0x33 and 0x44 at 0x1128: these are the
-  arguments passed to the called subroutine.  Note assorted saved registers
+* Examine the system RAM. The `r 0.ff` command will show the initial
+  PSW, and the text strings before the first executable insn. The first
+  insn is `basr 15,0` and its at approx address 0xa4.  The `u a4`
+  command will disassemble RAM starting at that address. Another
+  interesting location is at 0x180; this is a scratch area used to
+  construct the final halt PSW that goes into disabled wait; its the
+  one that runs after returning from C. See `SCRATCH` and `HALT` in
+  `ipl-to-c.S`. The stackframe can be examined with `r 1000.17f`.
+  Note the values 0x33 and 0x44 at 0x1128: these are the arguments
+  passed to the called subroutine.  Note assorted saved registers
   in the stackgrame.
 * Use `sysclear` to reset the system (if desired). This will clear the
   PSW and the GPRs.
