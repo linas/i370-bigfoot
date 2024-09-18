@@ -73,6 +73,49 @@ int main(int argc, char* argv[])
 		"Info: sheader at 0x%x, expect %d sections\n",
 		ntohl(ehdr->e_shoff), ntohs(ehdr->e_shnum));
 
+	/* ------------------------------------------ */
+	/* Sections */
+	const size_t nsbytes = ntohs(ehdr->e_shentsize) * ntohs(ehdr->e_phnum);
+	Elf32_Shdr* shdr = malloc(nsbytes);
+	if (NULL == shdr)
+	{
+		fprintf(stderr, "Error: Corrupt elf header\n");
+		exit (1);
+	}
+
+	/* Seek to section header */
+	int rc = fseek(fp, ntohl(ehdr->e_shoff), SEEK_SET);
+	if (0 != rc)
+	{
+		int norr = errno;
+		fprintf(stderr, "Error: Unable to find section header: %d %s\n",
+			norr, strerror(norr));
+		exit(1);
+	}
+
+	/* Read the program headers */
+	nr = fread(shdr, 1, nsbytes, fp);
+	if (nsbytes != nr)
+	{
+		fprintf(stderr,
+			"Error: Expecting %d bytes git %ld bytes for '%s' section header\n",
+			nsbytes, nr, elfname);
+		exit (1);
+	}
+
+	/* Print everything. */
+	for (int i=0; i<ntohs(ehdr->e_shnum); i++)
+	{
+		fprintf(stderr,
+			"Section %d type=%d, off=0x%x vaddr=0x%x sz=%ld flags=0x%x\n",
+			i, ntohl(shdr[i].sh_type),
+			ntohl(shdr[i].sh_offset), ntohl(shdr[i].sh_addr),
+			ntohl(shdr[i].sh_size),
+			ntohl(shdr[i].sh_flags));
+	}
+
+	/* ------------------------------------------ */
+	/* Segments */
 	const size_t npbytes = ntohs(ehdr->e_phentsize) * ntohs(ehdr->e_phnum);
 	Elf32_Phdr* phdr = malloc(npbytes);
 	if (NULL == phdr)
@@ -82,7 +125,7 @@ int main(int argc, char* argv[])
 	}
 
 	/* Seek to program header */
-	int rc = fseek(fp, ntohl(ehdr->e_phoff), SEEK_SET);
+	rc = fseek(fp, ntohl(ehdr->e_phoff), SEEK_SET);
 	if (0 != rc)
 	{
 		int norr = errno;
