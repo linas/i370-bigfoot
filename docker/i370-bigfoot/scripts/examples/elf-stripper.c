@@ -104,8 +104,8 @@ int main(int argc, char* argv[])
 	for (int i=0; i<ntohs(ehdr->e_phnum); i++)
 	{
 		fprintf(stderr,
-			"Segment %d off=0x%x vaddr=0x%x paddr=0x%x sz=%ld memsz=%ld flags=0x%x\n",
-			i, ntohl(phdr[i].p_offset),
+			"Segment %d type=%d off=0x%x vaddr=0x%x paddr=0x%x sz=%ld memsz=%ld flags=0x%x\n",
+			i, ntohl(phdr[i].p_type), ntohl(phdr[i].p_offset),
 			ntohl(phdr[i].p_vaddr), ntohl(phdr[i].p_paddr),
 			ntohl(phdr[i].p_filesz), ntohl(phdr[i].p_memsz),
 			ntohl(phdr[i].p_flags));
