@@ -23,7 +23,7 @@ int start_kernel()
 	kstack[0] = 0xBA;
 	kstack[1] = 0xD1;
 	kstack[2] = 0xDE;
-	kstack[3] = 0xA0;
+	kstack[3] = 0xA5;
 
 	do_stuff(0x33, 0x44);
 

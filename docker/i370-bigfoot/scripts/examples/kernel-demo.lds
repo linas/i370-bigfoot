@@ -1,3 +1,18 @@
+/*
+ * Linker spec.
+ *
+ * Tells the gnu linker how to arrange the various sections into
+ * various loadable segments. This spec is used to place the text
+ * section at address zero, forcing it to the start of a loadable
+ * elf segment.
+ *
+ * You can review the resulting binary with
+ * i370-ibm-linux-readelf -a kernel-demo
+ *
+ * This is not really needed for the demo, since the lef-header-stripper
+ * gets the text segment directly.
+ */
+
 OUTPUT_FORMAT("elf32-i370")
 ENTRY(_start)
 SECTIONS

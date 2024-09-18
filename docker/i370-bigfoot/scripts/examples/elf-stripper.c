@@ -2,12 +2,22 @@
  * Strip out ELF headers from i370 ELF files, so that they can be IPL'ed.
  *
  * Minimal, bare-bones implementation. The ELF headers are read in,
- * and the ELF program segments are copied to stdout. That's it. The
+ * and the ELF text sections are copied to stdout. That's it. The
  * result should be a bootable image, assuming the PSW occurs in the
  * first location.
  *
  * This is meant to be a simple demo showing the principles of
  * operation, and not a fancy tool.
+ *
+ * A note about sections and segments. Linkers create segments, which
+ * are meant to be loaded into memory. One of the segments contains
+ * executable code. That is NOT what we do here! The problem is that
+ * the kernel images that we boot must run in an absolute (real)
+ * address space, and not in a virtual address space (because the
+ * page tables, virtual memory, etc. have not been configured!) And
+ * so this stripper looks for .text sections (and NOT loadable segments)
+ * and dumps those to stdout. So this is a word of caution to anyone
+ * reading this and thinking "wtf???".
  *
  * Linas Vepstas September 2024
  */
