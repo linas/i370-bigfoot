@@ -76,16 +76,12 @@ int main(int argc, char* argv[])
 		"Warn: Expecting EM_S370 for the machine, got something else\n");
 
 	fprintf(stderr,
-		"Info: Found ELF entry point at 0x%x, pheader at 0x%x, expect %d segments\n",
-		ntohl(ehdr->e_entry), ntohl(ehdr->e_phoff), ntohs(ehdr->e_phnum));
-
-	fprintf(stderr,
 		"Info: sheader at 0x%x, expect %d sections\n",
 		ntohl(ehdr->e_shoff), ntohs(ehdr->e_shnum));
 
 	/* ------------------------------------------ */
 	/* Sections */
-	const size_t nsbytes = ntohs(ehdr->e_shentsize) * ntohs(ehdr->e_phnum);
+	const size_t nsbytes = ntohs(ehdr->e_shentsize) * ntohs(ehdr->e_shnum);
 	Elf32_Shdr* shdr = malloc(nsbytes);
 	if (NULL == shdr)
 	{
@@ -125,6 +121,10 @@ int main(int argc, char* argv[])
 
 		if (ntohl(shdr[i].sh_type) != SHT_PROGBITS) continue;
 
+		/* Read sh_size bytes. */
+		size_t fsz = ntohl(shdr[i].sh_size);
+		if (0 == fsz) continue;
+
 		/* Compute the offset in the file, and seek to it. */
 		long off = ntohl(shdr[i].sh_offset);
 		int rc = fseek(fp, off, SEEK_SET);
@@ -136,8 +136,6 @@ int main(int argc, char* argv[])
 			exit(1);
 		}
 
-		/* Read sh_size bytes. */
-		size_t fsz = ntohl(shdr[i].sh_size);
 		char *code = malloc(fsz);
 		nr = fread(code, 1, fsz, fp);
 		if (fsz != nr)
@@ -156,6 +154,11 @@ int main(int argc, char* argv[])
 
 	/* ------------------------------------------ */
 	/* Report on the segments */
+
+	fprintf(stderr,
+		"Info: Found ELF entry point at 0x%x, pheader at 0x%x, expect %d segments\n",
+		ntohl(ehdr->e_entry), ntohl(ehdr->e_phoff), ntohs(ehdr->e_phnum));
+
 	const size_t npbytes = ntohs(ehdr->e_phentsize) * ntohs(ehdr->e_phnum);
 	Elf32_Phdr* phdr = malloc(npbytes);
 	if (NULL == phdr)
