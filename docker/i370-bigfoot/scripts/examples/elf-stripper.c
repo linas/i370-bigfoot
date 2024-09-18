@@ -2,7 +2,7 @@
  * Strip out ELF headers from i370 ELF files, so that they can be IPL'ed.
  *
  * Minimal, bare-bones implementation. The ELF headers are read in,
- * and the ELF program sections are copied to stdout. That's it. The
+ * and the ELF program segments are copied to stdout. That's it. The
  * result should be a bootable image, assuming the PSW occurs in the
  * first location.
  *
@@ -66,8 +66,12 @@ int main(int argc, char* argv[])
 		"Warn: Expecting EM_S370 for the machine, got something else\n");
 
 	fprintf(stderr,
-		"Info: Found ELF entry point at 0x%x, pheader at 0x%x, expect %d sections\n",
+		"Info: Found ELF entry point at 0x%x, pheader at 0x%x, expect %d segments\n",
 		ntohl(ehdr->e_entry), ntohl(ehdr->e_phoff), ntohs(ehdr->e_phnum));
+
+	fprintf(stderr,
+		"Info: sheader at 0x%x, expect %d sections\n",
+		ntohl(ehdr->e_shoff), ntohs(ehdr->e_shnum));
 
 	const size_t npbytes = ntohs(ehdr->e_phentsize) * ntohs(ehdr->e_phnum);
 	Elf32_Phdr* phdr = malloc(npbytes);
@@ -101,7 +105,7 @@ int main(int argc, char* argv[])
 	for (int i=0; i<ntohs(ehdr->e_phnum); i++)
 	{
 		fprintf(stderr,
-			"Section %d off=0x%x vaddr=0x%x paddr=0x%x sz=%ld memsz=%ld flags=0x%x\n",
+			"Segment %d off=0x%x vaddr=0x%x paddr=0x%x sz=%ld memsz=%ld flags=0x%x\n",
 			i, ntohl(phdr[i].p_offset),
 			ntohl(phdr[i].p_vaddr), ntohl(phdr[i].p_paddr),
 			ntohl(phdr[i].p_filesz), ntohl(phdr[i].p_memsz),
@@ -148,7 +152,7 @@ int main(int argc, char* argv[])
 		}
 		else
 		{
-			fprintf(stderr, "Info: section %d not loadable\n");
+			fprintf(stderr, "Info: sement %d not loadable\n");
 		}
 	}
 
