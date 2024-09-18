@@ -1,5 +1,5 @@
 /*
- * Stri out ELF headers from i370 ELF files, so that they can be IPL'ed.
+ * Strip out ELF headers from i370 ELF files, so that they can be IPL'ed.
  *
  * Minimal, bare-bones implementation. The ELF headers are read in,
  * and the ELF program sections are copied to stdout. That's it. The
@@ -61,6 +61,10 @@ int main(int argc, char* argv[])
 		"Info: Found ELF machine=%d version=%d\n",
 		ntohs(ehdr->e_machine), ntohl(ehdr->e_version));
 
+	if (EM_S370 != ntohs(ehdr->e_machine))
+	fprintf(stderr,
+		"Warn: Expecting EM_S370 for the machine, got something else\n");
+
 	fprintf(stderr,
 		"Info: Found ELF entry point at 0x%x, pheader at 0x%x, expect %d sections\n",
 		ntohl(ehdr->e_entry), ntohl(ehdr->e_phoff), ntohs(ehdr->e_phnum));
@@ -74,7 +78,7 @@ int main(int argc, char* argv[])
 	}
 
 	/* Seek to program header */
-	int rc = fseek(fp, ntohl(ehdr->e_phoff), 0);
+	int rc = fseek(fp, ntohl(ehdr->e_phoff), SEEK_SET);
 	if (0 != rc)
 	{
 		int norr = errno;
@@ -108,8 +112,11 @@ int main(int argc, char* argv[])
 		if ((ntohl(phdr[i].p_type) == PT_LOAD) ||
 		    (ntohl(phdr[i].p_type) == PT_NULL))
 		{
-			/* Seek to offset */
-			int rc = fseek(fp, ntohl(phdr[i].p_offset), 0);
+			/* Compute the offset in the file, and seek to it. */
+			long off = ntohs(ehdr->e_ehsize);
+			off += ntohs(ehdr->e_phentsize) * ntohs(ehdr->e_phnum);
+			off += ntohl(phdr[i].p_offset);
+			int rc = fseek(fp, off, SEEK_SET);
 			if (0 != rc)
 			{
 				int norr = errno;
