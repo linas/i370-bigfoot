@@ -54,7 +54,7 @@ _start:
 	L	r13,=A(kstack)		/* load address of frame into r13 */
 	L	r5,=XL4'f00fdaad'	/* load eyecatcher into r5        */
 	L	r6,=A(kstack)		/* Verify stack address           */
-	L	r7,=XL4'3137c0de'	/* load another eyecatcher        */
+	L	r7,=XL4'1337c0de'	/* load another eyecatcher        */
 	LA	r11,128(,r13);		/* start stack a bit up higher    */
 	SLR	r3,r3
 	ST	r3,8(,r13)		/* terminate stack backchain      */

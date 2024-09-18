@@ -9,16 +9,6 @@
  * This is meant to be a simple demo showing the principles of
  * operation, and not a fancy tool.
  *
- * A note about sections and segments. Linkers create segments, which
- * are meant to be loaded into memory. One of the segments contains
- * executable code. That is NOT what we do here! The problem is that
- * the kernel images that we boot must run in an absolute (real)
- * address space, and not in a virtual address space (because the
- * page tables, virtual memory, etc. have not been configured!) And
- * so this stripper looks for .text sections (and NOT loadable segments)
- * and dumps those to stdout. So this is a word of caution to anyone
- * reading this and thinking "wtf???".
- *
  * Linas Vepstas September 2024
  */
 
@@ -75,83 +65,6 @@ int main(int argc, char* argv[])
 	fprintf(stderr,
 		"Warn: Expecting EM_S370 for the machine, got something else\n");
 
-	fprintf(stderr,
-		"Info: sheader at 0x%x, expect %d sections\n",
-		ntohl(ehdr->e_shoff), ntohs(ehdr->e_shnum));
-
-	/* ------------------------------------------ */
-	/* Sections */
-	const size_t nsbytes = ntohs(ehdr->e_shentsize) * ntohs(ehdr->e_shnum);
-	Elf32_Shdr* shdr = malloc(nsbytes);
-	if (NULL == shdr)
-	{
-		fprintf(stderr, "Error: Corrupt elf header\n");
-		exit (1);
-	}
-
-	/* Seek to section header */
-	int rc = fseek(fp, ntohl(ehdr->e_shoff), SEEK_SET);
-	if (0 != rc)
-	{
-		int norr = errno;
-		fprintf(stderr, "Error: Unable to find section header: %d %s\n",
-			norr, strerror(norr));
-		exit(1);
-	}
-
-	/* Read the program headers */
-	nr = fread(shdr, 1, nsbytes, fp);
-	if (nsbytes != nr)
-	{
-		fprintf(stderr,
-			"Error: Expecting %d bytes git %ld bytes for '%s' section header\n",
-			nsbytes, nr, elfname);
-		exit (1);
-	}
-
-	/* Print everything. */
-	for (int i=0; i<ntohs(ehdr->e_shnum); i++)
-	{
-		fprintf(stderr,
-			"Section %d type=%d, off=0x%x vaddr=0x%x sz=%ld flags=0x%x\n",
-			i, ntohl(shdr[i].sh_type),
-			ntohl(shdr[i].sh_offset), ntohl(shdr[i].sh_addr),
-			ntohl(shdr[i].sh_size),
-			ntohl(shdr[i].sh_flags));
-
-		if (ntohl(shdr[i].sh_type) != SHT_PROGBITS) continue;
-
-		/* Read sh_size bytes. */
-		size_t fsz = ntohl(shdr[i].sh_size);
-		if (0 == fsz) continue;
-
-		/* Compute the offset in the file, and seek to it. */
-		long off = ntohl(shdr[i].sh_offset);
-		int rc = fseek(fp, off, SEEK_SET);
-		if (0 != rc)
-		{
-			int norr = errno;
-			fprintf(stderr, "Error: Can't seek; errno=%d %s\n",
-				norr, strerror(norr));
-			exit(1);
-		}
-
-		char *code = malloc(fsz);
-		nr = fread(code, 1, fsz, fp);
-		if (fsz != nr)
-		{
-			fprintf(stderr,
-				"Error: short read, got %d bytes, expecting %ld\n", nr, fsz);
-			exit (1);
-		}
-
-		/* Write sh_size bytes. */
-		fwrite(code, 1, fsz, stdout);
-		free(code);
-	}
-
-	fprintf(stderr, "\n");
-
 	/* ------------------------------------------ */
 	/* Report on the segments */
 
@@ -168,7 +81,7 @@ int main(int argc, char* argv[])
 	}
 
 	/* Seek to program header */
-	rc = fseek(fp, ntohl(ehdr->e_phoff), SEEK_SET);
+	int rc = fseek(fp, ntohl(ehdr->e_phoff), SEEK_SET);
 	if (0 != rc)
 	{
 		int norr = errno;
@@ -197,16 +110,8 @@ int main(int argc, char* argv[])
 			ntohl(phdr[i].p_filesz), ntohl(phdr[i].p_memsz),
 			ntohl(phdr[i].p_flags));
 
-#if LETS_DUMP_SEGMENTS
-/* Heh. The elf linker created some segments for us, but this is not
- * what we actually want to write out to get a header-less IPL file.
- * The problem is that, unless we are careful designing our linker
- * file, the text section (which is what we really want) won't be at
- * the hoped-for segment location. Sigh. What we really need is a
- * Hercules ELF loader, instead of this hack.
- */
-		/* XXX FIXME elf-i370 fails to set the segment types. (???)
-		   Thus, we accept PT_NULL, here. */
+		/* Very old elf-i370 binaries did not have an appropriate
+		 * segment types.  Thus, we accept PT_NULL, here. */
 		if ((ntohl(phdr[i].p_type) == PT_LOAD) &&
 		    (ntohl(phdr[i].p_type) == PT_NULL)) continue;
 
@@ -244,8 +149,6 @@ int main(int argc, char* argv[])
 			fputc(0, stdout);
 
 		free(code);
-	}
-#endif /* LETS_DUMP_SEGMENTS */
 	}
 
 	return 0;

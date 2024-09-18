@@ -1,7 +1,7 @@
 #
 # Makefile for i370 IPL examples
 
-all: elf-stripper kernel-demo kernel-alt
+all: elf-stripper kernel-demo
 
 # Build the stripper tool. This is built using the host compiler,
 # because this runs on the host.
