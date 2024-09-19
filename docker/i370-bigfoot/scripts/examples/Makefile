@@ -24,4 +24,4 @@ clean:
 
 realclean: clean
 	rm -f elf-stripper
-	rm -f kernel-demo
+	rm -f kernel-demo kernel.bin kernel.ipl
