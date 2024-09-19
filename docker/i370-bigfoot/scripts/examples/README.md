@@ -19,15 +19,22 @@ and booted on the Hercules emulator.  It consists of multiple parts:
   segment at address zero, so that it will be first, upon creation of
   the bootable image.
 
-* `Makefile`: A makefile to compiler the above two into an i370 ELF
+* `Makefile`: A makefile to compile the above three into an i370 ELF
   executable.
 
 * `elf-stripper.c`: Hercules cannot natively IPL ELF code. This is a
-  tool that create a "raw" bootable binary from an ELF executable.
+  tool that creates a "raw" bootable binary from an ELF executable.
   It strips of the ELF headers, so that the binary starts at the
-  beginning of the `.text` segment. As long as the first 8 bytes of the
+  beginning of the `.text` section. As long as the first 8 bytes of the
   binary contain a (short-format) PSW, the binary will be bootable by
   Hercules.
+
+Note that the program runs in ''real addressing mode'' (because no
+page tables or TLB's are set up) and in supervistor mode (so all
+privileged instructions are available.) There is no C library, and
+so no `printf`s or anything else. No exception handlers are installed,
+so it'll all crash if you get an interrupt. That's why this is called a
+"kernel-demo": its the environment that OS kernels boot into.
 
 ## Running
 Steps to running the demo:
