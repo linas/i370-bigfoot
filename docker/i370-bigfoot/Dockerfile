@@ -48,11 +48,8 @@ ENV LAST_GIT_CLONE 2024-09-11
 RUN git clone https://github.com/linas/i370-binutils
 RUN git clone https://github.com/linas/i370-gcc
 
-RUN git clone https://github.com/linas/i370-linux
-RUN git clone https://github.com/linas/i370-newlib
-
 # Grab latest binutils
-ENV LAST_BINUTILS_UPDATE 2024-09-14
+ENV LAST_BINUTILS_UPDATE 2024-09-19
 RUN cd i370-binutils; git pull
 RUN cd i370-binutils; mkdir build; cd build; \
     ../configure --target=i370-ibm-linux; make -j12
