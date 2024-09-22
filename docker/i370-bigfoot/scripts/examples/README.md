@@ -50,8 +50,8 @@ Steps to running the demo:
   Notice that the first eight bytes give a PSW that starts running at
   address 0x10 (i.e. 16 bytes in, where the very first instruction appears.)
 * Start the Hercules emulator.
-* Run the demo by saying `ipl /home/i370-bigfoot/examples/kernel.ipl`
-  at the Hercules prompt. The `kernel.ipl` file contains the name of
+* Run the demo by saying `ipl /home/i370-bigfoot/examples/kernel.ins`
+  at the Hercules prompt. The `kernel.ins` file contains the name of
   the actual bootable kernel, which is `kernel.bin`.
 * The instruction counter should run up to about 50 insns, and then enter
   the disabled wait state. Use `gpr` to view the registers. Note the

@@ -17,11 +17,11 @@ kernel-demo: ipl-to-c.S kernel-demo.c kernel-demo.lds elf-stripper
 	i370-ibm-linux-gcc -c kernel-demo.c
 	i370-ibm-linux-ld -T kernel-demo.lds ipl-to-c.o kernel-demo.o -o kernel-demo
 	./elf-stripper kernel-demo > kernel.bin
-	echo "kernel.bin" > kernel.ipl
+	echo "kernel.bin" > kernel.ins
 
 clean:
 	rm -f *.o
 
 realclean: clean
 	rm -f elf-stripper
-	rm -f kernel-demo kernel.bin kernel.ipl
+	rm -f kernel-demo kernel.bin kernel.ins
