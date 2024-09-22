@@ -88,7 +88,15 @@
   000C    3505    /usr/share/hercules/zzsacard.bin
   000D    3525    punch00d.txt ascii
   000E    1403    print00e.txt crlf
-  001F    3270
+
+# Using 3215 allows telnet to access the display, with
+# `telnet localhost 3270` Note the port number is 3270 even though
+# the device is 3215.
+  001F    3215
+
+# Using 3270 requires using x3270 instead of telnet.
+#  001F    3270
+
 #         The following statements are examples. Some of them require
 #         user tailoring before being used.
 # 0580    3420    ickdsf.ipl

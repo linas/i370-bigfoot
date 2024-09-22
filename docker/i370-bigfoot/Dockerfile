@@ -44,9 +44,10 @@ WORKDIR /home/bigfoot
 # Perform git clone. These are large and time consuming.
 # Do them once, and only once; to update, do a git pull,
 # farther below.
-ENV LAST_GIT_CLONE 2024-09-11
+ENV LAST_GIT_CLONE 2024-09-22
 RUN git clone https://github.com/linas/i370-binutils
 RUN git clone https://github.com/linas/i370-gcc
+RUN git clone https://github.com/linas/i370-linux-2.2.1
 
 # Grab latest binutils
 ENV LAST_BINUTILS_UPDATE 2024-09-19
