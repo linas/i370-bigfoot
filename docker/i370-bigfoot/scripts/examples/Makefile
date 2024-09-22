@@ -17,7 +17,8 @@ kernel-demo: ipl-to-c.S kernel-demo.c kernel-demo.lds elf-stripper
 	i370-ibm-linux-gcc -c kernel-demo.c
 	i370-ibm-linux-ld -T kernel-demo.lds ipl-to-c.o kernel-demo.o -o kernel-demo
 	./elf-stripper kernel-demo > kernel.bin
-	echo "kernel.bin" > kernel.ins
+	echo "* INS file to load demo" > kernel.ins
+	echo "kernel.bin  0x00000000" >> kernel.ins
 
 clean:
 	rm -f *.o
