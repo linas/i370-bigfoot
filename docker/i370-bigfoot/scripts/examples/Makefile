@@ -18,6 +18,8 @@ kernel-demo: ipl-to-c.S kernel-demo.c kernel-demo.lds elf-stripper
 	i370-ibm-linux-ld -T kernel-demo.lds ipl-to-c.o kernel-demo.o -o kernel-demo
 	./elf-stripper kernel-demo > kernel.bin
 	echo "* INS file to load demo" > kernel.ins
+	echo "* Format: <file to load> [address where to load]" >> kernel.ins
+	echo "* Multiple lines are allowed" >> kernel.ins
 	echo "kernel.bin  0x00000000" >> kernel.ins
 
 clean:
