@@ -83,6 +83,9 @@ RUN sudo chown -R bigfoot:bigfoot .gdbinit
 RUN sudo chown -R bigfoot:bigfoot hercules
 RUN sudo chown -R bigfoot:bigfoot elf-stripper
 RUN sudo chown -R bigfoot:bigfoot boot-demo
+RUN sudo chown -R bigfoot:bigfoot linux-demo
+
+RUN cd linux-demo; cp ../i370-linux-2.2.1/vmlinux .; make
 
 # For images built on this
 ONBUILD USER root
