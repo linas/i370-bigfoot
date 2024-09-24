@@ -44,13 +44,13 @@ WORKDIR /home/bigfoot
 # Perform git clone. These are large and time consuming.
 # Do them once, and only once; to update, do a git pull,
 # farther below.
-ENV LAST_GIT_CLONE 2024-09-22
+ENV LAST_GIT_CLONE 2024-09-23
 RUN git clone https://github.com/linas/i370-binutils
 RUN git clone https://github.com/linas/i370-gcc
 RUN git clone https://github.com/linas/i370-linux-2.2.1
 
 # Grab latest binutils
-ENV LAST_BINUTILS_UPDATE 2024-09-19
+ENV LAST_BINUTILS_UPDATE 2024-09-23
 RUN cd i370-binutils; git pull
 RUN cd i370-binutils; mkdir build; cd build; \
     ../configure --target=i370-ibm-linux; make -j12
@@ -59,15 +59,20 @@ RUN cd i370-binutils/build; make
 RUN cd i370-binutils/build; sudo make install
 
 # Grab latest gcc
-ENV LAST_GCC_UPDATE 2024-09-14
+ENV LAST_GCC_UPDATE 2024-09-23
 RUN cd i370-gcc; git pull
 RUN cd i370-gcc; git checkout i370-gcc-3.4.6
 RUN cd i370-gcc; mkdir build; cd build; \
     ../configure --target=i370-ibm-linux -enable-languages="c" \
        --disable-threads; make -j12
 # Again, for good luck (and readable error messages)
-RUN cd i370-binutils/build; make
-RUN cd i370-binutils/build; sudo make install
+RUN cd i370-gcc/build; make
+RUN cd i370-gcc/build; sudo make install
+
+# Grab latest i370 linux-2.2.1 kernel
+ENV LAST_GCC_UPDATE 2024-09-23
+RUN cd i370-linux-2.2.1; git pull
+RUN cd i370-linux-2.2.1; make oldconfig; make;
 
 # Setup config files. Do this after above, so that changes here do not
 # result in a rebuild of the image. In particular, we want to avoid
@@ -76,7 +81,8 @@ COPY /scripts/ /home/bigfoot
 RUN sudo chown -R bigfoot:bigfoot .byobu
 RUN sudo chown -R bigfoot:bigfoot .gdbinit
 RUN sudo chown -R bigfoot:bigfoot hercules
-RUN sudo chown -R bigfoot:bigfoot examples
+RUN sudo chown -R bigfoot:bigfoot elf-stripper
+RUN sudo chown -R bigfoot:bigfoot boot-demo
 
 # For images built on this
 ONBUILD USER root
