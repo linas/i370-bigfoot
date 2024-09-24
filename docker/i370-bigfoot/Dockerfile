@@ -70,9 +70,9 @@ RUN cd i370-gcc/build; make
 RUN cd i370-gcc/build; sudo make install
 
 # Grab latest i370 linux-2.2.1 kernel
-ENV LAST_GCC_UPDATE 2024-09-23
+ENV LAST_GCC_UPDATE 2024-09-23-b
 RUN cd i370-linux-2.2.1; git pull
-RUN cd i370-linux-2.2.1; make oldconfig; make;
+RUN cd i370-linux-2.2.1; make oldconfig; make; make;
 
 # Setup config files. Do this after above, so that changes here do not
 # result in a rebuild of the image. In particular, we want to avoid
