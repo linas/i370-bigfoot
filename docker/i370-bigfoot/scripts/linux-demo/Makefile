@@ -1,7 +1,7 @@
 #
 # Build an IPL'able linux image.
 
-all: vmlinux.ins
+all: vmlinux.ins ramdisk
 
 vmlinux.ins: vmlinux
 	../elf-stripper/elf-stripper vmlinux > vmlinux.bin

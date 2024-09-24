@@ -3,6 +3,7 @@ Booting Linux kernels
 This directory provides some convenience tools for booting Linux
 kernels.
 
+## Booting Overview
 Linux kernels and ramdisks can be loaded into Hercules in a relatively
 straightforward way. This is done by IPL'ing an INS file. A typical
 INS file will look something like this:
@@ -34,6 +35,10 @@ argument specifies where the ramdisk was loaded; it should match the
 value in the INS file, else things will break. The number after the
 comma is the size of the ramdisk, in KBytes. Note that this is the
 *uncompressed* size!
+
+## Automation
+The above steps are automated by the provided Makefile. Just say `make`
+and the appropriate INS file will be created.
 
 
 ### Notes
