@@ -26,16 +26,21 @@ The `cmd_line` is a plain-text (ASCII) file, specifying the boot
 command line. It must be shorter than 512 bytes. A typical example
 is
 ```
-root=/dev/ram init=/sbin/my-foo-init
+root=/dev/ram init=/sbin/my-foo-init i370_initrd=0x00200000,2048
 ```
 which indicates that the root file system will be in RAM, and that the
-name of the initial process is `/sbin/my-foo-init`
+name of the initial process is `/sbin/my-foo-init`. The `i370_initrd`
+argument specifies where the ramdisk was loaded; it should match the
+value in the INS file, else things will break. The number after the
+comma is the size of the ramdisk, in KBytes. Note that this is the
+*uncompressed* size!
 
 
 ### Notes
 Some useful command params:
 ```
 init=/sbin/my-foo-init
+console=asdf
 ```
 
 ### Create a ramdisk

@@ -1,1 +1,1 @@
-root=/dev/ram init=/sbin/my-foo-init
+root=/dev/ram init=/foo/bar i370_initrd=0x200000,2048
