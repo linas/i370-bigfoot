@@ -41,8 +41,9 @@ init=/sbin/my-foo-init
 ### Create a ramdisk
 Ramdisks can be ext2fs, MSDOS fs or VFAT (Windows 95) disk images.
 
-Example of creating an ext2fs disk image. Running as root, perform
-the following:
+Example of creating an ext2fs disk image. This creates a disk image
+2 MBytes in size. Note that the `-I 128` specifies 128-byte inodes;
+this is mandatory for the 2.2.1 kernel.
 ```
 dd if=/dev/zero of=/dev/ram bs=1k count=2048
 mke2fs -vm0 -I 128 /dev/ram 2048
@@ -54,15 +55,9 @@ umount /mnt
 dd if=/dev/ram bs=1k count=2048 | gzip -v9 > /tmp/ram_image.gz
 ```
 
-To create an MSDOS image:
+To create an MSDOS image: exactly same as above, but use
 
 ```
-dd if=/dev/zero of=/dev/ram bs=1k count=2048
-mke2fs -vm0 -I 128 /dev/ram 2048
-mount /dev/ram /mnt
-mkdir /mnt/sbin/
-cp my_init /mnt/sbin/init
-cp otherstuff /mnt/
-umount /mnt
-dd if=/dev/ram bs=1k count=2048 | gzip -v9 > /tmp/ram_image.gz
+mkdosfs -v /dev/ram 2048
 ```
+instead of `mke2fs`
