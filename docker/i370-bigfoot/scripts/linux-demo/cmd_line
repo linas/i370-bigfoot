@@ -1,1 +1,1 @@
-root=/dev/ram
+root=/dev/ram init=/sbin/my-foo-init
