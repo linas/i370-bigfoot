@@ -28,19 +28,33 @@ will provide a console.  Note the port number is 3270.
 telnet localhost 3270
 ```
 
-## Build examples
-In another window, compile and build one of the examples:
+## Build the elf-stripper tool
 ```
-cd examples
-less README.md
-```
-## IPL examples
-Go back to the hercules window, and IPL the example:
-```
-IPL ../examples/demo.ins
+cd elf-stripper
+make
+cd ..
 ```
 
-For more info, see the [examples README](../examples/README.md)
+## (optional) Build and run the boot demo
+In another window, compile and build the boot demo:
+```
+cd boot-demo
+less README.md
+```
+For more info, see the [boot-demo README](../boot-demo/README.md)
+
+## Boot the Linux kernel
+```
+   elf-stripper vmlinux > vmlinux.bin
+   echo "* INS file to load a Linux OS" > vmlinux.ins
+   echo "* Format: <file to load> [address where to load]" >> vmlinux.ins
+   echo "* Multiple lines are allowed" >> vmlinux.ins
+   echo "vmlinux.bin  0x00000000" >> vmlinux.ins
+```
+Then, in the Hercules emulator:
+```
+ipl vmlinux.ins
+```
 
 ## Notes
 
