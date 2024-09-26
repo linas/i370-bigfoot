@@ -1,6 +1,7 @@
 #
 # Build an IPL'able linux image.
 
+
 all: vmlinux.ins ramdisk
 
 vmlinux.ins: vmlinux
@@ -18,7 +19,8 @@ vmlinux.ins: vmlinux
 ramdisk: vmlinux.ins ram_image.gz
 	echo "" >> vmlinux.ins
 	echo "* Load RAMDISK at the same address as given in command line" >> vmlinux.ins
-	echo "ram_image.gz  0x00200000" >> vmlinux.ins
+	echo "riext  0x00200000" >> vmlinux.ins
+#	echo "ram_image.gz  0x00200000" >> vmlinux.ins
 
 clean:
 
