@@ -1,11 +1,14 @@
 
-int x=42;
+#include "demo-unistd.h"
 
 int main(int argc, char* argv)
 {
 	int i;
 	int c = argc;
-	x = argv[1];
+	// char * x = argv[0]; Not today!
+
+	write(1, "Hello\n", 7);
+
 	int buf[1000];
 	for (i=0; i<1000; i++) buf[i] = i;
 
