@@ -17,6 +17,9 @@ _start:
 	# Very soon, r13 will be loaded from here.
 	ST r2, 0(r11)
 
+	# TODO: argv and envp are sitting low in the frame.
+	# Set up the arguments to main giving argc and argv.
+
 	# BASR will write PSW to 12(,r11)
 	LA r14,12(,r11)
 	BASR r14,r15
