@@ -8,8 +8,11 @@ calls without a C library. This demo consists of three parts:
   pointers provided by the kernel, and converts them into a normal
   C language stack. It also sets up `argc` and `argv`.
 
-* `spin.c` -- Demo application. Opens a tty for writing, and
+* `spin.c` -- Demo application. Opens the console for writing, and
   then prints some messages.
+
+* `spinput.c` -- Demo application. Opens `/dev/tty0` for reading and
+  writing, and then echoes what was typed as input.
 
 * `demo-unistd.h` -- System call interface definition. Caution:
   risk of electrical shock. Do not open. No user-servicable parts
