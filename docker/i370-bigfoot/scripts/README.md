@@ -36,14 +36,22 @@ cd ..
 ```
 
 ## (optional) Build and run the boot demo
+The boot demo creates a very simple program, written in C, that can
+be IPL'ed on Hercules. Since there is no operating system, it can't
+actually read the keyboard or write to the console. However, you can
+see that it actually ran, by examining memory.
+
 In another window, compile and build the boot demo:
 ```
 cd boot-demo
 less README.md
 ```
-For more info, see the [boot-demo README](../boot-demo/README.md)
+For more info, see the [boot-demo README](./boot-demo/README.md)
 
 ## Boot the Linux kernel
+A demo of the Linux kernel is the main point of this project. So here it
+is. The Docker container has a kernel, already built, in the
+`i370-linux-2.2.1` directory. You can IPL it as follows:
 ```
    elf-stripper vmlinux > vmlinux.bin
    echo "* INS file to load a Linux OS" > vmlinux.ins
@@ -55,6 +63,19 @@ Then, in the Hercules emulator:
 ```
 ipl vmlinux.ins
 ```
+The above will boot, but then kernel panic, since no root file system
+was provided. See the [linux-demo README](./linux-demo/README.md) for
+details on creating a basic file system.
+
+## (optional) Build and run the init demo
+Even with a root file system, the Linux kernel won't do anything
+interesting without some kind of `/sbin/init`. This is the very
+first program that runs, after the Linux kernel is booted. This
+demo provides a simple C program that write to the system console.
+Because there is no C library (yet), the system call interfaces
+are minimalistic. In the demo, just enough to write to the screen.
+
+For more info, see the [init-demo README](../init-demo/README.md)
 
 ## Notes
 
