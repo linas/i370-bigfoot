@@ -45,8 +45,10 @@ and the appropriate INS file will be created.
 Some useful command params:
 ```
 init=/sbin/my-foo-init
-console=asdf
+console=tty3
 ```
+Caution: Do **not** select `CONFIG_VT_CONSOLE`. Doing so will prevent
+boot messages from going to the Hercules console.
 
 ### Create a disk image
 The only bootable disk images are ext2fs and minix. Neither MSDOS FAT
