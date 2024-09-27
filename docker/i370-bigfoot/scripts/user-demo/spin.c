@@ -3,7 +3,7 @@
 
 int main(int argc, char* argv)
 {
-	int i;
+	int i, j;
 	int c = argc;
 	// char * x = argv[0]; Not today!
 
@@ -13,8 +13,11 @@ int main(int argc, char* argv)
 	for (i=0; i<1000; i++) buf[i] = i;
 
 	while (1) {
-		for (i=0; i<1000; i++)
-			buf[i] += buf [(i+1)%1000];
+		for (j=0; j<1000; j++) {
+			for (i=0; i<1000; i++)
+				buf[i] += buf [(i+1)%1000];
+		}
+		write(1, "whirl\n", 7);
 	}
 	return 3;
 }
