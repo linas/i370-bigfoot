@@ -376,6 +376,9 @@ typedef unsigned long off_t;
 #define O_RDONLY	    00
 #define O_WRONLY	    01
 #define O_RDWR		    02
+#define O_NONBLOCK	 04000
+
+#define	EAGAIN		11	/* Try again */
 
 #define __NR__exit __NR_exit
 static inline _syscall0(int,idle)

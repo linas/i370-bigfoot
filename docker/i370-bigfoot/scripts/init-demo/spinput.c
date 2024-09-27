@@ -27,8 +27,8 @@ int main(int argc, char* argv)
 	char inbuf[BUFSZ];
 
 	/* Don't forget to mknod and create this device! */
-	int ttyfd = open("/dev/tty0", O_RDWR, 0);
-	write(ttyfd, "Hello\n", 7);
+	int ttyfd = open("/dev/tty0", O_RDWR|O_NONBLOCK, 0);
+	write(ttyfd, "Hello there\n", 13);
 
 	int data[1000];
 	for (i=0; i<1000; i++) data[i] = i;
@@ -41,11 +41,13 @@ int main(int argc, char* argv)
 		}
 
 		rc = read(ttyfd, inbuf, BUFSZ);
-		if (rc < 0)
-			write(ttyfd, "input error\n", 13);
-		write(ttyfd, "OK\n", 4);
 
-		write(ttyfd, "whorl\n", 7);
+		// if (-EAGAIN == rc)
+		// 	write(ttyfd, "No input\n", 10);
+		if (rc < 0 && -EAGAIN != rc)
+			write(ttyfd, "Input error\n", 13);
+
+		write(ttyfd, "Type something\n", 16);
 	}
 	return 3;
 }
