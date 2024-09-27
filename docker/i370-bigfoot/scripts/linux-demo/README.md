@@ -48,12 +48,20 @@ init=/sbin/my-foo-init
 console=asdf
 ```
 
-### Create a ramdisk
-Ramdisks can be ext2fs, MSDOS fs or VFAT (Windows 95) disk images.
+### Create a disk image
+The only bootable disk images are ext2fs and minix. Neither MSDOS FAT
+nor Windows95 VFAT are bootable, because neither of these file systems
+support file attributes, needed for special files (character devices,
+block devices). Without special files, there is no way for user-land
+processes to access devices; this includes accessing the console for
+printing and the keyboard for getting typed input.
 
-Example of creating an ext2fs disk image. This creates a disk image
-2 MBytes in size. Note that the `-I 128` specifies 128-byte inodes;
-this is mandatory for the 2.2.1 kernel.
+One way to create a disk image is via ramdisk. The example below
+creates a disk image 2 MBytes in size. Note that the `-I 128`
+specifies 128-byte inodes; this is mandatory for the 2.2.1 kernel.
+
+Don't forget the `mknod` for the character devices: you'll need these,
+so that `/sbin/init` can open the keyboard+console for text I/O.
 ```
 dd if=/dev/zero of=/dev/ram bs=1k count=2048
 mke2fs -vm0 -I 128 /dev/ram 2048
@@ -61,13 +69,15 @@ mount /dev/ram /mnt
 mkdir /mnt/sbin/
 cp my_init /mnt/sbin/init
 cp otherstuff /mnt/
+mkdir /mnt/dev/
+mknod /mnt/dev/console c 5 1
+mknod /mnt/dev/tty0 c 4 0
 umount /mnt
 dd if=/dev/ram bs=1k count=2048 | gzip -v9 > /tmp/ram_image.gz
 ```
 
-To create an MSDOS image: exactly same as above, but use
-
+Once an image has been created, the easiest way to update it is to mount
+it with the loopback device:
 ```
-mkdosfs -v /dev/ram 2048
+sudo mount -o loop disk_image mnt
 ```
-instead of `mke2fs`
