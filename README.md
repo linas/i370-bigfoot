@@ -1,13 +1,18 @@
 # IBM i370 port of Debian Linux
 
-By popular demand, this repo might maybe someday provide instructions
-on resurrecting the old
-[i370-bigfoot project](https://linas.org/linux/i370-bigfoot.html)
-Maybe. Right now it consists of
-* This README
-* Script for a Docker image that contains the assembler, compiler
-  and the Hercules System/390 mainframe emulator.
-* Instructions on how to compile and IPL code.
+By popular demand, this repo contains a 25th anniversary resurrection
+of the old
+[i370-bigfoot project](https://linas.org/linux/i370-bigfoot.html).
+
+As of this moment, the following are provided:
+* Script for a Docker container that includes the i370 assembler
+  (current GNU binutils with i370 patches applied), compiler
+  (gcc version 3.4.6 with i370 patches applied), the Linux kernel
+  (linux version 2.2.1 with i370 patches applied) and the Hercules
+  System/390 mainframe emulator.
+* Multiple demos showing how to compile and IPL code, how to boot
+  the kernel, how to create `/sbin/init` and more. See the
+  [demo README](docker/i370-bigfoot/scripts/README.md) for more.
 
 ## What is this?
 IBM created the [IBM System/360 ](https://en.wikipedia.org/wiki/IBM_System/360)
@@ -43,6 +48,11 @@ were required:
 * Porting the user-space. This means porting the GNU loader, the
   GNU GLibC, and some shell.  A port of glibc was begun, as well as
   of a very basic shell.
+* Help from lots of people. The following folks made significant
+  contributions to the project: Dan, who taught me VM and System/390
+  principles of operation; Neale Ferguson, who contributed multiple
+  files, and Peter Schulte-Stracke, who contributed the PSA defintion
+  and string inlines.
 
 The bundle of all of the above was given the project name of
 [Bigfoot](https://linas.org/linux/i370-bigfoot.html) alluding to the
@@ -81,26 +91,24 @@ I don't know that I want to: its not as if I don't have enough to do,
 and enough interests to indulge. But what the heck, how hard can this
 be? Just a little bit more work, and bingo, we're back.
 
-So: I don't now that I'll do this. But if I do, the instructions are
-below.
-
 For a related project, somewhat overlapping this, see
 [PDOS, the Public Domain Operating System](https://pdos.org).
 
 ## Status
-Version 0.0.3 - September 2024
+Version 0.0.4 - September 2024
 
-At this time, only binutils (the assembler) and gcc (the compiler)
-have been revived. You can get other parts from the original bigfoot
-site, if you wish; or you can wait for them to be dusted off and
-cleaned up, here.
+At this time, binutils (the assembler), gcc (the compiler) and the
+Linux kernel have been revived. You can get glibc and the login shell
+from the original bigfoot site, if you wish; or you can wait for them
+to be dusted off and cleaned up, here.
 
 ## HOWTO
 The easiest way to try the system is to install Docker, build the Docker
 container provided in the `docker` directory, and then run the
 container.
 
-The README in the docker directory explains more.
+The README in the docker directory explains more. It also points to
+multiple examples, of increasing complexity.
 
 If you wish to do everything by hand, then just emulate what you find in
 `docker/i370-bigfoot/Dockerfile`. Note that Dockerfiles are kind of like
@@ -112,16 +120,18 @@ Files in the [docker/i370-bigfoot/scripts/](docker/i370-bigfoot/scripts/)
 directory will be copied to `/home/i370-bigfoot/` in the Docker
 container. This allows the demos there to be run in the container.
 
-The directory
-[docker/i370-bigfoot/scripts/examples](docker/i370-bigfoot/scripts/examples)
-contains an example showing how to IPL into C code. The code runs in
-real mode (virtual memory is not enabled) and in supervisor mode (all
-the privileged instructions are available.) There is no C library in
-this demo, and thus no printing: this is just a minimal exaample of IPL
-and run.
+The [demo README](docker/i370-bigfoot/scripts/README.md) describes
+multiple demos, from the most basic IPL to C code, to booting the
+Linux kernel and running the initial process.
 
 ## Documentation
 The CPU Architecture, including the instruction set, is documented in
 [z/Architecture Principles of Operation, Fourteenth Edition (May,
 2022)](https://www.ibm.com/docs/en/module_1678991624569/pdf/SA22-7832-13.pdf)
 This is IBM document number SA22-7832-13.
+
+Note that the assumbler, complier and kernel are compatible with the
+old 32-but System/390 instruction set, and intentionally avoid using
+the modern z/Architecture instructions. This is an explicit design
+decision, insisted on by, uhh, "mainframe afficianados" who wish to
+keep old hardware going.
