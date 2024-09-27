@@ -373,6 +373,8 @@ extern int errno;
 
 typedef unsigned long pid_t;
 typedef unsigned long off_t;
+#define O_RDONLY	    00
+#define O_WRONLY	    01
 
 #define __NR__exit __NR_exit
 static inline _syscall0(int,idle)
