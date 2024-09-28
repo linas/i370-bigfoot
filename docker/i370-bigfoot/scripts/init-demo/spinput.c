@@ -27,7 +27,7 @@ int main(int argc, char* argv)
 	char inbuf[BUFSZ];
 
 	/* Don't forget to mknod and create this device! */
-	int ttyfd = open("/dev/tty0", O_RDWR|O_NONBLOCK, 0);
+	int ttyfd = open("/dev/3270/tty0", O_RDWR|O_NONBLOCK, 0);
 	write(ttyfd, "Hello there\n", 13);
 
 	int data[1000];

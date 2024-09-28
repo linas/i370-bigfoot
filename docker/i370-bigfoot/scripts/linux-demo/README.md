@@ -74,6 +74,11 @@ cp otherstuff /mnt/
 mkdir /mnt/dev/
 mknod /mnt/dev/console c 5 1
 mknod /mnt/dev/tty0 c 4 0
+mkdir /mnt/dev/3270
+mknod /mnt/dev/3270/tty0 c 227 0
+mknod /mnt/dev/3270/tty1 c 227 1
+mknod /mnt/dev/3270/tty2 c 227 2
+mknod /mnt/dev/3270/tty3 c 227 3
 umount /mnt
 dd if=/dev/ram bs=1k count=2048 | gzip -v9 > /tmp/ram_image.gz
 ```
