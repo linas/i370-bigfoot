@@ -135,3 +135,9 @@ old 32-but System/390 instruction set, and intentionally avoid using
 the modern z/Architecture instructions. This is an explicit design
 decision, insisted on by, uhh, "mainframe afficianados" who wish to
 keep old hardware going.
+
+Examples of bootable code that interacts with ESA/390 devices can be
+found here:
+> https://sourceforge.net/p/pdos/gitcode/ci/master/tree/pdpclib/sapstart.asm
+> https://sourceforge.net/p/pdos/gitcode/ci/master/tree/pdpclib/zpbsupa.asm
+> https://sourceforge.net/p/pdos/gitcode/ci/master/tree/pdpclib/sapsupa.asm
