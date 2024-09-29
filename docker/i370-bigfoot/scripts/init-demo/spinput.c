@@ -46,6 +46,11 @@ int main(int argc, char* argv)
 		// 	write(ttyfd, "No input\n", 10);
 		if (rc < 0 && -EAGAIN != rc)
 			write(ttyfd, "Input error\n", 13);
+		else if (0 < rc) {
+			write(ttyfd, "You typed: ", 12);
+			write(ttyfd, inbuf, rc);
+			write(ttyfd, "\n", 2);
+		}
 
 		write(ttyfd, "Type something\n", 16);
 	}
