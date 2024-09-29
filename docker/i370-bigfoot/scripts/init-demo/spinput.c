@@ -35,7 +35,7 @@ int main(int argc, char* argv)
 
 	while (1) {
 		/* Waste some CPU cycles */
-		for (j=0; j<1000; j++) {
+		for (j=0; j<3000; j++) {
 			for (i=0; i<1000; i++)
 				data[i] += data [(i+1)%1000];
 		}
