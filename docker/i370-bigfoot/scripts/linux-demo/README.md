@@ -72,13 +72,8 @@ mkdir /mnt/sbin/
 cp my_init /mnt/sbin/init
 cp otherstuff /mnt/
 mkdir /mnt/dev/
-mknod /mnt/dev/console c 5 1
-mknod /mnt/dev/tty0 c 4 0
+mknod /mnt/dev/console c 227 1
 mkdir /mnt/dev/3270
-mknod /mnt/dev/3270/tty0 c 227 0
-mknod /mnt/dev/3270/tty1 c 227 1
-mknod /mnt/dev/3270/tty2 c 227 2
-mknod /mnt/dev/3270/tty3 c 227 3
 mknod /mnt/dev/3270/raw0 c 227 128
 mknod /mnt/dev/3270/raw1 c 227 129
 mknod /mnt/dev/3270/raw2 c 227 130
