@@ -14,7 +14,7 @@
   CPUVERID  FD                  # CPU Version Identification
   MAINSIZE  64                  # Main storage size in megabytes
   XPNDSIZE  0                   # Expanded storage size in megabytes
-  NUMCPU    1                   # Number of CPUs
+  NUMCPU    4                   # Number of CPUs
 # NUMVEC    1                   # Number of Vector Processors
   MAXCPU    8                   # Maximum number of CPUs
   ARCHMODE  ESA/390             # Architecture mode S/370, ESA/390 or z/Arch
@@ -83,9 +83,25 @@
 #   |     |       |
 #   V     V       V
 # ----    ----    --------------------
+# The 3215-C is a hercules-integrated console
   0009    3215-C  / noprompt
+
+# The naked 3215 sends console output to a telnet port 3270
+#  0009    3215
+
+# The SYSG is a tn3270-only console (port 3270)
+#  0009    SYSG
+
+# What does zzsacard.bin do? See https://www.cbttape.org/~jjaeger/zzsa.html
+# See also https://github.com/JSnetSystems/standalone-utility
+# Start with ipl 0c  password ZZSECRET
+# However when I do this I get exception on STSCH.. maybe because
+# this config file has no attached DASD. I dunno.
+# It's not needed to boot Linux.
 #  000C    3505    ./util/zzsacard.bin
-  000C    3505    /usr/share/hercules/zzsacard.bin
+#  000C    3505    /usr/share/hercules/zzsacard.bin
+
+# Text files
   000D    3525    punch00d.txt ascii
   000E    1403    print00e.txt crlf
 
@@ -99,6 +115,7 @@
 
 #         The following statements are examples. Some of them require
 #         user tailoring before being used.
+# The files must be found and must contain reasonable data.
 # 0580    3420    ickdsf.ipl
 # 0120    3380    mvsv5r.120
 # 0121    3380    mvsv5d.121
