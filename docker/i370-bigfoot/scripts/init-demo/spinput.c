@@ -42,12 +42,28 @@ int main(int argc, char* argv[], char* envp[])
 	int ttyfd = open("/dev/console", O_RDWR|O_NONBLOCK, 0);
 	write(ttyfd, "Hello there\n", 13);
 
+	// Print argc
 	write(ttyfd, "argc=", 6);
 	char nstr[3];
 	nstr[0] = '0' + argc;
 	nstr[1] = '\n';
 	nstr[2] = 0;
 	write(ttyfd, nstr, 3);
+
+	argv++;
+	// Print argv
+	while (*argv)
+	{
+		char *ep = *argv;
+		int slen = strlen(ep);
+		write(ttyfd, ep, slen);
+
+		nstr[0] = '\n';
+		nstr[1] = 0;
+		write(ttyfd, nstr, 2);
+
+		argv++;
+	}
 
 	int data[1000];
 	for (i=0; i<1000; i++) data[i] = i;

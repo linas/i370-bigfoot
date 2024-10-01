@@ -6,22 +6,20 @@
 # Upon entry, most registers contain invalid data, except for
 #
 #    r13         zero
-#    r11         pointer to start of stack
-#    r2          Pointer to the arguments and environment:
-#                0(r2)                   argc
-#                4(r2)                   argv[0]
-#                ...
-#                (4*argc)(r2)            NULL
-#                (4*(argc+1))(r2)        envp[0]
-#                ...
-#                ...                     NULL
+#    r11         Pointer to frame bottom
+#    r1          Pointer to frame top
+#    r2          Pointer to argc
+#    r3          Pointer to argv
+#    r4          Pointer to envp
+#
+# These need to be copied to set up the callees stack.
 #
 # The i370 ELF stackframe looks like this:
 #
 #    0          Page table (LTORG)
 #    4          unused
 #    8          Caller frame pointer
-#    12         Caller r14
+#    12         Caller r14 (backchain aka link register)
 #    16         Caller r15
 #    20         Caller r0
 #    24         Caller r1
@@ -33,6 +31,9 @@
 #    76         Unused
 #    80         Scratch
 #    84         Scratch
+#    88         Arg 0
+#    92         Arg 1
+#    ...
 #
 
 	.file    "crtspin.s"
@@ -49,21 +50,21 @@ _start:
 
 	# We arrive here with R11 the frame pointer.
 	# (Pointing to bottom of stack; stack grows up)
-	# We arrive here with r2 holding the stack pointer.
+	# We arrive here with r1 holding the stack pointer.
 	# (Pointing to the top of stack; the args are there)
 	# Store stack pointer at as the first entry in the frame.
 	# The C code prolog will load r13 with 0(r11)
-	ST      r2, 0(r11)
+	ST      r1, 0(r11)
 
-	L       r1,0(,r2)      # load r1 with argc
-	ST      r1,88(,r11)    # Pass on stack.
-	LA      r5,4(,r2)      # load r5 with argv
-	ST      r5,92(,r11)    # Pass on stack
+	ST      r2,88(,r11)    # Pass argc on stack.
+	ST      r3,92(,r11)    # Pass argv on stack
+	ST      r4,96(,r11)    # Pass envp on stack
 
-	LA      r14,12(,r11)
+	LA      r14,12(,r11)   # Set up link register
 	BASR    r14,r15        # BASR will write PSW to 12(,r11)
 
 _endit:
+	# TODO: should make exit() syscall here.
 	NOPR 0
 	NOPR 0
 	NOPR 0
