@@ -16,6 +16,24 @@
 #                ...
 #                ...                     NULL
 #
+# The i370 ELF stackframe looks like this:
+#
+#    0          Page table (LTORG)
+#    4          unused
+#    8          Caller frame pointer
+#    12         Caller r14
+#    16         Caller r15
+#    20         Caller r0
+#    24         Caller r1
+#    ...
+#    60         Caller r10
+#    64         Callee frame pointer
+#    68         Caller r12
+#    72         Unused
+#    76         Unused
+#    80         Scratch
+#    84         Scratch
+#
 
 	.file    "crtspin.s"
 
