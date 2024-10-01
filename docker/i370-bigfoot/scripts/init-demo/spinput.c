@@ -17,6 +17,12 @@
  */
 #include "demo-unistd.h"
 
+int strlen(char *str) {
+	int i=0;
+	while (0 != str[i]) i++;
+	return i;
+}
+
 int main(int argc, char* argv[], char* envp[])
 {
 	int rc;
@@ -35,6 +41,13 @@ int main(int argc, char* argv[], char* envp[])
 	// int ttyfd = open("/dev/3270/raw0", O_RDWR|O_NONBLOCK, 0);
 	int ttyfd = open("/dev/console", O_RDWR|O_NONBLOCK, 0);
 	write(ttyfd, "Hello there\n", 13);
+
+	write(ttyfd, "argc=", 6);
+	char nstr[3];
+	nstr[0] = '0' + argc;
+	nstr[1] = '\n';
+	nstr[2] = 0;
+	write(ttyfd, nstr, 3);
 
 	int data[1000];
 	for (i=0; i<1000; i++) data[i] = i;
