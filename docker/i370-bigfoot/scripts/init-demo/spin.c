@@ -16,7 +16,7 @@
  */
 #include "demo-unistd.h"
 
-int main(int argc, char* argv)
+int main(int argc, char* argv[], char* envp[])
 {
 	int i, j;
 	int c = argc;

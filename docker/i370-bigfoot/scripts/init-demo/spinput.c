@@ -17,7 +17,7 @@
  */
 #include "demo-unistd.h"
 
-int main(int argc, char* argv)
+int main(int argc, char* argv[], char* envp[])
 {
 	int rc;
 	int i, j;
@@ -27,7 +27,13 @@ int main(int argc, char* argv)
 	char inbuf[BUFSZ];
 
 	/* Don't forget to mknod and create this device! */
-	int ttyfd = open("/dev/3270/raw0", O_RDWR|O_NONBLOCK, 0);
+	/* Several choices here. The first non-console 3215 is
+	 * mapped to /dev/3270/raw0. The console itself maps
+	 * to /dev/console. To use it with Hercules, you must
+	 * change the Hercules config to telnet into this.
+	 */
+	// int ttyfd = open("/dev/3270/raw0", O_RDWR|O_NONBLOCK, 0);
+	int ttyfd = open("/dev/console", O_RDWR|O_NONBLOCK, 0);
 	write(ttyfd, "Hello there\n", 13);
 
 	int data[1000];
