@@ -53,7 +53,7 @@ RUN git clone https://github.com/linas/i370-linux-2.2.1
 ENV LAST_BINUTILS_UPDATE 2024-09-23
 RUN cd i370-binutils; git pull
 RUN cd i370-binutils; mkdir build; cd build; \
-    ../configure --target=i370-ibm-elf; make -j12
+    ../configure --target=i370-ibm-linux; make -j12
 # Again, for good luck (and readable error messages)
 RUN cd i370-binutils/build; make
 RUN cd i370-binutils/build; sudo make install
@@ -63,7 +63,7 @@ ENV LAST_GCC_UPDATE 2024-09-23
 RUN cd i370-gcc; git pull
 RUN cd i370-gcc; git checkout i370-gcc-3.4.6
 RUN cd i370-gcc; mkdir build; cd build; \
-    ../configure --target=i370-ibm-elf -enable-languages="c" \
+    ../configure --target=i370-ibm-linux -enable-languages="c" \
        --disable-threads; make -j12
 # Again, for good luck (and readable error messages)
 RUN cd i370-gcc/build; make
