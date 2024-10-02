@@ -23,7 +23,21 @@ int strlen(char *str) {
 	return i;
 }
 
-int main(int argc, char* argv[], char* envp[])
+void prtnum(int ttyfd, int x)
+{
+	int i;
+	char nstr[10];
+	for(i=0; i<8; i++) {
+		char b = (x & 0xf);
+		nstr[7-i] = b + (b>9 ? 'a'-10 : '0');
+		x = (x >> 4);
+	}
+	nstr[8] = '\n';
+	nstr[9] = 0;
+	write(ttyfd, nstr, 10);
+}
+
+int main(int argc, char** argv, char** envp)
 {
 	int rc;
 	int i, j;
@@ -40,7 +54,7 @@ int main(int argc, char* argv[], char* envp[])
 	 */
 	// int ttyfd = open("/dev/3270/raw0", O_RDWR|O_NONBLOCK, 0);
 	int ttyfd = open("/dev/console", O_RDWR|O_NONBLOCK, 0);
-	write(ttyfd, "Hello there\n", 13);
+	write(ttyfd, "Hello there!\n", 14);
 
 	// Print argc
 	write(ttyfd, "argc=", 6);
@@ -49,14 +63,15 @@ int main(int argc, char* argv[], char* envp[])
 	nstr[1] = '\n';
 	nstr[2] = 0;
 	write(ttyfd, nstr, 3);
+	write(ttyfd, "\n", 2);
 
-	argv++;
 	// Print argv
+	write(ttyfd, "argv=\n", 7);
 	while (*argv)
 	{
 		char *ep = *argv;
 		int slen = strlen(ep);
-		write(ttyfd, ep, slen);
+		write(ttyfd, ep, slen+1);
 
 		nstr[0] = '\n';
 		nstr[1] = 0;
@@ -64,13 +79,30 @@ int main(int argc, char* argv[], char* envp[])
 
 		argv++;
 	}
+	write(ttyfd, "\n", 2);
+
+	// Print envp
+	write(ttyfd, "envp=\n", 7);
+	while (*envp)
+	{
+		char *ep = *envp;
+		int slen = strlen(ep);
+		write(ttyfd, ep, slen+1);
+
+		nstr[0] = '\n';
+		nstr[1] = 0;
+		write(ttyfd, nstr, 2);
+
+		envp++;
+	}
+	write(ttyfd, "\n", 2);
 
 	int data[1000];
 	for (i=0; i<1000; i++) data[i] = i;
 
 	while (1) {
 		/* Waste some CPU cycles */
-		for (j=0; j<3000; j++) {
+		for (j=0; j<9000; j++) {
 			for (i=0; i<1000; i++)
 				data[i] += data [(i+1)%1000];
 		}
@@ -87,7 +119,7 @@ int main(int argc, char* argv[], char* envp[])
 			write(ttyfd, "\n", 2);
 		}
 
-		write(ttyfd, "Type something\n", 16);
+		write(ttyfd, "Type something>\n", 17);
 	}
 	return 3;
 }

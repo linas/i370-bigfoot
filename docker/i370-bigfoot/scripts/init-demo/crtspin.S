@@ -56,6 +56,7 @@ _start:
 	# The C code prolog will load r13 with 0(r11)
 	ST      r1, 0(r11)
 
+	L       r2,0(r2)       # Get value of argc
 	ST      r2,88(,r11)    # Pass argc on stack.
 	ST      r3,92(,r11)    # Pass argv on stack
 	ST      r4,96(,r11)    # Pass envp on stack
