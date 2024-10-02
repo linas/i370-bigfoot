@@ -9,14 +9,14 @@
 #    r11         Pointer to frame bottom
 #    r1          Pointer to frame top
 #    r2          Pointer to argc
-#    r3          Pointer to argv
-#    r4          Pointer to envp
+#    r3          Value of argv
+#    r4          Value of envp
 #
 # These need to be copied to set up the callees stack.
 #
 # The i370 ELF stackframe looks like this:
 #
-#    0          Page table (LTORG)
+#    0          Page table
 #    4          unused
 #    8          Caller frame pointer
 #    12         Caller r14 (backchain aka link register)

@@ -5,24 +5,29 @@
  * or any other program specifiec by the `init=` argument on the boot
  * command line. This demo can be used as that init.
  *
- * This is a very simple demo, because it assumes that there isn't
+ * This is a cluttered demo, because it assumes that there isn't
  * any C library, and so none of the usual C library routines are
  * available. However, system calls can be made, by including the
- * `demo-unistd.h` include file. It defines just enough for a handful
+ * `demo-unistd.h` header file. It defines just enough for a handful
  * of system calls, including the read() and write() subroutines. This
- * demo makes use of that, to spin in a loop for a while, attempt to
- * read from the tty, and then echo that back out.
+ * demo makes use of that, to attempt to read from a device, and then
+ * echo what ir read.
+ *
+ * Keep in mind that the 3215 console is line-oriented, not character
+ * oriented. There is no input, until carriage return is pressed!
  *
  * See the `spin.c` demo for a simpler version, that only writes.
  */
 #include "demo-unistd.h"
 
+/* Poor man's strlen */
 int strlen(char *str) {
 	int i=0;
 	while (0 != str[i]) i++;
 	return i;
 }
 
+/* Print a single number. Useful for debugging */
 void prtnum(int ttyfd, int x)
 {
 	int i;
@@ -37,6 +42,7 @@ void prtnum(int ttyfd, int x)
 	write(ttyfd, nstr, 10);
 }
 
+/* Busy-wait loop */
 void delay(int n)
 {
 	int i, j;
@@ -68,7 +74,7 @@ int main(int argc, char** argv, char** envp)
 	int ttyfd = open("/dev/console", O_RDWR|O_NONBLOCK, 0);
 	write(ttyfd, "Hello there!\n", 14);
 
-	// Print argc
+	/* Print argc */
 	write(ttyfd, "argc=", 6);
 	char nstr[3];
 	nstr[0] = '0' + argc;
@@ -77,7 +83,7 @@ int main(int argc, char** argv, char** envp)
 	write(ttyfd, nstr, 3);
 	write(ttyfd, "\n", 2);
 
-	// Print argv
+	/* Print argv */
 	write(ttyfd, "argv=\n", 7);
 	while (*argv)
 	{
@@ -93,7 +99,7 @@ int main(int argc, char** argv, char** envp)
 	}
 	write(ttyfd, "\n", 2);
 
-	// Print envp
+	/* Print envp */
 	write(ttyfd, "envp=\n", 7);
 	while (*envp)
 	{
@@ -109,6 +115,7 @@ int main(int argc, char** argv, char** envp)
 	}
 	write(ttyfd, "\n", 2);
 
+	/* Enter echo loop */
 	write(ttyfd, "Type something>\n", 17);
 	while (1) {
 

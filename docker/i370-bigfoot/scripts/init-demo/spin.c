@@ -19,8 +19,6 @@
 int main(int argc, char* argv[], char* envp[])
 {
 	int i, j;
-	int c = argc;
-	// char * x = argv[0]; Not today!
 
 	/* Don't forget to mknod and create this device! */
 	int ttyfd = open("/dev/console", O_WRONLY, 0);
