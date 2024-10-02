@@ -37,10 +37,22 @@ void prtnum(int ttyfd, int x)
 	write(ttyfd, nstr, 10);
 }
 
+void delay(int n)
+{
+	int i, j;
+	int data[1000];
+	for (i=0; i<1000; i++) data[i] = i;
+
+	/* Waste some CPU cycles */
+	for (j=0; j< n*1000; j++) {
+		for (i=0; i<1000; i++)
+			data[i] += data [(i+1)%1000];
+	}
+}
+
 int main(int argc, char** argv, char** envp)
 {
 	int rc;
-	int i, j;
 
 	/* Keyboard input data */
 #define BUFSZ 120
@@ -97,29 +109,26 @@ int main(int argc, char** argv, char** envp)
 	}
 	write(ttyfd, "\n", 2);
 
-	int data[1000];
-	for (i=0; i<1000; i++) data[i] = i;
-
+	write(ttyfd, "Type something>\n", 17);
 	while (1) {
-		/* Waste some CPU cycles */
-		for (j=0; j<9000; j++) {
-			for (i=0; i<1000; i++)
-				data[i] += data [(i+1)%1000];
-		}
 
 		rc = read(ttyfd, inbuf, BUFSZ);
 
 		// if (-EAGAIN == rc)
 		// 	write(ttyfd, "No input\n", 10);
-		if (rc < 0 && -EAGAIN != rc)
-			write(ttyfd, "Input error\n", 13);
+		if (rc < 0 && -EAGAIN != rc) {
+			write(ttyfd, "Input error; rc=", 15);
+			prtnum(ttyfd, rc);
+			write(ttyfd, "Type something>\n", 17);
+		}
 		else if (0 < rc) {
 			write(ttyfd, "You typed: ", 12);
 			write(ttyfd, inbuf, rc);
 			write(ttyfd, "\n", 2);
+			write(ttyfd, "Type something>\n", 17);
 		}
 
-		write(ttyfd, "Type something>\n", 17);
+		delay(2);
 	}
 	return 3;
 }
