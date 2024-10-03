@@ -14,7 +14,9 @@
   CPUVERID  FD                  # CPU Version Identification
   MAINSIZE  64                  # Main storage size in megabytes
   XPNDSIZE  0                   # Expanded storage size in megabytes
-  NUMCPU    4                   # Number of CPUs
+# Caution: setting NUMCPU to values greater than one will
+# currently result in flaky behavior for Linux.
+  NUMCPU    1                   # Number of CPUs
 # NUMVEC    1                   # Number of Vector Processors
   MAXCPU    8                   # Maximum number of CPUs
   ARCHMODE  ESA/390             # Architecture mode S/370, ESA/390 or z/Arch
@@ -112,6 +114,12 @@
 
 # Using 3270 requires using x3270 instead of telnet.
 #  001F    3270
+
+# Network finagling. Hercules runs device 3088 as CTCA to the
+# host tun/tap device, which can then get to an actual network.
+# Two devices must be created, one for the Hercules IP, and one
+# for the actual network IP. See the Hercules docs.
+  0E20,0E21 CTCI 192.168.200.1 192.168.200.2
 
 #         The following statements are examples. Some of them require
 #         user tailoring before being used.
