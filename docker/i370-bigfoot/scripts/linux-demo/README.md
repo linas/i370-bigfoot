@@ -42,11 +42,6 @@ and the appropriate INS file will be created.
 
 
 ### Notes
-Some useful command params:
-```
-init=/sbin/my-foo-init
-console=tty3
-```
 Caution: Do **not** select `CONFIG_VT_CONSOLE`. Doing so will prevent
 boot messages from going to the Hercules console.
 
