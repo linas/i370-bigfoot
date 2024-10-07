@@ -79,6 +79,13 @@
 # SHRDPORT  3990                # TCP port number for sharing DASD images on
                                 # this instance of Hercules (inactive)
 
+# Convenience directory under which INS files can be IPL'ed.
+# thus, instead of saying `IPL /home/bigfoot/linux-demo/vmlinux.ins`
+# (quite a mouthful) the below allows the shorter form
+# `IPL linux-demo/vmlinux.ins` but the root is auto-prepended.
+
+  SCLPROOT /home/bigfoot/
+
 #   .-----------------------Device number
 #   |     .-----------------Device type
 #   |     |       .---------File name and parameters
