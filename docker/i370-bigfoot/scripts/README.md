@@ -77,6 +77,14 @@ are minimalistic. In the demo, just enough to write to the screen.
 
 For more info, see the [init-demo README](../init-demo/README.md)
 
+## (optional) Build and run the PDPCLIB demo
+The PDPCLIB is a Public Domain C Library. It provides enough to be able
+to do "real C programming". The demo creates a bootable init binary
+that simply reads input and echoes it to output, using `fread` and
+`fprintf`.
+
+For more info, see the [pdpclib-demo README](../pdpclib-demo/README.md)
+
 ## Notes
 
 ### Latest Hercules
