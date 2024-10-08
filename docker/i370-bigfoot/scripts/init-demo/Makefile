@@ -13,4 +13,4 @@ crtspin.o: crtspin.S
 	i370-ibm-linux-gcc -c crtspin.S
 
 clean:
-	rm -f *.o spin
+	rm -f *.o spin spinput

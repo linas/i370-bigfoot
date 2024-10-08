@@ -28,7 +28,7 @@ int strlen(char *str) {
 }
 
 /* Print a single number. Useful for debugging */
-void prtnum(int ttyfd, int x)
+void prtnum(int confd, int x)
 {
 	int i;
 	char nstr[10];
@@ -39,7 +39,7 @@ void prtnum(int ttyfd, int x)
 	}
 	nstr[8] = '\n';
 	nstr[9] = 0;
-	write(ttyfd, nstr, 10);
+	write(confd, nstr, 10);
 }
 
 /* Busy-wait loop */
@@ -70,69 +70,69 @@ int main(int argc, char** argv, char** envp)
 	 * to /dev/console. To use it with Hercules, you must
 	 * change the Hercules config to telnet into this.
 	 */
-	// int ttyfd = open("/dev/3270/raw0", O_RDWR|O_NONBLOCK, 0);
-	int ttyfd = open("/dev/console", O_RDWR|O_NONBLOCK, 0);
-	write(ttyfd, "Hello there!\n", 14);
+	// int confd = open("/dev/3270/raw0", O_RDWR|O_NONBLOCK, 0);
+	int confd = open("/dev/console", O_RDWR|O_NONBLOCK, 0);
+	write(confd, "Hello there!\n", 14);
 
 	/* Print argc */
-	write(ttyfd, "argc=", 6);
+	write(confd, "argc=", 6);
 	char nstr[3];
 	nstr[0] = '0' + argc;
 	nstr[1] = '\n';
 	nstr[2] = 0;
-	write(ttyfd, nstr, 3);
-	write(ttyfd, "\n", 2);
+	write(confd, nstr, 3);
+	write(confd, "\n", 2);
 
 	/* Print argv */
-	write(ttyfd, "argv=\n", 7);
+	write(confd, "argv=\n", 7);
 	while (*argv)
 	{
 		char *ep = *argv;
 		int slen = strlen(ep);
-		write(ttyfd, ep, slen+1);
+		write(confd, ep, slen+1);
 
 		nstr[0] = '\n';
 		nstr[1] = 0;
-		write(ttyfd, nstr, 2);
+		write(confd, nstr, 2);
 
 		argv++;
 	}
-	write(ttyfd, "\n", 2);
+	write(confd, "\n", 2);
 
 	/* Print envp */
-	write(ttyfd, "envp=\n", 7);
+	write(confd, "envp=\n", 7);
 	while (*envp)
 	{
 		char *ep = *envp;
 		int slen = strlen(ep);
-		write(ttyfd, ep, slen+1);
+		write(confd, ep, slen+1);
 
 		nstr[0] = '\n';
 		nstr[1] = 0;
-		write(ttyfd, nstr, 2);
+		write(confd, nstr, 2);
 
 		envp++;
 	}
-	write(ttyfd, "\n", 2);
+	write(confd, "\n", 2);
 
 	/* Enter echo loop */
-	write(ttyfd, "Type something>\n", 17);
+	write(confd, "Type something>\n", 17);
 	while (1) {
 
-		rc = read(ttyfd, inbuf, BUFSZ);
+		rc = read(confd, inbuf, BUFSZ);
 
 		// if (-EAGAIN == rc)
-		// 	write(ttyfd, "No input\n", 10);
+		// 	write(confd, "No input\n", 10);
 		if (rc < 0 && -EAGAIN != rc) {
-			write(ttyfd, "Input error; rc=", 15);
-			prtnum(ttyfd, rc);
-			write(ttyfd, "Type something>\n", 17);
+			write(confd, "Input error; rc=", 15);
+			prtnum(confd, rc);
+			write(confd, "Type something>\n", 17);
 		}
 		else if (0 < rc) {
-			write(ttyfd, "You typed: ", 12);
-			write(ttyfd, inbuf, rc);
-			write(ttyfd, "\n", 2);
-			write(ttyfd, "Type something>\n", 17);
+			write(confd, "You typed: ", 12);
+			write(confd, inbuf, rc);
+			write(confd, "\n", 2);
+			write(confd, "Type something>\n", 17);
 		}
 
 		delay(2);
