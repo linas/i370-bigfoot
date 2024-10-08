@@ -48,6 +48,7 @@ ENV LAST_GIT_CLONE 2024-09-23
 RUN git clone https://github.com/linas/i370-binutils
 RUN git clone -b i370-gcc-3.4.6 --single-branch https://github.com/linas/i370-gcc
 RUN git clone https://github.com/linas/i370-linux-2.2.1
+RUN git clone https://git.code.sf.net/p/pdos/gitcode pdos-gitcode
 
 # Grab latest binutils
 ENV LAST_BINUTILS_UPDATE 2024-09-23
@@ -73,6 +74,16 @@ RUN cd i370-gcc/build; sudo make install
 ENV LAST_GCC_UPDATE 2024-09-23-b
 RUN cd i370-linux-2.2.1; git pull
 RUN cd i370-linux-2.2.1; make oldconfig; make; make;
+
+# Grab latest PDOS C library
+ENV LAST_PDOS_UPDATE 2024-10-08
+RUN cd pdos-gitcode; git pull
+RUN cd pdpclib
+RUN cat makefile.big | sed -e "s/        /\t/" > makefile.bog
+RUN make -f makefile.bog CC=i370-ibm-linux-gcc \
+      AS=i370-ibm-linux-as AR=i370-ibm-linux-ar \
+      CPP="cpp -DBIGFOOT" \
+      LD="i370-ibm-linux-ld --entry __crt0"
 
 # Setup config files. Do this after above, so that changes here do not
 # result in a rebuild of the image. In particular, we want to avoid
