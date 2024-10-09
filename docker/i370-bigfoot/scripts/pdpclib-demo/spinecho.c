@@ -34,29 +34,21 @@ int main(int argc, char** argv, char** envp)
 #define BUFSZ 120
 	char inbuf[BUFSZ];
 
-	/* Don't forget to mknod and create this device! */
-	/* Several choices here. The first non-console 3215 is
-	 * mapped to /dev/3270/raw0. The console itself maps
-	 * to /dev/console. To use it with Hercules, you must
-	 * change the Hercules config to telnet into this.
-	 */
-	// FILE *fh = fopen("/dev/3270/raw0", "rw");
-	FILE *fh = fopen("/dev/console", "rw");
-
-	fprintf(fh, "Hello, world!\n");
+	printf("Hello, world!\n");
 
 	/* Enter echo loop */
-	fprintf(fh, "Type something>\n");
+	printf("Type something>\n");
 	while (1) {
 
-		rlen = fread(inbuf, BUFSZ, 1, fh);
+		char * rv = fgets(inbuf, BUFSZ, stdin);
 
-		if (rlen <= 0) {
-			fprintf(fh, "Input error\n");
+		if (NULL == rv) {
+			printf("Geto EOF, Goodbye!\n");
+			break;
 		}
 		else {
-			fprintf(fh, "You did type: %s\n", inbuf);
-			fprintf(fh, "Type something>\n");
+			printf("You did type: %s\n", inbuf);
+			printf("Type something>\n");
 		}
 
 		delay(2);
