@@ -201,9 +201,9 @@
 /*
  * For system calls, we will pass arguments in registers.  This
  * should significantly ease the burden of memory management
- * in the SVC handler, as well as be a big performance winner 
- * over passing the args on the user stack.  Passing args 
- * in registers is not the usual (current) ESA/390 calling convention, 
+ * in the SVC handler, as well as be a big performance winner
+ * over passing the args on the user stack.  Passing args
+ * in registers is not the usual (current) ESA/390 calling convention,
  * and so we'll have to deal with this in a special way inside the handler.
  * But that shouldn't be a big deal.  --linas
  */
@@ -381,6 +381,27 @@ typedef unsigned long off_t;
 #define	EAGAIN		11	/* Try again */
 
 #define __NR__exit __NR_exit
+
+#ifndef USE_INLINE_SYSCALLS
+extern int idle(void);
+extern int clone(int flags);
+extern int pause(void);
+extern int sync(void);
+extern pid_t setsid(void);
+extern int write(int fd, const char *buf, off_t count);
+extern int read(int fd, char *buf, off_t count);
+extern off_t lseek(int fd, off_t offset, int count);
+extern int dup(int fd);
+extern int execve(const char *file,char **argv, char **envp);
+extern int open(const char *file, int flag, int mode);
+extern int close(int fd);
+// extern int _exit(int exitcode);
+extern pid_t waitpid(pid_t pid, int *wait_stat,int options);
+extern int delete_module(const char *name);
+
+extern pid_t wait(int * wait_stat);
+
+#else /* USE_INLINE_SYSCALLS */
 static inline _syscall0(int,idle)
 static inline _syscall1(int,clone,int,flags)
 static inline _syscall0(int,pause)
@@ -397,9 +418,10 @@ static inline _syscall1(int,close,int,fd)
 static inline _syscall3(pid_t,waitpid,pid_t,pid,int *,wait_stat,int,options)
 static inline _syscall1(int,delete_module,const char *,name)
 
-static inline pid_t wait(int * wait_stat) 
+static inline pid_t wait(int * wait_stat)
 {
 	return waitpid(-1,wait_stat,0);
 }
+#endif
 
 #endif /* _DEMO_I370_UNISTD_H_ */
