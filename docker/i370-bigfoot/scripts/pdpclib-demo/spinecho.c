@@ -47,6 +47,7 @@ void setup_stdio(void)
 
 int main(int argc, char** argv, char** envp)
 {
+	int i;
 	size_t rlen;
 
 	/* Keyboard input data */
@@ -57,6 +58,15 @@ int main(int argc, char** argv, char** envp)
 	setup_stdio();
 
 	printf("Hello, world!\n");
+	printf("argc = %d\n", argc);
+	for (i=0; i<argc; i++)
+		printf("argv[%d] = \"%s\"\n", i, argv[i]);
+
+	i = 0;
+	while (envp[i]) {
+		printf("envp[%d] = \"%s\"\n", i, envp[i]);
+		i++;
+	}
 
 	/* Enter echo loop */
 	printf("Type something>\n");
