@@ -84,6 +84,7 @@ RUN make -f makefile.bog CC=i370-ibm-linux-gcc \
       AS=i370-ibm-linux-as AR=i370-ibm-linux-ar \
       CPP="cpp -DBIGFOOT" \
       LD="i370-ibm-linux-ld --entry __crt0"
+RUN ln -s pdpclib.a libc.a
 
 # Setup config files. Do this after above, so that changes here do not
 # result in a rebuild of the image. In particular, we want to avoid

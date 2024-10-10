@@ -9,7 +9,7 @@ LIBDIR=$(PDPCLIBDIR)
 
 spinecho: spinecho.c
 	i370-ibm-linux-gcc -I $(INCLUDES) -O2 -c spinecho.c
-	i370-ibm-linux-gcc -L $(LIBDIR) spinecho.o $(LIBDIR)/pdpclib.a -o spinecho -nostdlib --entry __crt0
+	i370-ibm-linux-gcc -L $(LIBDIR) spinecho.o -o spinecho
 
 clean:
 	rm -f *.o spinecho
