@@ -3,11 +3,6 @@ Simple Userspace Demo
 This requires no C library to run; it illustrates how to make system
 calls without a C library. This demo consists of three parts:
 
-* `crtspin.S` -- Provides the code that appears first in the
-  `.text` section of the ELF file. It accepts the frame and stack
-  pointers provided by the kernel, and converts them into a normal
-  C language stack. It also sets up `argc` and `argv`.
-
 * `spin.c` -- Demo application. Opens the console for writing, and
   then prints some messages.
 
