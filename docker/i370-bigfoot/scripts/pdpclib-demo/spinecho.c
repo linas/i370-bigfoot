@@ -36,9 +36,13 @@ void delay(int n)
 void setup_stdio(void)
 {
 	int confd = __open("/dev/console", O_WRONLY, 0);
-	__dup2(confd, 0); /* stdin */
-	__dup2(confd, 1); /* stdout */
-	__dup2(confd, 2); /* stderr */
+	__setup_stdio();
+	__stdin->hfile = __dup2(confd, 0); /* stdin */
+	__stdout->hfile = __dup2(confd, 1); /* stdout */
+	__stderr->hfile = __dup2(confd, 2); /* stderr */
+
+	printf ("Stdio using file descrs %d %d %d\n",
+		__stdin->hfile, __stdout->hfile, __stderr->hfile);
 }
 
 int main(int argc, char** argv, char** envp)
@@ -61,8 +65,13 @@ int main(int argc, char** argv, char** envp)
 		char * rv = fgets(inbuf, BUFSZ, stdin);
 
 		if (NULL == rv) {
-			printf("Geto EOF, Goodbye!\n");
+			printf("Got EOF, Goodbye!\n");
 			break;
+		}
+		else if (0 == inbuf[0]) {
+			/* Currently, fgets() in PDPCLIB is non-blocking;
+			   it just returns an empty buffer. Do nothing,
+			   just ignore this case. */
 		}
 		else {
 			printf("You did type: %s\n", inbuf);
