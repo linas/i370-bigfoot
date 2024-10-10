@@ -1,12 +1,11 @@
 /*
- * Simple i370 Linux Userspace Console I/O Demo
+ * Simple i370 PDPCLIB Console I/O Demo
  *
  * After the Linux kernel boots, the first program it runs is /sbin/init
  * or any other program specifiec by the `init=` argument on the boot
  * command line. This demo can be used as that init.
  *
- * Keep in mind that the 3215 console is line-oriented, not character
- * oriented. There is no input, until carriage return is pressed!
+ * This demos linking to PDPCLIB, the Public Domain C Library.
  */
 
 // #include <errno.h>
@@ -26,6 +25,22 @@ void delay(int n)
 	}
 }
 
+// PDPCLIB currently does not define this ...
+#define O_WRONLY 2
+
+/* Since we are not being called from a shell, the stdio endpoints
+ * don't exist. Create them now. We will do I/O to the console, for
+ * this particular demo. The system calls are those supplied by
+ * PDPCLIB.
+ */
+void setup_stdio(void)
+{
+	int confd = __open("/dev/console", O_WRONLY, 0);
+	__dup2(confd, 0); /* stdin */
+	__dup2(confd, 1); /* stdout */
+	__dup2(confd, 2); /* stderr */
+}
+
 int main(int argc, char** argv, char** envp)
 {
 	size_t rlen;
@@ -33,6 +48,9 @@ int main(int argc, char** argv, char** envp)
 	/* Keyboard input data */
 #define BUFSZ 120
 	char inbuf[BUFSZ];
+
+	/* Only we know where we want to write. So set yp out own stdout */
+	setup_stdio();
 
 	printf("Hello, world!\n");
 
