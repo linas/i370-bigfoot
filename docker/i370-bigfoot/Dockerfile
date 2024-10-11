@@ -49,6 +49,7 @@ RUN git clone https://github.com/linas/i370-binutils
 RUN git clone -b i370-gcc-3.4.6 --single-branch https://github.com/linas/i370-gcc
 RUN git clone https://github.com/linas/i370-linux-2.2.1
 RUN git clone https://git.code.sf.net/p/pdos/gitcode pdos-gitcode
+RUN git clone https://git.kernel.org/pub/scm/utils/dash/dash.git
 
 # Grab latest binutils
 ENV LAST_BINUTILS_UPDATE 2024-09-23
@@ -78,13 +79,20 @@ RUN cd i370-linux-2.2.1; make oldconfig; make; make;
 # Grab latest PDOS C library
 ENV LAST_PDOS_UPDATE 2024-10-08
 RUN cd pdos-gitcode; git pull
-RUN cd pdpclib
-RUN cat makefile.big | sed -e "s/        /\t/" > makefile.bog
-RUN make -f makefile.bog CC=i370-ibm-linux-gcc \
+RUN cd pdos-gitcode/pdpclib; cat makefile.big | sed -e "s/        /\t/" > makefile.bog
+RUN cd pdos-gitcode/pdpclib; make -f makefile.bog CC=i370-ibm-linux-gcc \
       AS=i370-ibm-linux-as AR=i370-ibm-linux-ar \
       CPP="cpp -DBIGFOOT" \
       LD="i370-ibm-linux-ld --entry __crt0"
-RUN ln -s pdpclib.a libc.a
+RUN cd pdos-gitcode/pdpclib; ln -s pdpclib.a libc.a
+
+# Grab latest dash source
+ENV LAST_DASH_UPDATE 2024-10-08
+# RUN cd dash; git pull
+RUN cd dash; ./autogen.sh
+RUN cd dash; mkdir build
+RUN cd dash/build;  ../configure --host=i370-ibm-linux "CC=i370-ibm-linux-gcc -L ../../pdos-gitcode/pdpclib -I ../../pdos-gitcode/pdpclib"
+# RUN cd dash/build; make
 
 # Setup config files. Do this after above, so that changes here do not
 # result in a rebuild of the image. In particular, we want to avoid
