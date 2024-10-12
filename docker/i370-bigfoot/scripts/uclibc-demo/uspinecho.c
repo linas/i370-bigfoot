@@ -1,14 +1,15 @@
 /*
- * Simple i370 PDPCLIB Console I/O Demo
+ * Simple i370 uClibc Console I/O Demo
  *
  * After the Linux kernel boots, the first program it runs is /sbin/init
  * or any other program specifiec by the `init=` argument on the boot
  * command line. This demo can be used as that init.
  *
- * This demos linking to PDPCLIB, the Public Domain C Library.
+ * This demos linking to uClibc, the LGPL'ed microcontroller C Library.
  */
 
 // #include <errno.h>
+#include <fcntl.h>
 #include <stdio.h>
 
 /* Busy-wait loop */
@@ -25,9 +26,6 @@ void delay(int n)
 	}
 }
 
-// PDPCLIB currently does not define this ...
-#define O_WRONLY 2
-
 /* Since we are not being called from a shell, the stdio endpoints
  * don't exist. Create them now. We will do I/O to the console, for
  * this particular demo. The system calls are those supplied by
@@ -35,14 +33,7 @@ void delay(int n)
  */
 void setup_stdio(void)
 {
-	int confd = __open("/dev/console", O_WRONLY, 0);
-	__setup_stdio();
-	__stdin->hfile = __dup2(confd, 0); /* stdin */
-	__stdout->hfile = __dup2(confd, 1); /* stdout */
-	__stderr->hfile = __dup2(confd, 2); /* stderr */
-
-	printf ("Stdio using file descrs %d %d %d\n",
-		__stdin->hfile, __stdout->hfile, __stderr->hfile);
+	int confd = open("/dev/console", O_WRONLY, 0);
 }
 
 int main(int argc, char** argv, char** envp)

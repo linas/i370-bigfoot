@@ -78,12 +78,22 @@ are minimalistic. In the demo, just enough to write to the screen.
 For more info, see the [init-demo README](../init-demo/README.md)
 
 ## (optional) Build and run the PDPCLIB demo
-The PDPCLIB is a Public Domain C Library. It provides enough to be able
-to do "real C programming". The demo creates a bootable init binary
+The PDPCLIB is a Public Domain C Library. It provides a standard
+but minimalist C90 library, just barely enough to be able to do
+"real C programming". The demo creates a bootable init binary
 that simply reads input and echoes it to output, using `fread` and
 `fprintf`.
 
 For more info, see the [pdpclib-demo README](../pdpclib-demo/README.md)
+
+## (optional) Build and run the uClibc demo
+The uClibc-ng is an LGPL'ed C Library tailored for microcontrollers
+running Linux. It's quite sophisticated, but does not have everything
+one might want for glbic.  The demo creates a bootable init binary
+that simply reads input and echoes it to output, using `fread` and
+`fprintf`.
+
+For more info, see the [uclibc-demo README](../uclibc-demo/README.md)
 
 ## Notes
 
