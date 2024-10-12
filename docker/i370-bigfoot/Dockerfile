@@ -50,6 +50,7 @@ RUN git clone -b i370-gcc-3.4.6 --single-branch https://github.com/linas/i370-gc
 RUN git clone https://github.com/linas/i370-linux-2.2.1
 RUN git clone https://git.code.sf.net/p/pdos/gitcode pdos-gitcode
 RUN git clone https://github.com/linas/i370-uclibc-ng
+RUN git clone https://github.com/linas/i370-lsh
 RUN git clone https://git.kernel.org/pub/scm/utils/dash/dash.git
 
 # Grab latest binutils
@@ -73,7 +74,7 @@ RUN cd i370-gcc/build; make
 RUN cd i370-gcc/build; sudo make install
 
 # Grab latest i370 linux-2.2.1 kernel
-ENV LAST_KERNEL_UPDATE 2024-09-23-b
+ENV LAST_KERNEL_UPDATE 2024-10-12b
 RUN cd i370-linux-2.2.1; git pull
 RUN cd i370-linux-2.2.1; make oldconfig; make; make;
 
@@ -94,12 +95,17 @@ RUN cd i370-uclibc-ng; cp ./extra/Configs/defconfigs/i370/defconfig .config
 RUN cd i370-uclibc-ng; make
 RUN cd i370-uclibc-ng; sudo make install
 
+# Grab latest lsh source
+ENV LAST_LSH_UPDATE 2024-10-12b
+RUN cd i370-lsh; git pull
+RUN cd i370-lsh; make
+
 # Grab latest dash source
 ENV LAST_DASH_UPDATE 2024-10-08
 RUN cd dash; git pull
 RUN cd dash; ./autogen.sh
 RUN cd dash; mkdir build
-# RUN cd dash/build;  ../configure --host=i370-ibm-linux "CC=i370-ibm-linux-gcc -L ../../pdos-gitcode/pdpclib -I ../../pdos-gitcode/pdpclib"
+RUN cd dash/build;  ../configure --host=i370-ibm-linux "CC=i370-ibm-linux-gcc -L/usr/local/i370-linux-uclibc/usr/lib -I /usr/local/i370-linux-uclibc/usr/include -I /home/bigfoot/i370-linux-2.2.1/include"
 # RUN cd dash/build; make
 
 # Setup config files. Do this after above, so that changes here do not
