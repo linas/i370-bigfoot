@@ -49,6 +49,7 @@ RUN git clone https://github.com/linas/i370-binutils
 RUN git clone -b i370-gcc-3.4.6 --single-branch https://github.com/linas/i370-gcc
 RUN git clone https://github.com/linas/i370-linux-2.2.1
 RUN git clone https://git.code.sf.net/p/pdos/gitcode pdos-gitcode
+RUN git clone https://github.com/linas/i370-uclibc-ng
 RUN git clone https://git.kernel.org/pub/scm/utils/dash/dash.git
 
 # Grab latest binutils
@@ -86,12 +87,19 @@ RUN cd pdos-gitcode/pdpclib; make -f makefile.bog CC=i370-ibm-linux-gcc \
       LD="i370-ibm-linux-ld --entry __crt0"
 RUN cd pdos-gitcode/pdpclib; ln -s pdpclib.a libc.a
 
+# Well, Seems PDOS is not ready for prime-time. So grab uclibc.
+ENV LAST_PDOS_UPDATE 2024-10-12
+RUN cd i370-uclibc-ng; git pull
+RUN cd i370-uclibc-ng; cp ./extra/Configs/defconfigs/i370/defconfig .config
+RUN cd i370-uclibc-ng; make
+RUN cd i370-uclibc-ng; sudo make install
+
 # Grab latest dash source
 ENV LAST_DASH_UPDATE 2024-10-08
 # RUN cd dash; git pull
 RUN cd dash; ./autogen.sh
 RUN cd dash; mkdir build
-RUN cd dash/build;  ../configure --host=i370-ibm-linux "CC=i370-ibm-linux-gcc -L ../../pdos-gitcode/pdpclib -I ../../pdos-gitcode/pdpclib"
+# RUN cd dash/build;  ../configure --host=i370-ibm-linux "CC=i370-ibm-linux-gcc -L ../../pdos-gitcode/pdpclib -I ../../pdos-gitcode/pdpclib"
 # RUN cd dash/build; make
 
 # Setup config files. Do this after above, so that changes here do not
