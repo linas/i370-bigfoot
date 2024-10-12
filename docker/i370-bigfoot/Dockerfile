@@ -22,7 +22,7 @@ RUN apt-get -y install apt-transport-https software-properties-common \
       sudo wget tzdata apt-utils
 
 # Install build tools
-RUN apt-get -y install git gcc g++ ccache make gdb
+RUN apt-get -y install git gcc g++ ccache make gdb automake
 # General user convenience tools
 RUN apt-get -y install tmux byobu vim
 # Binutils needs gmp, mpfr, texinfo, bison, flex
@@ -88,7 +88,7 @@ RUN cd pdos-gitcode/pdpclib; make -f makefile.bog CC=i370-ibm-linux-gcc \
 RUN cd pdos-gitcode/pdpclib; ln -s pdpclib.a libc.a
 
 # Well, Seems PDOS is not ready for prime-time. So grab uclibc.
-ENV LAST_PDOS_UPDATE 2024-10-12
+ENV LAST_UCLIBC_UPDATE 2024-10-12
 RUN cd i370-uclibc-ng; git pull
 RUN cd i370-uclibc-ng; cp ./extra/Configs/defconfigs/i370/defconfig .config
 RUN cd i370-uclibc-ng; make
@@ -96,7 +96,7 @@ RUN cd i370-uclibc-ng; sudo make install
 
 # Grab latest dash source
 ENV LAST_DASH_UPDATE 2024-10-08
-# RUN cd dash; git pull
+RUN cd dash; git pull
 RUN cd dash; ./autogen.sh
 RUN cd dash; mkdir build
 # RUN cd dash/build;  ../configure --host=i370-ibm-linux "CC=i370-ibm-linux-gcc -L ../../pdos-gitcode/pdpclib -I ../../pdos-gitcode/pdpclib"
