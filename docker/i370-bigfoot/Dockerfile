@@ -74,9 +74,10 @@ RUN cd i370-gcc/build; make
 RUN cd i370-gcc/build; sudo make install
 
 # Grab latest i370 linux-2.2.1 kernel
-ENV LAST_KERNEL_UPDATE 2024-10-12b
+ENV LAST_KERNEL_UPDATE 2024-10-12c
 RUN cd i370-linux-2.2.1; git pull
 RUN cd i370-linux-2.2.1; make oldconfig; make; make;
+RUN cd i370-linux-2.2.1; sudo make headers_install
 
 # Grab latest PDOS C library
 ENV LAST_PDOS_UPDATE 2024-10-08
