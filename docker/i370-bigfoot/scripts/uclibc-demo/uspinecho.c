@@ -40,7 +40,7 @@ int main(int argc, char** argv, char** envp)
 		char * rv = fgets(inbuf, BUFSZ, stdin);
 
 		if (NULL == rv) {
-			printf("well hell Got EOF, Goodbye!\n");
+			printf("Got EOF, Goodbye!\n");
 			break;
 		}
 		else if (0 == inbuf[0]) {
