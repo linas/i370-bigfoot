@@ -8,33 +8,9 @@
  * This demos linking to uClibc, the LGPL'ed microcontroller C Library.
  */
 
-// #include <errno.h>
 #include <fcntl.h>
 #include <stdio.h>
-
-/* Busy-wait loop */
-void delay(int n)
-{
-	int i, j;
-	int data[1000];
-	for (i=0; i<1000; i++) data[i] = i;
-
-	/* Waste some CPU cycles */
-	for (j=0; j< n*1000; j++) {
-		for (i=0; i<1000; i++)
-			data[i] += data [(i+1)%1000];
-	}
-}
-
-/* Since we are not being called from a shell, the stdio endpoints
- * don't exist. Create them now. We will do I/O to the console, for
- * this particular demo. The system calls are those supplied by
- * PDPCLIB.
- */
-void setup_stdio(void)
-{
-	int confd = open("/dev/console", O_WRONLY, 0);
-}
+#include <unistd.h>
 
 int main(int argc, char** argv, char** envp)
 {
@@ -45,9 +21,7 @@ int main(int argc, char** argv, char** envp)
 #define BUFSZ 120
 	char inbuf[BUFSZ];
 
-	/* Only we know where we want to write. So set yp out own stdout */
-	setup_stdio();
-
+	/* uClibc opens /dev/console for stdin, stdout, stderrr */
 	printf("Hello, world!\n");
 	printf("argc = %d\n", argc);
 	for (i=0; i<argc; i++)
@@ -66,11 +40,11 @@ int main(int argc, char** argv, char** envp)
 		char * rv = fgets(inbuf, BUFSZ, stdin);
 
 		if (NULL == rv) {
-			printf("Got EOF, Goodbye!\n");
+			printf("well hell Got EOF, Goodbye!\n");
 			break;
 		}
 		else if (0 == inbuf[0]) {
-			/* Currently, fgets() in PDPCLIB is non-blocking;
+			/* Currently, fgets() is non-blocking (3215 driver bug);
 			   it just returns an empty buffer. Do nothing,
 			   just ignore this case. */
 		}
@@ -79,7 +53,9 @@ int main(int argc, char** argv, char** envp)
 			printf("Type something>\n");
 		}
 
-		delay(2);
+		/* Tenth of a second. */
+		usleep(100000);
 	}
+	sleep(3);
 	exit (3);
 }

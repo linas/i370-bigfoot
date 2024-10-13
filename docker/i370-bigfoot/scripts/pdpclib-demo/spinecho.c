@@ -54,7 +54,7 @@ int main(int argc, char** argv, char** envp)
 #define BUFSZ 120
 	char inbuf[BUFSZ];
 
-	/* Only we know where we want to write. So set yp out own stdout */
+	/* Only we know where we want to write. So set up our own stdout. */
 	setup_stdio();
 
 	printf("Hello, world!\n");
@@ -79,7 +79,7 @@ int main(int argc, char** argv, char** envp)
 			break;
 		}
 		else if (0 == inbuf[0]) {
-			/* Currently, fgets() in PDPCLIB is non-blocking;
+			/* Currently, fgets() is non-blocking (3215 driver bug);
 			   it just returns an empty buffer. Do nothing,
 			   just ignore this case. */
 		}
