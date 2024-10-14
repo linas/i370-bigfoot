@@ -76,51 +76,47 @@ int main(int argc, char** argv, char** envp)
 	// int confd = open("/dev/3270/raw0", O_RDWR|O_NONBLOCK, 0);
 	// int confd = open("/dev/console", O_RDWR|O_NONBLOCK, 0);
 	int confd = open("/dev/console", O_RDWR, 0);
-	write(confd, "Hello there!\n", 14);
+	write(confd, "Hello there!\n", 13);
 
 	/* Print argc */
-	write(confd, "argc=", 6);
+	write(confd, "argc=", 5);
 	char nstr[3];
 	nstr[0] = '0' + argc;
 	nstr[1] = '\n';
 	nstr[2] = 0;
-	write(confd, nstr, 3);
-	write(confd, "\n", 2);
+	write(confd, nstr, 2);
+	write(confd, "\n", 1);
 
 	/* Print argv */
-	write(confd, "argv=\n", 7);
+	write(confd, "argv=\n", 6);
 	while (*argv)
 	{
 		char *ep = *argv;
 		int slen = strlen(ep);
-		write(confd, ep, slen+1);
+		write(confd, ep, slen);
 
 		nstr[0] = '\n';
 		nstr[1] = 0;
-		write(confd, nstr, 2);
+		write(confd, nstr, 1);
 
 		argv++;
 	}
-	write(confd, "\n", 2);
+	write(confd, "\n", 1);
 
 	/* Print envp */
-	write(confd, "envp=\n", 7);
+	write(confd, "envp=\n", 6);
 	while (*envp)
 	{
 		char *ep = *envp;
 		int slen = strlen(ep);
-		write(confd, ep, slen+1);
-
-		nstr[0] = '\n';
-		nstr[1] = 0;
-		write(confd, nstr, 2);
-
+		write(confd, ep, slen);
+		write(confd, "\n", 1);
 		envp++;
 	}
-	write(confd, "\n", 2);
+	write(confd, "\n", 1);
 
 	/* Enter echo loop */
-	write(confd, "Type something>\n", 17);
+	write(confd, "Type something>\n", 16);
 	while (1) {
 
 		rc = read(confd, inbuf, BUFSZ);
