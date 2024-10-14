@@ -79,9 +79,7 @@ int main(int argc, char** argv, char** envp)
 			break;
 		}
 		else if (0 == inbuf[0]) {
-			/* Currently, fgets() is non-blocking (3215 driver bug);
-			   it just returns an empty buffer. Do nothing,
-			   just ignore this case. */
+			printf("Empty read\n");
 		}
 		else {
 			printf("You did type: %s\n", inbuf);
