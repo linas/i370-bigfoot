@@ -69,9 +69,13 @@ int main(int argc, char** argv, char** envp)
 	 * mapped to /dev/3270/raw0. The console itself maps
 	 * to /dev/console. To use it with Hercules, you must
 	 * change the Hercules config to telnet into this.
+	 *
+	 * When opened in non-blocking mode, we can poll for input,
+	 * the 3215 driver behaves kind of strangely for this case.
 	 */
 	// int confd = open("/dev/3270/raw0", O_RDWR|O_NONBLOCK, 0);
-	int confd = open("/dev/console", O_RDWR|O_NONBLOCK, 0);
+	// int confd = open("/dev/console", O_RDWR|O_NONBLOCK, 0);
+	int confd = open("/dev/console", O_RDWR, 0);
 	write(confd, "Hello there!\n", 14);
 
 	/* Print argc */
@@ -121,18 +125,19 @@ int main(int argc, char** argv, char** envp)
 
 		rc = read(confd, inbuf, BUFSZ);
 
-		// if (-EAGAIN == rc)
-		// 	write(confd, "No input\n", 10);
-		if (rc < 0 && -EAGAIN != rc) {
-			write(confd, "Input error; rc=", 15);
-			prtnum(confd, rc);
-			write(confd, "Type something>\n", 17);
+		if (-EAGAIN == rc) {
+			write(confd, "Polling for input, type something>\n", 35);
+		}
+		else if (rc < 0 ) {
+			write(confd, "Input error; rc=", 16);
+			prtnum(confd, -rc);
+			write(confd, "Type something>\n", 16);
 		}
 		else if (0 < rc) {
-			write(confd, "You typed: ", 12);
+			write(confd, "You typed: ", 11);
 			write(confd, inbuf, rc);
-			write(confd, "\n", 2);
-			write(confd, "Type something>\n", 17);
+			write(confd, "\n", 1);
+			write(confd, "Type something>\n", 16);
 		}
 
 		delay(2);
