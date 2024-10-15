@@ -22,7 +22,7 @@ int main(int argc, char** argv, char** envp)
 	char inbuf[BUFSZ];
 
 	/* uClibc opens /dev/console for stdin, stdout, stderrr */
-	printf("Hello, world!\n");
+	printf("uclibc-demo says hello to the world!\n");
 	printf("argc = %d\n", argc);
 	for (i=0; i<argc; i++)
 		printf("argv[%d] = \"%s\"\n", i, argv[i]);
@@ -37,6 +37,8 @@ int main(int argc, char** argv, char** envp)
 	printf("Type something>\n");
 	while (1) {
 
+		// Seems that uClibc just holds on, until we flush.
+		fflush(stdout);
 		char * rv = fgets(inbuf, BUFSZ, stdin);
 
 		if (NULL == rv) {
@@ -44,18 +46,12 @@ int main(int argc, char** argv, char** envp)
 			break;
 		}
 		else if (0 == inbuf[0]) {
-			/* Currently, fgets() is non-blocking (3215 driver bug);
-			   it just returns an empty buffer. Do nothing,
-			   just ignore this case. */
+			printf("Got empty line\n");
 		}
 		else {
-			printf("You did type: %s\n", inbuf);
+			printf("You did type: %s", inbuf);
 			printf("Type something>\n");
 		}
-
-		/* Tenth of a second. */
-		usleep(100000);
 	}
-	sleep(3);
 	exit (3);
 }
