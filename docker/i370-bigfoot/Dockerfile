@@ -50,8 +50,10 @@ RUN git clone -b i370-gcc-3.4.6 --single-branch https://github.com/linas/i370-gc
 RUN git clone https://github.com/linas/i370-linux-2.2.1
 RUN git clone https://git.code.sf.net/p/pdos/gitcode pdos-gitcode
 RUN git clone https://github.com/linas/i370-uclibc-ng
-RUN git clone https://github.com/linas/i370-lsh
-RUN git clone https://git.kernel.org/pub/scm/utils/dash/dash.git
+RUN git clone https://git.busybox.net/busybox/
+
+# dash doesn't work as /sbin/init and is flakey to compile
+# RUN git clone https://git.kernel.org/pub/scm/utils/dash/dash.git
 
 # Grab latest binutils
 ENV LAST_BINUTILS_UPDATE 2024-09-23
@@ -96,10 +98,12 @@ RUN cd i370-uclibc-ng; cp ./extra/Configs/defconfigs/i370/defconfig .config
 RUN cd i370-uclibc-ng; make
 RUN cd i370-uclibc-ng; sudo make install
 
-# Grab latest lsh source
-ENV LAST_LSH_UPDATE 2024-10-12b
-RUN cd i370-lsh; git pull
-RUN cd i370-lsh; make
+# Grab latest busybox source
+ENV LAST_BUSYBOX_UPDATE 2024-10-16
+RUN cd busybox; git pull
+# copy defconfig into place
+# RUN cd busybox; make defconfig
+# LDFLAGS="--static" make -j 4 CROSS_COMPILE="i370-ibm-linux-
 
 # Grab latest dash source
 ENV LAST_DASH_UPDATE 2024-10-08
