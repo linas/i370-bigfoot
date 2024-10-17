@@ -101,16 +101,17 @@ RUN cd i370-uclibc-ng; sudo make install
 # Grab latest busybox source
 ENV LAST_BUSYBOX_UPDATE 2024-10-16
 RUN cd busybox; git pull
-# copy defconfig into place
-# RUN cd busybox; make defconfig
-# LDFLAGS="--static" make -j 4 CROSS_COMPILE="i370-ibm-linux-
+RUN cd busybox; cp ../defconfig-busybox .config
+RUN cd busybox; make
 
 # Grab latest dash source
-ENV LAST_DASH_UPDATE 2024-10-08
-RUN cd dash; git pull
-RUN cd dash; ./autogen.sh
-RUN cd dash; mkdir build
-RUN cd dash/build;  ../configure --host=i370-ibm-linux "CC=i370-ibm-linux-gcc -L/usr/local/i370-linux-uclibc/usr/lib -I /usr/local/i370-linux-uclibc/usr/include -I /home/bigfoot/i370-linux-2.2.1/include"
+# dash doesn't build without a lot of tinkering, and then can't be used
+# as /sbin/init even after building. It's badly broken w.r.t. stdio.
+# ENV LAST_DASH_UPDATE 2024-10-08
+# RUN cd dash; git pull
+# RUN cd dash; ./autogen.sh
+# RUN cd dash; mkdir build
+# RUN cd dash/build;  ../configure --host=i370-ibm-linux "CC=i370-ibm-linux-gcc -L/usr/local/i370-linux-uclibc/usr/lib -I /usr/local/i370-linux-uclibc/usr/include -I /home/bigfoot/i370-linux-2.2.1/include"
 # RUN cd dash/build; make
 
 # Setup config files. Do this after above, so that changes here do not
