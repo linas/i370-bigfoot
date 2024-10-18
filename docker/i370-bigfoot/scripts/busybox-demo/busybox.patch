@@ -21,3 +21,25 @@ index cb8d2c2ec..1468461ef 100644
  lib-y += xfuncs.o
  lib-y += xfuncs_printf.o
  lib-y += xfunc_die.o
+diff --git a/miscutils/less.c b/miscutils/less.c
+index 8a0525cb7..d1371a832 100644
+--- a/miscutils/less.c
++++ b/miscutils/less.c
+@@ -143,7 +143,7 @@
+ //usage:	)
+ //usage:     "\n	-~	Suppress ~s displayed past EOF"
+ 
+-#include <sched.h>  /* sched_yield() */
++// xxx #include <sched.h>  /* sched_yield() */
+ 
+ #include "libbb.h"
+ #include "common_bufsiz.h"
+@@ -521,7 +521,7 @@ static void read_lines(void)
+ 						if (--retry_EAGAIN < 0)
+ 							break;
+ 					}
+-					sched_yield();
++					// sched_yield();
+ 				}
+ 				fcntl(0, F_SETFL, flags); /* ndelay_off(0) */
+ 				readpos = 0;
