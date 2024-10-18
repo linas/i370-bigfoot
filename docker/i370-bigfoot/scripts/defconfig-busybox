@@ -1,7 +1,7 @@
 #
 # Automatically generated make config: don't edit
 # Busybox version: 1.38.0.git
-# Thu Oct 17 12:20:34 2024
+# Thu Oct 17 17:48:57 2024
 #
 CONFIG_HAVE_DOT_CONFIG=y
 

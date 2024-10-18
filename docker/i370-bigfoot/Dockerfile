@@ -24,7 +24,7 @@ RUN apt-get -y install apt-transport-https software-properties-common \
 # Install build tools
 RUN apt-get -y install git gcc g++ ccache make gdb automake
 # General user convenience tools
-RUN apt-get -y install tmux byobu vim
+RUN apt-get -y install tmux byobu vim bzip2
 # Binutils needs gmp, mpfr, texinfo, bison, flex
 RUN apt-get -y install libmpfr-dev libgmp-dev texinfo bison flex
 
@@ -101,7 +101,7 @@ RUN cd i370-uclibc-ng; sudo make install
 # Grab latest busybox source
 ENV LAST_BUSYBOX_UPDATE 2024-10-16
 RUN cd busybox; git pull
-RUN cd busybox; cp ../defconfig-busybox .config
+COPY /scripts/defconfig-busybox busybox/.config
 RUN cd busybox; make
 
 # Grab latest dash source
