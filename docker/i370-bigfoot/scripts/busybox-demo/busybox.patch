@@ -1,0 +1,23 @@
+diff --git a/libbb/Kbuild.src b/libbb/Kbuild.src
+index cb8d2c2ec..1468461ef 100644
+--- a/libbb/Kbuild.src
++++ b/libbb/Kbuild.src
+@@ -10,7 +10,8 @@ lib-y:=
+ 
+ INSERT
+ 
+-lib-y += alloc_affinity.o
++# no modern sched stuff in this kernel
++# lib-y += alloc_affinity.o
+ lib-y += appletlib.o
+ lib-y += ask_confirmation.o
+ lib-y += bb_askpass.o
+@@ -111,7 +112,7 @@ lib-y += wfopen.o
+ lib-y += wfopen_input.o
+ lib-y += write.o
+ lib-y += xatonum.o
+-lib-y += xconnect.o
++# lib-y += xconnect.o
+ lib-y += xfuncs.o
+ lib-y += xfuncs_printf.o
+ lib-y += xfunc_die.o

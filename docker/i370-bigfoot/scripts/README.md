@@ -80,20 +80,29 @@ For more info, see the [init-demo README](../init-demo/README.md)
 ## (optional) Build and run the PDPCLIB demo
 The PDPCLIB is a Public Domain C Library. It provides a standard
 but minimalist C90 library, just barely enough to be able to do
-"real C programming". The demo creates a bootable init binary
-that simply reads input and echoes it to output, using `fread` and
-`fprintf`.
+"real C programming". It offers just strict C90; it does not have
+any POSIX support (and thus cannot be used to compile conventional
+unix binaries.) The demo creates a bootable init binary that simply
+reads input and echoes it to output, using `fgets` and `printf`.
 
 For more info, see the [pdpclib-demo README](../pdpclib-demo/README.md)
 
 ## (optional) Build and run the uClibc demo
 The uClibc-ng is an LGPL'ed C Library tailored for microcontrollers
 running Linux. It's quite sophisticated, but does not have everything
-one might want for glbic.  The demo creates a bootable init binary
-that simply reads input and echoes it to output, using `fread` and
-`fprintf`.
+one might want for glibc.  The demo creates a bootable init binary
+that simply reads input and echoes it to output, using `fgets` and
+`printf`.
 
 For more info, see the [uclibc-demo README](../uclibc-demo/README.md)
+
+## (optional) Build and run the BusyBox demo
+BusyBox is collection of basic OS tools, together with several shells.
+Any one of the offered shells can be used in place of `/sbin/init`,
+and thus offers an interactive command environment hosting many
+conventional unix commands.
+
+For more info, see the [busybox-demo README](../busybox-demo/README.md)
 
 ## Notes
 

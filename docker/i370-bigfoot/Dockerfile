@@ -101,7 +101,9 @@ RUN cd i370-uclibc-ng; sudo make install
 # Grab latest busybox source
 ENV LAST_BUSYBOX_UPDATE 2024-10-16
 RUN cd busybox; git pull
-COPY /scripts/defconfig-busybox busybox/.config
+COPY /scripts/busybox-demo/defconfig busybox/.config
+COPY /scripts/busybox-demo/busybox.patch busybox
+RUN cd busybox; patch -p1 < busybox.patch
 RUN cd busybox; make
 
 # Grab latest dash source
