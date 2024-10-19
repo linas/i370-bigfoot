@@ -51,7 +51,7 @@ were required:
 * Help from lots of people. The following folks made significant
   contributions to the project: Dan, who taught me VM and System/390
   principles of operation; Neale Ferguson, who contributed multiple
-  files, and Peter Schulte-Stracke, who contributed the PSA defintion
+  files, and Peter Schulte-Stracke, who contributed the PSA definition
   and string inlines.
 
 The bundle of all of the above was given the project name of
@@ -125,16 +125,30 @@ multiple demos, from the most basic IPL to C code, to booting the
 Linux kernel and running the initial process.
 
 ## Documentation
-The CPU Architecture, including the instruction set, is documented in
-[z/Architecture Principles of Operation, Fourteenth Edition (May,
-2022)](https://www.ibm.com/docs/en/module_1678991624569/pdf/SA22-7832-13.pdf)
-This is IBM document number SA22-7832-13.
+The CPU Architecture, including the instruction set, is documented in the
+[ESA/390 Principles of Operation, Ninth Edition (June 2003)](https://publibfp.dhe.ibm.com/epubs/pdf/dz9ar008.pdf)
+This is IBM document number SA22-7201-08. Has 1028 pages.
 
-Note that the assumbler, complier and kernel are compatible with the
-old 32-but System/390 instruction set, and intentionally avoid using
-the modern z/Architecture instructions. This is an explicit design
-decision, insisted on by, uhh, "mainframe afficianados" who wish to
-keep old hardware going.
+The assembler, compiler and kernel are compatible with this 32-bit
+System/390 instruction set, and intentionally avoid using the modern
+z/Architecture instructions. This is an explicit design decision.
+
+The z/Architecture takes the 32-bit instruction set of the ESA/390 and
+extends it with 64-bit instructions. The size of the documentation
+doubles, and many important details seem to be subtly different. The
+Bigfoot project targets the 32-bit CPU's ONLY. Thus, the ESA/390
+documentation is recommended.
+
+Additional references:
+* [IBM System/370 Principles of Operation, Fourth Edition (September 1974)](http://bitsavers.informatik.uni-stuttgart.de/pdf/ibm/370/princOps/GA22-7000-4_370_Principles_Of_Operation_Sep75.pdf)
+IBM Document number GA22-7000-4. Has 329 pages.
+
+* [IBM System/370 Principles of Operation, Eleventh Edition (September 1987)](https://bitsavers.trailing-edge.com/pdf/ibm/370/princOps/GA22-7000-10_370_Principles_of_Operation_Sep87.pdf)
+IBM Document number GA22-7000-10. Has 558 pages.
+
+* [z/Architecture Principles of Operation, Fourteenth Edition (May,
+2022)](https://www.ibm.com/docs/en/module_1678991624569/pdf/SA22-7832-13.pdf)
+IBM document number SA22-7832-13. Has 2124 pages.
 
 Examples of bootable code that interacts with ESA/390 devices can be
 found here:
