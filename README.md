@@ -8,11 +8,13 @@ As of this moment, the following are provided:
 * Script for a Docker container that includes the i370 assembler
   (current GNU binutils with i370 patches applied), compiler
   (gcc version 3.4.6 with i370 patches applied), the Linux kernel
-  (linux version 2.2.1 with i370 patches applied) and the Hercules
+  (linux version 2.2.1 with i370 patches applied), uClibc (with i370
+  patches applied), PDPCLIB (comes with some i370 support), busybox
+  (with a `defconfig` that works for i370), and the Hercules
   System/390 mainframe emulator.
 * Multiple demos showing how to compile and IPL code, how to boot
-  the kernel, how to create `/sbin/init` and more. See the
-  [demo README](docker/i370-bigfoot/scripts/README.md) for more.
+  the kernel, how to create `/sbin/init`, how to run busybox, and more.
+  See the [demo README](docker/i370-bigfoot/scripts/README.md) for more.
 
 ## What is this?
 IBM created the [IBM System/360 ](https://en.wikipedia.org/wiki/IBM_System/360)
@@ -95,12 +97,40 @@ For a related project, somewhat overlapping this, see
 [PDOS, the Public Domain Operating System](https://pdos.org).
 
 ## Status
-Version 0.0.4 - September 2024
+Version 0.9.0 - October 2024
 
 At this time, binutils (the assembler), gcc (the compiler) and the
-Linux kernel have been revived. You can get glibc and the login shell
-from the original bigfoot site, if you wish; or you can wait for them
-to be dusted off and cleaned up, here.
+Linux kernel have been revived. A port of uClibc has been created, and
+busybox compiles and runs. verything is quasi-stable: you can boot one
+of the busybox shells (`ash`, `hush`) and everything runs for a while,
+until it doesn't.
+
+## Issues
+Know what you are getting into! This is a revival of old work from 1999.
+It remains in that era, more or less. This is a version of Linux for the
+System/390 of that era; this is ***NOT*** a port to the z/Architecture.
+That one is well-supported by IBM and runs on all modern metal. This
+version targets old systems that predate the z/Architecture. This is an
+explict design decision.
+
+Some issues:
+* The current system is quasi-stable. It mostly runs, and then it
+  doesn't. Parts of the kernel remain unfinished or untested.
+
+* The glibc C library presents issues. Patches for a circa-1999-era
+  glibc are available on the original bigfoot site. However, modern
+  compilers (needed for cross-compilation) cannot compile the old
+  glibc. Conversely, the old compiler in use here (gcc-3.4.6) cannot
+  compile the new glibc. Perhaps some middle version between these
+  two extremes is possible?
+
+* Dynamic library loading (needed for shared libraries) was never
+  completed when the original project was abandoned. Most of the
+  needed support is in the assembler, but is almost certainly buggy.
+
+* SMP support in the kernel was started, but never finished.
+
+* The current uClibc/i370 version does not support (posix) threads.
 
 ## HOWTO
 The easiest way to try the system is to install Docker, build the Docker
@@ -149,9 +179,3 @@ IBM Document number GA22-7000-10. Has 558 pages.
 * [z/Architecture Principles of Operation, Fourteenth Edition (May,
 2022)](https://www.ibm.com/docs/en/module_1678991624569/pdf/SA22-7832-13.pdf)
 IBM document number SA22-7832-13. Has 2124 pages.
-
-Examples of bootable code that interacts with ESA/390 devices can be
-found here:
-> https://sourceforge.net/p/pdos/gitcode/ci/master/tree/pdpclib/sapstart.asm
-> https://sourceforge.net/p/pdos/gitcode/ci/master/tree/pdpclib/zpbsupa.asm
-> https://sourceforge.net/p/pdos/gitcode/ci/master/tree/pdpclib/sapsupa.asm
