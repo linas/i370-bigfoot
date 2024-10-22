@@ -33,6 +33,10 @@ The home directory is `/home/bigfoot`. Binaries can be found in
 The container has a working versions of:
 * `binutils-2.43` which is the latest version
 * `gcc-3.4.6` which is the last version to support i370
+* `linux-2.2.1` ported to the i370
+* `pdpclib`, the public domain C90 library
+* `uclibc-ng`, the uClibc library, ported to the i370
+* `busybox`, a collection of common unix tools, including two shells.
 
 The container includes the Hercules System/390 emulator. An example
 Hercules config file is in `/home/bigfoot/hercules`; it is copied
@@ -41,6 +45,9 @@ from `./i370-bigfoot/scripts/hercules` in ''this'' directory.
 The [README](./i370-bigfoot/scripts/hercules/README.md) file in the
 `./i370-bigfoot/scripts/hercules` explains how to compile and IPL
 programs.
+
+#### Status
+Everything works, more or less, including busybox.
 
 #### Docker QuickRef
 A short docker cheat sheet:
