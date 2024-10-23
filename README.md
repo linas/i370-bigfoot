@@ -118,11 +118,11 @@ Some issues:
   doesn't. Parts of the kernel remain unfinished or untested.
 
 * The glibc C library presents issues. Patches for a circa-1999-era
-  glibc are available on the original bigfoot site. However, modern
+  glibc-2.1 are available on the original bigfoot site. However, modern
   compilers (needed for cross-compilation) cannot compile the old
   glibc. Conversely, the old compiler in use here (gcc-3.4.6) cannot
-  compile the new glibc. Perhaps some middle version between these
-  two extremes is possible?
+  compile modern glibc (currently glibc-2.40). Perhaps some middle
+  version between 2.1 and 2.40 is possible?
 
 * Dynamic library loading (needed for shared libraries) was never
   completed when the original project was abandoned. Most of the
