@@ -114,6 +114,14 @@ It supposedly fixes many issues.  Also, it has a better web page:
 
 [Hercules 390 version 4](http://hercules-390.github.io/html/)
 
+### Documentation
+* The [SA22-7201-08.pdf](SA22-7201-08.pdf) is a copy of the Enterprise
+  Systems Architecture/390 Principles of Operation, Nineth Edition,
+  June 2003
+
+* The [System 370 Reference Summary](System_370_Reference_Summary.pdf)
+  is a condensed short form of the above.
+
 ### Debug
 Activate CCW tracing on device 001F (this is where the 3215 is)
 ```

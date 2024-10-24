@@ -1,1 +1,1 @@
-root=/dev/ram init=/spinput i370_initrd=0x200000,2048
+root=/dev/ram init=/busybox ash -i i370_initrd=0x200000,2048

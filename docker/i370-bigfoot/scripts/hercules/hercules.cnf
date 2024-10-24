@@ -84,7 +84,8 @@
 # (quite a mouthful) the below allows the shorter form
 # `IPL linux-demo/vmlinux.ins` but the root is auto-prepended.
 
-  SCLPROOT /home/bigfoot/
+#  SCLPROOT /home/bigfoot/
+SCLPROOT /home/linas/src/bigfoot-2024/i370-bigfoot/docker/i370-bigfoot/scripts/linux-demo/
 
 #   .-----------------------Device number
 #   |     .-----------------Device type
@@ -93,10 +94,10 @@
 #   V     V       V
 # ----    ----    --------------------
 # The 3215-C is a hercules-integrated console
-  0009    3215-C  / noprompt
+#  0009    3215-C  / noprompt
 
 # The naked 3215 sends console output to a telnet port 3270
-#  0009    3215
+  0009    3215
 
 # The SYSG is a tn3270-only console (port 3270)
 #  0009    SYSG
@@ -117,7 +118,9 @@
 # Using 3215 allows telnet to access the display, with
 # `telnet localhost 3270` Note the port number is 3270 even though
 # the device is 3215.
-  001F    3215
+#  001F    3215
+
+0200.4  3215
 
 # Using 3270 requires using x3270 instead of telnet.
 #  001F    3270

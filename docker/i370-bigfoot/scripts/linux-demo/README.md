@@ -36,16 +36,22 @@ value in the INS file, else things will break. The number after the
 comma is the size of the ramdisk, in KBytes. Note that this is the
 *uncompressed* size!
 
-## Automation
+### Automation
 The above steps are automated by the provided Makefile. Just say `make`
 and the appropriate INS file will be created.
 
 
-### Notes
-Caution: Do **not** select `CONFIG_VT_CONSOLE`. Doing so will prevent
-boot messages from going to the Hercules console.
+## Notes
+Caution: When configuring the Linux kernel, do **not** select
+`CONFIG_VT_CONSOLE`. Doing so will prevent boot messages from going
+to the Hercules console.
 
-### Create a disk image
+### Command lines
+`init=/busybox ash -i`
+
+`init=/busybox hush`
+
+## Create a disk image
 The only bootable disk images are ext2fs and minix. Neither MSDOS FAT
 nor Windows95 VFAT are bootable, because neither of these file systems
 support file attributes, needed for special files (character devices,
