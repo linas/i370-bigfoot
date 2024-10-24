@@ -59,28 +59,28 @@ block devices). Without special files, there is no way for user-land
 processes to access devices; this includes accessing the console for
 printing and the keyboard for getting typed input.
 
-One way to create a disk image is via ramdisk. The example below
-creates a disk image 2 MBytes in size. Note that the `-I 128`
-specifies 128-byte inodes; this is mandatory for the 2.2.1 kernel.
+The example below creates a file named 'my-disk` holding a disk image
+that is (exactly) 2 MBytes in size. The `-I 128` specifies 128-byte
+inodes; this is mandatory for the 2.2.1 kernel.
 
 Don't forget the `mknod` for the character devices: you'll need these,
 so that `/sbin/init` can open the keyboard+console for text I/O.
 ```
-dd if=/dev/zero of=/dev/ram bs=1k count=2048
-mke2fs -vm0 -I 128 /dev/ram 2048
-mount /dev/ram /mnt
-mkdir /mnt/sbin/
-cp my_init /mnt/sbin/init
-cp otherstuff /mnt/
-mkdir /mnt/dev/
-mknod /mnt/dev/console c 227 1
-mkdir /mnt/dev/3270
-mknod /mnt/dev/3270/raw0 c 227 128
-mknod /mnt/dev/3270/raw1 c 227 129
-mknod /mnt/dev/3270/raw2 c 227 130
-mknod /mnt/dev/3270/raw3 c 227 131
-umount /mnt
-dd if=/dev/ram bs=1k count=2048 | gzip -v9 > /tmp/ram_image.gz
+dd if=/dev/zero of=my-disk bs=1k count=2048
+mke2fs -vm0 -I 128 my-disk 2048
+mount my-disk mnt
+mkdir mnt/sbin/
+cp my_init mnt/sbin/init
+cp otherstuff mnt/
+mkdir mnt/dev/
+mknod mnt/dev/console c 227 1
+mkdir mnt/dev/3270
+mknod mnt/dev/3270/raw0 c 227 128
+mknod mnt/dev/3270/raw1 c 227 129
+mknod mnt/dev/3270/raw2 c 227 130
+mknod mnt/dev/3270/raw3 c 227 131
+umount mnt
+gzip -v9 my-disk
 ```
 
 Once an image has been created, the easiest way to update it is to mount
