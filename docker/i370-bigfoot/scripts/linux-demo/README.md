@@ -60,14 +60,14 @@ processes to access devices; this includes accessing the console for
 printing and the keyboard for getting typed input.
 
 The example below creates a file named 'my-disk` holding a disk image
-that is (exactly) 2 MBytes in size. The `-I 128` specifies 128-byte
-inodes; this is mandatory for the 2.2.1 kernel.
+that is (exactly) 2 MBytes in size. The `-r0` specifies ext2fs version
+zero; this is mandatory for the 2.2.1 kernel.
 
 Don't forget the `mknod` for the character devices: you'll need these,
 so that `/sbin/init` can open the keyboard+console for text I/O.
 ```
 dd if=/dev/zero of=my-disk bs=1k count=2048
-mke2fs -vm0 -I 128 my-disk 2048
+mke2fs -vm0 -r0 my-disk 2048
 mount my-disk mnt
 mkdir mnt/sbin/
 cp my_init mnt/sbin/init

@@ -56,7 +56,7 @@ RUN git clone https://git.busybox.net/busybox/
 # RUN git clone https://git.kernel.org/pub/scm/utils/dash/dash.git
 
 # Grab latest binutils
-ENV LAST_BINUTILS_UPDATE 2024-09-23
+ENV LAST_BINUTILS_UPDATE 2024-10-25
 RUN cd i370-binutils; git pull
 RUN cd i370-binutils; mkdir build; cd build; \
     ../configure --target=i370-ibm-linux; make -j12

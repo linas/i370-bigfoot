@@ -12,15 +12,6 @@ index cb8d2c2ec..1468461ef 100644
  lib-y += appletlib.o
  lib-y += ask_confirmation.o
  lib-y += bb_askpass.o
-@@ -111,7 +112,7 @@ lib-y += wfopen.o
- lib-y += wfopen_input.o
- lib-y += write.o
- lib-y += xatonum.o
--lib-y += xconnect.o
-+# lib-y += xconnect.o
- lib-y += xfuncs.o
- lib-y += xfuncs_printf.o
- lib-y += xfunc_die.o
 diff --git a/miscutils/less.c b/miscutils/less.c
 index 8a0525cb7..d1371a832 100644
 --- a/miscutils/less.c

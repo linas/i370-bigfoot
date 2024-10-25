@@ -16,10 +16,10 @@ vmlinux.ins: vmlinux
 	i370-ibm-linux-readelf -a vmlinux \
 		|grep cmd_line |grep GLOBA | cut -b 9-17 >> vmlinux.ins
 
-ramdisk: vmlinux.ins ram_image.gz
+ramdisk: vmlinux.ins # ram_image.gz
 	echo "" >> vmlinux.ins
 	echo "* Load RAMDISK at the same address as given in command line" >> vmlinux.ins
-	echo "riext  0x00200000" >> vmlinux.ins
+	echo "r0ext  0x00200000" >> vmlinux.ins
 #	echo "ram_image.gz  0x00200000" >> vmlinux.ins
 
 clean:
