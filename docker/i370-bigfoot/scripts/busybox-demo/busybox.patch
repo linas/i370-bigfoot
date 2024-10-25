@@ -12,6 +12,21 @@ index cb8d2c2ec..1468461ef 100644
  lib-y += appletlib.o
  lib-y += ask_confirmation.o
  lib-y += bb_askpass.o
+diff --git a/libbb/copyfd.c b/libbb/copyfd.c
+index 7f9d92ea9..f90dd8461 100644
+--- a/libbb/copyfd.c
++++ b/libbb/copyfd.c
+@@ -123,6 +123,9 @@ static off_t bb_full_fd_action(int src_fd, int dst_fd, off_t
+ size)
+        if (buffer_size > 4 * 1024)
+                munmap(buffer, buffer_size);
+ #endif
++
++       /* Crashes in i370 without this. Don't know why. */
++       fflush(0);
+        return status ? -1 : total;
+ }
+ 
 diff --git a/miscutils/less.c b/miscutils/less.c
 index 8a0525cb7..d1371a832 100644
 --- a/miscutils/less.c
