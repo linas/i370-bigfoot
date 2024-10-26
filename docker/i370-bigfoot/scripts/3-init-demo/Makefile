@@ -13,16 +13,18 @@ libc.a: demo-unistd.h
 	i370-ibm-linux-gcc -O2 -c mylibc.c
 	i370-ibm-linux-ar r libc.a mylibc.o
 
+KERN=../2-linux-demo
+
 boot-spin: spin
 	cp spin ../root-disk
-	echo 'root=/dev/ram i370_initrd=0x200000,4096 init=/spin' > ../2-linux-demo/cmd_line
-	cd ../2-linux-demo; make
+	echo 'root=/dev/ram i370_initrd=0x200000,4096 init=/spin' > $(KERN)/cmd_line
+	touch $(KERN)/date-stamp
+	cd $(KERN); make
 
 boot-spinput: spinput
 	cp spinput ../root-disk
-	echo 'root=/dev/ram i370_initrd=0x200000,4096 init=/spinput' > ../2-linux-demo/cmd_line
-	cd ../2-linux-demo; make
-
+	echo 'root=/dev/ram i370_initrd=0x200000,4096 init=/spinput' > $(KERN)/cmd_line
+	cd $(KERN); make
 
 
 clean:

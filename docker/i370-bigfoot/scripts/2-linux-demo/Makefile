@@ -22,12 +22,12 @@ ramdisk: vmlinux.ins ram_image.gz
 	echo "* Load RAMDISK at the same address as given in command line" >> vmlinux.ins
 	echo "ram_image.gz  0x00200000" >> vmlinux.ins
 
-ram_image.gz:
+ram_image.gz: date-stamp
 	dd if=/dev/zero of=disk-image bs=1k count=4096
 	/sbin/mke2fs -vm0 -r0 disk-image 4096
 	mkdir -p mnt
 	-sudo umount -q mnt
-	sudo mount disk-image mnt
+	sudo mount -o loop disk-image mnt
 	sudo cp -pr ../root-disk/* mnt
 	sudo sh -c 'cd mnt; ./makedev.sh'
 	ls -la mnt
