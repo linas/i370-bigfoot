@@ -85,7 +85,7 @@ any POSIX support (and thus cannot be used to compile conventional
 unix binaries.) The demo creates a bootable init binary that simply
 reads input and echoes it to output, using `fgets` and `printf`.
 
-For more info, see the [pdpclib-demo README](../pdpclib-demo/README.md)
+For more info, see the [pdpclib-demo README](../4-pdpclib-demo/README.md)
 
 ## (optional) Build and run the uClibc demo
 The uClibc-ng is an LGPL'ed C Library tailored for microcontrollers
