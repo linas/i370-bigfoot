@@ -17,13 +17,14 @@ KERN=../2-linux-demo
 
 boot-spin: spin
 	cp spin ../root-disk
-	echo 'root=/dev/ram i370_initrd=0x200000,4096 init=/spin' > $(KERN)/cmd_line
+	echo 'root=/dev/ram init=/spin i370_initrd=0x200000,4096' > $(KERN)/cmd_line
 	touch $(KERN)/date-stamp
 	cd $(KERN); make
 
 boot-spinput: spinput
 	cp spinput ../root-disk
-	echo 'root=/dev/ram i370_initrd=0x200000,4096 init=/spinput' > $(KERN)/cmd_line
+	echo 'root=/dev/ram init=/spinput i370_initrd=0x200000,4096' > $(KERN)/cmd_line
+	touch $(KERN)/date-stamp
 	cd $(KERN); make
 
 

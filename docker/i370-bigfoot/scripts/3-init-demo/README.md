@@ -13,6 +13,11 @@ calls without a C library. This demo consists of three parts:
   risk of electrical shock. Do not open. No user-servicable parts
   inside.
 
-Compile by saying `make`, then copy to your ramdisk. The demo
-requires that the `/dev/console` file exists on the ramdisk, as
-explained in the [linux-demo README](../linux-demo/README.md).
+Compile by saying `make`, then copy to your ramdisk. This demo
+assumes that the Linux kernel has been built, as described in
+the [linux-demo README](../2-linux-demo/README.md), and is bootable.
+
+The creation of the ramdisk  is automated with `make boot-spin` or
+`make boot-spinput`. This will copy one or the other binaries to the
+root disk, and create a new bootable image. That image can be IPL'ed
+with `ipl vmlinux.ins` (from the ins file in the Linux demo directory).
