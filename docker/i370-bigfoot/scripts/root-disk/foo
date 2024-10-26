@@ -1,0 +1,9 @@
+#! /bin/sh
+# This is a shell script that doesn't work. Yet.
+#
+echo hey you whatcha doin
+ps
+echo lets see what
+ls -la
+echo what else?
+help
