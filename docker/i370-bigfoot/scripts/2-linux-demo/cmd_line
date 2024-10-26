@@ -1,1 +1,1 @@
-root=/dev/ram init=/busybox ash -i i370_initrd=0x200000,2048
+root=/dev/ram i370_initrd=0x200000,4096 init=/oh/no/mr/bill

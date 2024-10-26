@@ -15,6 +15,9 @@ libc.a: demo-unistd.h
 
 boot-spin:
 	cp spin ../root-disk
+	echo 'root=/dev/ram i370_initrd=0x200000,4096 init=/spin' > ../2-linux-demo/cmd_line
+	cd ../2-linux-demo; make
+
 
 
 clean:
