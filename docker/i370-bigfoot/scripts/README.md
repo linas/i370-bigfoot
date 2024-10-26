@@ -102,7 +102,7 @@ Any one of the offered shells can be used in place of `/sbin/init`,
 and thus offers an interactive command environment hosting many
 conventional unix commands.
 
-For more info, see the [busybox-demo README](../busybox-demo/README.md)
+For more info, see the [busybox-demo README](../6-busybox-demo/README.md)
 
 ## Notes
 
