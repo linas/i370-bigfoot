@@ -64,7 +64,7 @@ Then, in the Hercules emulator:
 ipl vmlinux.ins
 ```
 The above will boot, but then kernel panic, since no root file system
-was provided. See the [linux-demo README](./linux-demo/README.md) for
+was provided. See the [linux-demo README](./2-linux-demo/README.md) for
 details on creating a basic file system.
 
 ## (optional) Build and run the init demo
