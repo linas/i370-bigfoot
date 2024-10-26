@@ -1,1 +1,1 @@
-root=/dev/ram i370_initrd=0x200000,4096 init=/oh/no/mr/bill
+root=/dev/ram init=/oh/no/mr/bill i370_initrd=0x200000,4096

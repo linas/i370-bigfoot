@@ -6,6 +6,6 @@ PDPCLIB C library.
 * `spinecho.c` -- Demo application. Opens `/dev/console` for reading and
   writing, and then echoes what was typed as input.
 
-Compile by saying `make`, then copy to your ramdisk. The demo
-requires that the `/dev/console` file exists on the ramdisk, as 
-explained in the [linux-demo README](../linux-demo/README.md).
+Compile and create a boot-image by saying `make`. This demo assumes
+that the Linux kernel has been built, as described in the
+[linux-demo README](../2-linux-demo/README.md), and is bootable.
