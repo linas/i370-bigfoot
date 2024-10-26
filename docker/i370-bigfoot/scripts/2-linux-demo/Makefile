@@ -25,8 +25,8 @@ ramdisk: vmlinux.ins ram_image.gz
 ram_image.gz:
 	dd if=/dev/zero of=disk-image bs=1k count=4096
 	/sbin/mke2fs -vm0 -r0 disk-image 4096
-	sudo umount -q mnt
 	mkdir -p mnt
+	-sudo umount -q mnt
 	sudo mount disk-image mnt
 	sudo cp -pr ../root-disk/* mnt
 	sudo sh -c 'cd mnt; ./makedev.sh'
@@ -38,3 +38,4 @@ clean:
 
 realclean: clean
 	rm -f vmlinux vmlinux.bin vmlinux.ins disk-image ram_image.gz
+	rmdir mnt

@@ -13,5 +13,9 @@ libc.a: demo-unistd.h
 	i370-ibm-linux-gcc -O2 -c mylibc.c
 	i370-ibm-linux-ar r libc.a mylibc.o
 
+boot-spin:
+	cp spin ../root-disk
+
+
 clean:
 	rm -f *.o libc.a spin spinput
