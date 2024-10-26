@@ -1,5 +1,6 @@
 #
 # Build an IPL'able linux image.
+#
 
 
 all: vmlinux.ins ramdisk
@@ -16,13 +17,24 @@ vmlinux.ins: vmlinux
 	i370-ibm-linux-readelf -a vmlinux \
 		|grep cmd_line |grep GLOBA | cut -b 9-17 >> vmlinux.ins
 
-ramdisk: vmlinux.ins # ram_image.gz
+ramdisk: vmlinux.ins ram_image.gz
 	echo "" >> vmlinux.ins
 	echo "* Load RAMDISK at the same address as given in command line" >> vmlinux.ins
-	echo "r0ext  0x00200000" >> vmlinux.ins
-#	echo "ram_image.gz  0x00200000" >> vmlinux.ins
+	echo "ram_image.gz  0x00200000" >> vmlinux.ins
+
+ram_image.gz:
+	dd if=/dev/zero of=disk-image bs=1k count=4096
+	/sbin/mke2fs -vm0 -r0 disk-image 4096
+	sudo umount -q mnt
+	mkdir -p mnt
+	sudo mount disk-image mnt
+	sudo cp -pr ../root-disk/* mnt
+	sudo sh -c 'cd mnt; ./makedev.sh'
+	ls -la mnt
+	sudo umount mnt
+	gzip -c -v9 disk-image > ram_image.gz
 
 clean:
 
 realclean: clean
-	rm -f vmlinux vmlinux.bin vmlinux.ins
+	rm -f vmlinux vmlinux.bin vmlinux.ins disk-image ram_image.gz
