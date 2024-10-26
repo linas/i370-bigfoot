@@ -75,7 +75,7 @@ demo provides a simple C program that write to the system console.
 Because there is no C library (yet), the system call interfaces
 are minimalistic. In the demo, just enough to write to the screen.
 
-For more info, see the [init-demo README](../init-demo/README.md)
+For more info, see the [init-demo README](../3-init-demo/README.md)
 
 ## (optional) Build and run the PDPCLIB demo
 The PDPCLIB is a Public Domain C Library. It provides a standard
