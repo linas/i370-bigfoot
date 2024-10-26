@@ -4,11 +4,11 @@ BusyBox provides several shells and a collection of basic OS tools. For
 this demo, the `ash` shell (alternately, the `hush` shell) is used in
 place of `/sbin/init` and thus provides an interactive user environment.
 
-To compile BsyBox, the provided `defconfig` is recommended; otherwise
+To compile BusyBox, the provided `defconfig` is recommended; otherwise
 compilation can be a bit dicey. In addition, the present-day (Sept 2024)
 BusyBox makes some minor assumptions about the modernity of the kernel,
 breaking our old kernel. Thus, the patch in `busybox.patch` must be
-applied, in order to build.
+applied first, in order to build.
 
 To summarize:
 ```
@@ -18,10 +18,10 @@ patch -p1 < ../busbox-demo/busybox.patch
 make
 ```
 
-Once built, copy `busybox` to your root filesystem image, and set the
-linux `cmd_line` to `init=/busybox ash -i`. Upon booting, this will
-start the `ash` shell in interactive mode. The very first thing you
-will and to do will then be:
+Once built, copy `busybox` to `root-disk` (the pre-configured root
+filesystem in the directory below), and set the linux `cmd_line` to
+`init=/busybox ash -i`. Upon booting, this will start the `ash` shell
+in interactive mode. The very first thing you will need to do will be:
 ```
 busybox mount -t proc foo /proc
 ```
