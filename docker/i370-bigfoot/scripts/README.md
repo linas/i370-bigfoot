@@ -43,10 +43,10 @@ see that it actually ran, by examining memory.
 
 In another window, compile and build the boot demo:
 ```
-cd boot-demo
+cd 1-boot-demo
 less README.md
 ```
-For more info, see the [boot-demo README](./boot-demo/README.md)
+For more info, see the [boot-demo README](./1-boot-demo/README.md)
 
 ## Boot the Linux kernel
 A demo of the Linux kernel is the main point of this project. So here it
