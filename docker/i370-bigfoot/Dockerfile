@@ -120,14 +120,10 @@ RUN cd busybox; make
 # result in a rebuild of the image. In particular, we want to avoid
 # redoing the git clone above, as those are time consuming.
 COPY /scripts/ /home/bigfoot
-RUN sudo chown -R bigfoot:bigfoot .byobu
-RUN sudo chown -R bigfoot:bigfoot .gdbinit
-RUN sudo chown -R bigfoot:bigfoot hercules
-RUN sudo chown -R bigfoot:bigfoot elf-stripper
-RUN sudo chown -R bigfoot:bigfoot boot-demo
-RUN sudo chown -R bigfoot:bigfoot linux-demo
+RUN sudo chown bigfoot:bigfoot .byobu .gdbinit
+RUN sudo chown -R bigfoot:bigfoot .
 
-RUN cd linux-demo; cp ../i370-linux-2.2.1/vmlinux .; make
+RUN cd 2-linux-demo; cp ../i370-linux-2.2.1/vmlinux .; make
 
 # For images built on this
 ONBUILD USER root
