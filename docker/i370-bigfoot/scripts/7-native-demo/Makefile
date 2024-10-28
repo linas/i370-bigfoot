@@ -20,7 +20,7 @@ vmlinux.ins: vmlinux
 ramdisk: vmlinux.ins ram_image
 	echo "" >> vmlinux.ins
 	echo "* Load RAMDISK at the same address as given in command line" >> vmlinux.ins
-	echo "ram_image  0x00200000" >> vmlinux.ins
+	echo "ram_image  0x00800000" >> vmlinux.ins
 
 ram_image: date-stamp
 	dd if=/dev/zero of=disk-image bs=1k count=262144
