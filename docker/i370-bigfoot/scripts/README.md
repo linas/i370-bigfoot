@@ -104,6 +104,12 @@ conventional unix commands.
 
 For more info, see the [busybox-demo README](../6-busybox-demo/README.md)
 
+## (optional) Build and run the native demo
+This is a root disk that contains the compiler and assembler, and can
+be used to build additional tools natively, on the i370.
+
+For more info, see the [native-demo README](../7-native-demo/README.md)
+
 ## Notes
 
 ### Latest Hercules
