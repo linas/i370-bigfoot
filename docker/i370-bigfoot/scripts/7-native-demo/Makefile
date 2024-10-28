@@ -23,8 +23,8 @@ ramdisk: vmlinux.ins ram_image
 	echo "ram_image  0x00200000" >> vmlinux.ins
 
 ram_image: date-stamp
-	dd if=/dev/zero of=disk-image bs=1k count=16384
-	/sbin/mke2fs -vm0 -r0 disk-image 16384
+	dd if=/dev/zero of=disk-image bs=1k count=262144
+	/sbin/mke2fs -vm0 -r0 disk-image 262144
 	mkdir -p mnt
 	-sudo umount -q mnt
 	sudo mount -o loop disk-image mnt
