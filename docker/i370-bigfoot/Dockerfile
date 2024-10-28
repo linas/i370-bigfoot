@@ -56,7 +56,7 @@ RUN git clone https://git.busybox.net/busybox/
 # RUN git clone https://git.kernel.org/pub/scm/utils/dash/dash.git
 
 # Grab latest binutils
-ENV LAST_BINUTILS_UPDATE 2024-10-25
+ENV LAST_BINUTILS_UPDATE 2024-10-27
 RUN cd i370-binutils; git pull
 RUN cd i370-binutils; mkdir build; cd build; \
     ../configure --target=i370-ibm-linux; make -j12
@@ -101,8 +101,8 @@ RUN cd i370-uclibc-ng; sudo make install
 # Grab latest busybox source
 ENV LAST_BUSYBOX_UPDATE 2024-10-16
 RUN cd busybox; git pull
-COPY /scripts/busybox-demo/defconfig busybox/.config
-COPY /scripts/busybox-demo/busybox.patch busybox
+COPY /scripts/6-busybox-demo/defconfig busybox/.config
+COPY /scripts/6-busybox-demo/busybox.patch busybox
 RUN cd busybox; patch -p1 < busybox.patch
 RUN cd busybox; make
 
