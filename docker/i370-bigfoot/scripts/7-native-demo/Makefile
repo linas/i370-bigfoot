@@ -32,6 +32,7 @@ ram_image: date-stamp
 	sudo sh -c 'cd mnt; ./makedev.sh'
 	ls -la mnt
 	sudo umount mnt
+	mv disk-image ram_image
 
 clean:
 
