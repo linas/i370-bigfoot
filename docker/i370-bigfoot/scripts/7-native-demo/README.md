@@ -12,3 +12,9 @@ Note that the disk image is huge: currently, 256 MBytes. This is
 because there is no shared-library support, and each binary will
 be 5 or 10 MBytes in size, on average. This chews through disk
 space rapidly.
+
+Be sure to edit `hercules.cnf` and provide enough RAM to hold the
+entire disk image. For example:
+```
+  MAINSIZE  512                 # Main storage size in megabytes
+```
