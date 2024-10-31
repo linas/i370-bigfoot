@@ -22,9 +22,12 @@ git-clones of large github repos.
 Next, create and run a container. The container name is `foo` in this
 example.  Replace `foo` with your desired container name.
 ```
-docker create --name foo -it bigfoot/i370-bigfoot
+docker create --privileged=true --name foo -it bigfoot/i370-bigfoot
 docker start -i foo
 ```
+The `--privileged=true` flag allows `mount` to be used in the container.
+This is needed for creating a bootable i370 root disk image.
+
 After the `docker start` above, you'll land in a running container.
 The home directory is `/home/bigfoot`. Binaries can be found in
 `/usr/local/bin`. For example, the assembler is named
@@ -42,9 +45,8 @@ The container includes the Hercules System/390 emulator. An example
 Hercules config file is in `/home/bigfoot/hercules`; it is copied
 from `./i370-bigfoot/scripts/hercules` in ''this'' directory.
 
-The [README](./i370-bigfoot/scripts/hercules/README.md) file in the
-`./i370-bigfoot/scripts/hercules` explains how to compile and IPL
-programs.
+The [Demo README](./i370-bigfoot/scripts/README.md) file in the
+`scripts` directory explains how to run the demos.
 
 #### Status
 Everything works, more or less, including busybox.

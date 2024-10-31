@@ -56,7 +56,7 @@ RUN git clone https://git.busybox.net/busybox/
 # RUN git clone https://git.kernel.org/pub/scm/utils/dash/dash.git
 
 # Grab latest binutils
-ENV LAST_BINUTILS_UPDATE 2024-10-27
+ENV LAST_BINUTILS_UPDATE 2024-10-28
 RUN cd i370-binutils; git pull
 RUN cd i370-binutils; mkdir build; cd build; \
     ../configure --target=i370-ibm-linux; make -j12
@@ -105,16 +105,6 @@ COPY /scripts/6-busybox-demo/defconfig busybox/.config
 COPY /scripts/6-busybox-demo/busybox.patch busybox
 RUN cd busybox; patch -p1 < busybox.patch
 RUN cd busybox; make
-
-# Grab latest dash source
-# dash doesn't build without a lot of tinkering, and then can't be used
-# as /sbin/init even after building. It's badly broken w.r.t. stdio.
-# ENV LAST_DASH_UPDATE 2024-10-08
-# RUN cd dash; git pull
-# RUN cd dash; ./autogen.sh
-# RUN cd dash; mkdir build
-# RUN cd dash/build;  ../configure --host=i370-ibm-linux "CC=i370-ibm-linux-gcc -L/usr/local/i370-linux-uclibc/usr/lib -I /usr/local/i370-linux-uclibc/usr/include -I /home/bigfoot/i370-linux-2.2.1/include"
-# RUN cd dash/build; make
 
 # Setup config files. Do this after above, so that changes here do not
 # result in a rebuild of the image. In particular, we want to avoid

@@ -3,7 +3,7 @@
 #
 
 
-all: vmlinux.ins ramdisk
+all: vmlinux.ins ram_image.gz
 
 vmlinux.ins: vmlinux
 	../elf-stripper/elf-stripper vmlinux > vmlinux.bin
@@ -16,8 +16,6 @@ vmlinux.ins: vmlinux
 	echo -n "cmd_line  0x" >> vmlinux.ins
 	i370-ibm-linux-readelf -a vmlinux \
 		|grep cmd_line |grep GLOBA | cut -b 9-17 >> vmlinux.ins
-
-ramdisk: vmlinux.ins ram_image.gz
 	echo "" >> vmlinux.ins
 	echo "* Load RAMDISK at the same address as given in command line" >> vmlinux.ins
 	echo "ram_image.gz  0x00800000" >> vmlinux.ins

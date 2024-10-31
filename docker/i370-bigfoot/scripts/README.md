@@ -1,4 +1,11 @@
-# Compiling and Running under Hercules
+# Compiling and Running Demos
+This container contains all the tools needed for creating an i370 Linux
+kernel, creating a bootable root disk, and creating i370 executables
+that run with this kernel. There are two options for actually running
+these:
+* Copy them out of this container, and running them on a VM session
+  on actual System/390 hardware (should also work on z/Series.)
+* Run the Hercules emulator.
 
 Hercules is a System/390 and z/Series emulator. It can run binaries
 created for the z/Architecture instruction set.  This README reviews
@@ -8,27 +15,33 @@ and some basic debugging hints.
 ## Run Docker
 Start your Docker container, if you haven't yet.
 ```
-docker create --name my-mainframe -it bigfoot/i370-bigfoot
+docker create --privileged=true --name my-mainframe -it bigfoot/i370-bigfoot
 docker start -i my-mainframe
 ```
+The `--privileged=true` is required so that the `mount` command can be
+used to create root-disks.
+
+## Run byobu or tmux
 You'll almost surely want to get multiple command lines in this
 container, using `byobu` or `tmux`. Start `byobu` and then hit `PF2`
-a couple of times, to create new terminal windows. To rotated between
+three or four times, to create new terminal windows. To rotate between
 windows, use `PF3` and `PF4`. Rename windows with `PF8`.
 
 ## Start Hercules
 In one window, start the Hercules emulator:
 ```
-cd hercules
-hercules
+hercules -f hercules/hercules.cnf
 ```
-Attach to the console with telnet. This is where the Linux kernel
-will provide a console.  Note the port number is 3270.
+In another window, attach to the console with telnet. (Use pf3/pf4 to
+rotate to another window.) The console is where the Linux kernel will
+type output and accept keyboard input.  Note the port number is 3270.
 ```
 telnet localhost 3270
 ```
 
 ## Build the elf-stripper tool
+In a third window, build the elf-stripper tool. This is needed by all
+demos. It converts i370 ELF binaries into binaries that can be IPL'ed.
 ```
 cd elf-stripper
 make
