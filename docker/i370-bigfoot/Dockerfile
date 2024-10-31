@@ -29,9 +29,9 @@ RUN apt-get -y install tmux byobu vim bzip2
 RUN apt-get -y install libmpfr-dev libgmp-dev texinfo bison flex
 
 # System/370, ESA/390 and z/Architecture Emulator
-RUN apt-get -y install hercules herculesstudio
+RUN apt-get -y install hercules herculesstudio inetutils-telnet x3270
 
-## Use ccache to minimize build times.
+## Use ccache to minimize rebuild times.
 ENV PATH /usr/lib/ccache:$PATH
 
 # Create and switch user. The user is privileged, with no password required.

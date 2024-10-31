@@ -8,7 +8,7 @@ To compile BusyBox, the provided `defconfig` is recommended; otherwise
 compilation can be a bit dicey. In addition, the present-day (Sept 2024)
 BusyBox makes some minor assumptions about the modernity of the kernel,
 breaking our old kernel. Thus, the patch in `busybox.patch` must be
-applied first, in order to build.
+applied first, in order to build. Its a tiny patch.
 
 To summarize:
 ```

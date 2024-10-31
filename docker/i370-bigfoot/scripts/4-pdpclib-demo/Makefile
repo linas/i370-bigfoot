@@ -1,4 +1,6 @@
-
+#
+# Build and boot a simple PDPCLIB demo.
+#
 all: boot-spinecho
 
 PDPCLIBDIR=/home/bigfoot/pdos-gitcode/pdpclib
@@ -15,7 +17,7 @@ KERN=../2-linux-demo
 
 boot-spinecho: spinecho
 	cp spinecho ../root-disk
-	echo 'root=/dev/ram init=/spinecho i370_initrd=0x200000,4096' > $(KERN)/cmd_line
+	echo 'root=/dev/ram init=/spinecho i370_initrd=0x800000,4096' > $(KERN)/cmd_line
 	touch $(KERN)/date-stamp
 	cd $(KERN); make
 

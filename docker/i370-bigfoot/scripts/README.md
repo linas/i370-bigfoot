@@ -27,6 +27,11 @@ container, using `byobu` or `tmux`. Start `byobu` and then hit `PF2`
 three or four times, to create new terminal windows. To rotate between
 windows, use `PF3` and `PF4`. Rename windows with `PF8`.
 
+To scroll up and see old window history, use `PF7`. After this, the
+page-up and page-down keys will work.
+
+To close windows, hit ctrl-D. Exit hercules with `quit`.
+
 ## Start Hercules
 In one window, start the Hercules emulator:
 ```
@@ -38,6 +43,8 @@ type output and accept keyboard input.  Note the port number is 3270.
 ```
 telnet localhost 3270
 ```
+
+The telnet menu cn be accessed at any time with ctrl-].
 
 ## Build the elf-stripper tool
 In a third window, build the elf-stripper tool. This is needed by all
@@ -66,6 +73,8 @@ A demo of the Linux kernel is the main point of this project. So here it
 is. The Docker container has a kernel, already built, in the
 `i370-linux-2.2.1` directory. You can IPL it as follows:
 ```
+	cd 2-linux-demo
+	cp ../i370-linux-2.2.1/vmlinux .
    elf-stripper vmlinux > vmlinux.bin
    echo "* INS file to load a Linux OS" > vmlinux.ins
    echo "* Format: <file to load> [address where to load]" >> vmlinux.ins
@@ -74,10 +83,10 @@ is. The Docker container has a kernel, already built, in the
 ```
 Then, in the Hercules emulator:
 ```
-ipl vmlinux.ins
+ipl 2-linux-demo/vmlinux.ins
 ```
 The above will boot, but then kernel panic, since no root file system
-was provided. See the [linux-demo README](./2-linux-demo/README.md) for
+was provided. See the [2-linux-demo README](./2-linux-demo/README.md) for
 details on creating a basic file system.
 
 ## (optional) Build and run the init demo
@@ -88,7 +97,7 @@ demo provides a simple C program that write to the system console.
 Because there is no C library (yet), the system call interfaces
 are minimalistic. In the demo, just enough to write to the screen.
 
-For more info, see the [init-demo README](../3-init-demo/README.md)
+For more info, see the [3-init-demo README](../3-init-demo/README.md)
 
 ## (optional) Build and run the PDPCLIB demo
 The PDPCLIB is a Public Domain C Library. It provides a standard
@@ -98,7 +107,7 @@ any POSIX support (and thus cannot be used to compile conventional
 unix binaries.) The demo creates a bootable init binary that simply
 reads input and echoes it to output, using `fgets` and `printf`.
 
-For more info, see the [pdpclib-demo README](../4-pdpclib-demo/README.md)
+For more info, see the [4-pdpclib-demo README](../4-pdpclib-demo/README.md)
 
 ## (optional) Build and run the uClibc demo
 The uClibc-ng is an LGPL'ed C Library tailored for microcontrollers
@@ -107,7 +116,7 @@ one might want from glibc.  The demo creates a bootable init binary
 that simply reads input and echoes it to output, using `fgets` and
 `printf`.
 
-For more info, see the [uclibc-demo README](../5-uclibc-demo/README.md)
+For more info, see the [5-uclibc-demo README](../5-uclibc-demo/README.md)
 
 ## (optional) Build and run the BusyBox demo
 BusyBox is collection of basic OS tools, together with several shells.
@@ -115,13 +124,13 @@ Any one of the offered shells can be used in place of `/sbin/init`,
 and thus offers an interactive command environment hosting many
 conventional unix commands.
 
-For more info, see the [busybox-demo README](../6-busybox-demo/README.md)
+For more info, see the [6-busybox-demo README](../6-busybox-demo/README.md)
 
 ## (optional) Build and run the native demo
 This is a root disk that contains the compiler and assembler, and can
 be used to build additional tools natively, on the i370.
 
-For more info, see the [native-demo README](../7-native-demo/README.md)
+For more info, see the [7-native-demo README](../7-native-demo/README.md)
 
 ## Notes
 

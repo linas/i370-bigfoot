@@ -1,4 +1,6 @@
-
+#
+# Build and boot a simple uClibc I/O demo
+#
 all: boot-uspinecho
 
 INCLUDES=/usr/local/i370-linux-uclibc/usr/include
@@ -12,7 +14,7 @@ KERN=../2-linux-demo
 
 boot-uspinecho: uspinecho
 	cp uspinecho ../root-disk
-	echo 'root=/dev/ram init=/uspinecho i370_initrd=0x200000,4096' > $(KERN)/cmd_line
+	echo 'root=/dev/ram init=/uspinecho i370_initrd=0x800000,4096' > $(KERN)/cmd_line
 	touch $(KERN)/date-stamp
 	cd $(KERN); make
 
