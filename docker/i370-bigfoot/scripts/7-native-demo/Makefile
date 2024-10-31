@@ -1,7 +1,6 @@
 #
-# Build an IPL'able linux image.
+# Build an IPL'able linux image w/ non-trivial root disk.
 #
-
 
 all: vmlinux.ins ramdisk
 

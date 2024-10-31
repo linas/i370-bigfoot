@@ -1,4 +1,4 @@
-# IBM i370 port of Debian Linux
+# IBM i370 port of GNU/Linux
 
 By popular demand, this repo contains a 25th anniversary resurrection
 of the old
@@ -9,7 +9,7 @@ As of this moment, the following are provided:
   (current GNU binutils with i370 patches applied), compiler
   (gcc version 3.4.6 with i370 patches applied), the Linux kernel
   (linux version 2.2.1 with i370 patches applied), uClibc (with i370
-  patches applied), PDPCLIB (comes with some i370 support), busybox
+  patches applied), PDPCLIB (comes with some i370 support), BusyBox
   (with a `defconfig` that works for i370), and the Hercules
   System/390 mainframe emulator.
 * Multiple demos showing how to compile and IPL code, how to boot
@@ -21,7 +21,7 @@ IBM created the [IBM System/360 ](https://en.wikipedia.org/wiki/IBM_System/360)
 series of mainframes in the 1960s. In later decades, these evolved into
 System/370, the 3090 and eventually, the
 [z/Architecture](https://en.wikipedia.org/wiki/Z/Architecture).
-Many of the very earliest open source projects were created on s/360,
+Many of the very earliest open source projects were created on S/360,
 shepharded by [SHARE](https://en.wikipedia.org/wiki/SHARE_(computing)),
 a volunteer-run user grouped for IBM mainframes.
 
@@ -38,17 +38,18 @@ were required:
   suitable for a Linux port. Thus, the GNU gas assembler, part of GNU
   binutils, was ported. It accepts the System/370 instruction set, and
   generates ELF binaries.
-* The ELF format goes hand-in-hand with the conventional BSD-style
+* The ELF format goes hand-in-hand with the conventional BSD/SVR4-style
   pseudo-ops to define objects. Thus, a further work on GCC was needed
-  to generate BSD-style markup (as opposed to HLASM style). This target
-  was given the name of "i370".
-* Porting the Linux kernel. Work was done on Linux version 2.2.1. This
+  to generate SVR4/BSD-style markup (as opposed to HLASM style). This
+  target was given the name of "i370".
+* Porting the Linux kernel. Work was done on Linux version 2.2.1, which
+  was the most recent kernel when the project was started. Porting
   was easy, mostly because IBM mainframes come with VM, a virtual
   machine operating system, after which all other VM's are patterned.
   What made VM magic was that it had a built-in debugger; this debugger
   made it extremely easy to debug crashes and thus progress the port.
 * Porting the user-space. This means porting the GNU loader, the
-  GNU GLibC, and some shell.  A port of glibc was begun, as well as
+  GNU GLibC, and a shell.  A port of glibc was begun, as well as
   of a very basic shell.
 * Help from lots of people. The following folks made significant
   contributions to the project: Dan, who taught me VM and System/390
@@ -87,6 +88,9 @@ control it.
 
 For Linas to continue after this was pointless; the last version of
 Bigfoot was from November 1999. And that was that for the next 25 years.
+Mostly. The i370 compiler and assembler continued to receive patches
+from Paul Edwards, Dave Pitts and others: the compiler and assembler
+were also used in other projects, mostly relating to MVS.
 
 Recently, I was contacted, and asked if I could revive the project.
 I don't know that I want to: its not as if I don't have enough to do,
@@ -97,13 +101,16 @@ For a related project, somewhat overlapping this, see
 [PDOS, the Public Domain Operating System](https://pdos.org).
 
 ## Status
-Version 0.9.0 - October 2024
+Version 1.0.0 - October 2024
 
 At this time, binutils (the assembler), gcc (the compiler) and the
 Linux kernel have been revived. A port of uClibc has been created, and
-busybox compiles and runs. verything is quasi-stable: you can boot one
-of the busybox shells (`ash`, `hush`) and everything runs for a while,
-until it doesn't.
+busybox compiles and runs. Everything is stable, more or less: you can
+boot one of the busybox shells (`ash`, `hush`) and everything runs.
+You can even double-cross-compile ("Candadian-cross") the assembler
+and run it on i370, and create a working, runnable "hello, world."
+GCC is harder, the `autotools` on GCC can't seem to do Candaian-cross
+correctly.
 
 ## Issues
 Know what you are getting into! This is a revival of old work from 1999.
@@ -114,23 +121,51 @@ version targets old systems that predate the z/Architecture. This is an
 explict design decision.
 
 Some issues:
-* The current system is quasi-stable. It mostly runs, and then it
-  doesn't. Parts of the kernel remain unfinished or untested.
+* The current system is quasi-stable. It seems to run. Things seem to
+  work. Parts of the kernel remain unfinished or untested. These are
+  listed further, below.
 
 * The glibc C library presents issues. Patches for a circa-1999-era
   glibc-2.1 are available on the original bigfoot site. However, modern
   compilers (needed for cross-compilation) cannot compile the old
   glibc. Conversely, the old compiler in use here (gcc-3.4.6) cannot
-  compile modern glibc (currently glibc-2.40). Perhaps some middle
-  version between 2.1 and 2.40 is possible?
+  compile modern glibc (currently glibc-2.43). Perhaps some middle
+  version between 2.1 and 2.43 is possible?
 
 * Dynamic library loading (needed for shared libraries) was never
   completed when the original project was abandoned. Most of the
-  needed support is in the assembler, but is almost certainly buggy.
+  needed support is in the assembler, but might be buggy. The
+  GOT/PLT design never got fully underway, the glibc `ld.so` compiled
+  but didn't run. There's been no work to create `ld.so` for uClibc.
 
 * SMP support in the kernel was started, but never finished.
 
 * The current uClibc/i370 version does not support (posix) threads.
+
+* The kernel does not have any 3880/3990 CKD/ECKD drivers, which means
+  that there is no disk storage. The demos all run from a ramdisk, but
+  the overall system is unusable without working disks. All of the
+  basic support for subchannels and schibs is in place; see the 3215
+  driver for a working example. There are even stubs for both ckd and
+  eckd; they are empty.
+
+* The 3215 terminal driver works. However, line mode terminal access to
+  unix is annoying: normal unix shells expect character-mode access.
+  There are two ways to get character-mode ttys/ptys:
+  -- Get a tty interface by using Paul Edwards characer-mode Hercules
+     device: its like the 3215, but does characters. A Linux kernel tty
+     driver would need to to be written for that. The current raw-3215
+     driver does not use the kernel tty subsystem.
+  -- Get a pty interface by logging in over the net. This requires
+     network interfaces.  Provide networking for the Linux kernel is
+     easy, in principle. In practice, this needs copy-in/copy-out with
+     checksumming, and these are currently stubs in the Linux kernel.
+     They are just like regular copy-in/copy-out (which work fine) but
+     also do checksumming; these are used by the TCP/IP stack. In
+     addition, a System/390 CTCA driver would need to be written, to
+     get the network interfaces. Hercules uses the CTCA (Channel to
+     Channel Attach) to provide TCP/IP through the host, so that works.
+     What's missing is the kernel CTCA driver. Can't be that hard, right?
 
 ## HOWTO
 The easiest way to try the system is to install Docker, build the Docker
@@ -142,13 +177,13 @@ multiple examples, of increasing complexity.
 
 If you wish to do everything by hand, then just emulate what you find in
 `docker/i370-bigfoot/Dockerfile`. Note that Dockerfiles are kind of like
-shell scripts: this should be easy to understand and run manually, as
+shell scripts: they should be easy to understand and run manually, as
 needed.
 
 ## Demos
 Files in the [docker/i370-bigfoot/scripts/](docker/i370-bigfoot/scripts/)
-directory will be copied to `/home/i370-bigfoot/` in the Docker
-container. This allows the demos there to be run in the container.
+directory will be copied to `/home/bigfoot/` in the Docker container.
+This allows the demos to be run in the container.
 
 The [demo README](docker/i370-bigfoot/scripts/README.md) describes
 multiple demos, from the most basic IPL to C code, to booting the

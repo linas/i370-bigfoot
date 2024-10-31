@@ -52,7 +52,7 @@ to the Hercules console.
 `init=/busybox hush`
 
 ## Create a disk image
-The only bootable disk images are ext2fs and minix. Neither MSDOS FAT
+The only bootable disk images are ext2fs and minix. Neither MS-DOS FAT
 nor Windows95 VFAT are bootable, because neither of these file systems
 support file attributes, needed for special files (character devices,
 block devices). Without special files, there is no way for user-land
