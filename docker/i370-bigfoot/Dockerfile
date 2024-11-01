@@ -106,7 +106,7 @@ COPY /scripts/6-busybox-demo/busybox.patch busybox
 RUN cd busybox; patch -p1 < busybox.patch
 RUN cd busybox; make
 
-# Create the Canadian-cross assembler
+# Create the host-cross assembler
 RUN cd i370-binutils; mkdir build-uclibc; cd build-uclibc; \
     export SYSROOT=/usr/local/i370-linux-uclibc; \
     ../configure --target=i370-ibm-linux --host=i370-ibm-linux \
@@ -116,6 +116,17 @@ RUN cd i370-binutils; mkdir build-uclibc; cd build-uclibc; \
 
 RUN cd i370-binutils/build-uclibc; make
 RUN cd i370-binutils/build-uclibc; sudo make install
+
+# Create the host-cross compiler. Almost works but not quite.
+# RUN cp -pr /usr/local/i370-linux-uclibc/usr/include /usr/local/i370-ibm-linux
+# RUN cp -pr /usr/local/i370-linux-uclibc/usr/lib/* /usr/local/i370-ibm-linux/lib
+# RUN i370-gcc; mkdir build-uclibc; cd build-uclibc; \
+#    CC=i370-ibm-linux-gcc \
+#    CC_FOR_BUILD="gcc -I/usr/include -I/usr/include/x86_64-linux-gnu/
+#    -D__x86_64__ -U__ILP32__" \
+#    ../configure --target=i370-ibm-linux --host=i370-ibm-linux \
+#            --build=x86_64-unknown-linux-gnu \
+#            --enable-languages="c" --disable-threads
 
 # Setup config files. Do this after above, so that changes here do not
 # result in a rebuild of the image. In particular, we want to avoid

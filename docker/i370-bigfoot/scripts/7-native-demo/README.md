@@ -23,10 +23,7 @@ entire disk image. For example:
 Sound easy, right? Hah.
 * The Linux kernel croaks in memory management if a 256 MByte root disk
   is specified. An 80 MByte root disk seems to work.
-* Although `binutils` is easy to double-cross-compile ("Canadian-cross")
-  the compiler `gcc` is not. It has resisted all attempts so far: it
-  gets confused about which system is the host and which is the target,
-  and keeps building the wrong stufff.
+
 * The line-mode 3215 interface is unpleasant. There are two ways to get
   a character-mode interface.
   -- One is to use Paul Edwards characer-mode Hercules device: its like
