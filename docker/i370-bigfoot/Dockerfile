@@ -106,6 +106,17 @@ COPY /scripts/6-busybox-demo/busybox.patch busybox
 RUN cd busybox; patch -p1 < busybox.patch
 RUN cd busybox; make
 
+# Create the Canadian-cross assembler
+RUN cd i370-binutils; mkdir build-uclibc; cd build-uclibc; \
+    export SYSROOT=/usr/local/i370-linux-uclibc; \
+    ../configure --target=i370-ibm-linux --host=i370-ibm-linux \
+         --disable-gdb --disable-sim \
+         --prefix=${SYSROOT}/usr \
+         CFLAGS="-I${SYSROOT}/usr/include -B${SYSROOT}/usr/lib -L${SYSROOT}/usr/lib -DHAVE_FCNTL_H -DTLS=\"\""
+
+RUN cd i370-binutils/build-uclibc; make
+RUN cd i370-binutils/build-uclibc; sudo make install
+
 # Setup config files. Do this after above, so that changes here do not
 # result in a rebuild of the image. In particular, we want to avoid
 # redoing the git clone above, as those are time consuming.
