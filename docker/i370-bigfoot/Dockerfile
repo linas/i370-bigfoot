@@ -121,12 +121,13 @@ RUN cd i370-binutils/build-uclibc; sudo make install
 RUN sudo cp -pr /usr/local/i370-linux-uclibc/usr/include /usr/local/i370-ibm-linux
 RUN sudo cp -pr /usr/local/i370-linux-uclibc/usr/lib/* /usr/local/i370-ibm-linux/lib
 RUN cd i370-gcc; mkdir build-uclibc; cd build-uclibc; \
-   CC=i370-ibm-linux-gcc \
+   CC="i370-ibm-linux-gcc -B$SYSROOT/usr/lib -L$SYSROOT/usr/lib" \
    CC_FOR_BUILD="gcc -I/usr/include -I/usr/include/x86_64-linux-gnu/ -D__x86_64__ -U__ILP32__" \
    ../configure --target=i370-ibm-linux --host=i370-ibm-linux \
            --build=x86_64-unknown-linux-gnu \
            --prefix=$SYSROOT/usr \
            --enable-languages="c" --disable-threads
+RUN cd i370-gcc/build-uclibc; make
 RUN cd i370-gcc/build-uclibc; make
 RUN cd i370-gcc/build-uclibc; sudo make install
 
