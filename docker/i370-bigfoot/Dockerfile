@@ -65,7 +65,7 @@ RUN cd i370-binutils/build; make
 RUN cd i370-binutils/build; sudo make install
 
 # Grab latest gcc
-ENV LAST_GCC_UPDATE 2024-09-23
+ENV LAST_GCC_UPDATE 2024-10-31
 RUN cd i370-gcc; git pull
 RUN cd i370-gcc; git checkout i370-gcc-3.4.6
 RUN cd i370-gcc; mkdir build; cd build; \
@@ -118,15 +118,17 @@ RUN cd i370-binutils/build-uclibc; make
 RUN cd i370-binutils/build-uclibc; sudo make install
 
 # Create the host-cross compiler. Almost works but not quite.
-# RUN cp -pr /usr/local/i370-linux-uclibc/usr/include /usr/local/i370-ibm-linux
-# RUN cp -pr /usr/local/i370-linux-uclibc/usr/lib/* /usr/local/i370-ibm-linux/lib
-# RUN i370-gcc; mkdir build-uclibc; cd build-uclibc; \
-#    CC=i370-ibm-linux-gcc \
-#    CC_FOR_BUILD="gcc -I/usr/include -I/usr/include/x86_64-linux-gnu/
-#    -D__x86_64__ -U__ILP32__" \
-#    ../configure --target=i370-ibm-linux --host=i370-ibm-linux \
-#            --build=x86_64-unknown-linux-gnu \
-#            --enable-languages="c" --disable-threads
+RUN sudo cp -pr /usr/local/i370-linux-uclibc/usr/include /usr/local/i370-ibm-linux
+RUN sudo cp -pr /usr/local/i370-linux-uclibc/usr/lib/* /usr/local/i370-ibm-linux/lib
+RUN cd i370-gcc; mkdir build-uclibc; cd build-uclibc; \
+   CC=i370-ibm-linux-gcc \
+   CC_FOR_BUILD="gcc -I/usr/include -I/usr/include/x86_64-linux-gnu/ -D__x86_64__ -U__ILP32__" \
+   ../configure --target=i370-ibm-linux --host=i370-ibm-linux \
+           --build=x86_64-unknown-linux-gnu \
+           --prefix=$SYSROOT/usr \
+           --enable-languages="c" --disable-threads
+RUN cd i370-gcc/build-uclibc; make
+RUN cd i370-gcc/build-uclibc; sudo make install
 
 # Setup config files. Do this after above, so that changes here do not
 # result in a rebuild of the image. In particular, we want to avoid
