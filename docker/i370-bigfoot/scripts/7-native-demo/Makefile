@@ -28,6 +28,7 @@ ram_image: date-stamp
 	-sudo umount -q mnt
 	sudo mount -o loop disk-image mnt
 	sudo cp -pr big-root-disk/* mnt
+	sudo cp -pr /usr/local/i370-linux-uclibc/* mnt
 	sudo sh -c 'cd mnt; ./makedev.sh'
 	ls -la mnt
 	sudo umount mnt
