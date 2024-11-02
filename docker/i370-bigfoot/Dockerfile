@@ -65,7 +65,7 @@ RUN cd i370-binutils/build; make
 RUN cd i370-binutils/build; sudo make install
 
 # Grab latest gcc
-ENV LAST_GCC_UPDATE 2024-10-31
+ENV LAST_GCC_UPDATE 2024-11-02
 RUN cd i370-gcc; git pull
 RUN cd i370-gcc; git checkout i370-gcc-3.4.6
 RUN cd i370-gcc; mkdir build; cd build; \
@@ -76,13 +76,13 @@ RUN cd i370-gcc/build; make
 RUN cd i370-gcc/build; sudo make install
 
 # Grab latest i370 linux-2.2.1 kernel
-ENV LAST_KERNEL_UPDATE 2024-10-20
+ENV LAST_KERNEL_UPDATE 2024-10-30
 RUN cd i370-linux-2.2.1; git pull
 RUN cd i370-linux-2.2.1; make oldconfig; make; make;
 RUN cd i370-linux-2.2.1; sudo make headers_install
 
 # Grab latest PDOS C library
-ENV LAST_PDOS_UPDATE 2024-10-08
+ENV LAST_PDOS_UPDATE 2024-10-30
 RUN cd pdos-gitcode; git pull
 RUN cd pdos-gitcode/pdpclib; cat makefile.big | sed -e "s/        /\t/" > makefile.bog
 RUN cd pdos-gitcode/pdpclib; make -f makefile.bog CC=i370-ibm-linux-gcc \
@@ -91,8 +91,8 @@ RUN cd pdos-gitcode/pdpclib; make -f makefile.bog CC=i370-ibm-linux-gcc \
       LD="i370-ibm-linux-ld --entry __crt0"
 RUN cd pdos-gitcode/pdpclib; ln -s pdpclib.a libc.a
 
-# Well, Seems PDOS is not ready for prime-time. So grab uclibc.
-ENV LAST_UCLIBC_UPDATE 2024-10-12
+# Well, seems PDOS is not ready for prime-time. So grab uclibc.
+ENV LAST_UCLIBC_UPDATE 2024-11-01
 RUN cd i370-uclibc-ng; git pull
 RUN cd i370-uclibc-ng; cp ./extra/Configs/defconfigs/i370/defconfig .config
 RUN cd i370-uclibc-ng; make
