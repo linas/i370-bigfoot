@@ -4,6 +4,11 @@
 
 all: vmlinux.ins ramdisk
 
+BASE=..
+
+vmlinux: date-stamp
+	cp ${BASE}/i370-linux-2.2.1/vmlinux .
+
 vmlinux.ins: vmlinux
 	../elf-stripper/elf-stripper vmlinux > vmlinux.bin
 	echo "* INS file to load Linux kernel" > vmlinux.ins
@@ -29,6 +34,8 @@ ram_image: date-stamp
 	sudo mount -o loop disk-image mnt
 	sudo cp -pr big-root-disk/* mnt
 	sudo cp -pr /usr/local/i370-linux-uclibc/* mnt
+	mkdir -p mnt/sbin
+	cp ${BASE}/busybox/busybox mnt/sbin/
 	sudo sh -c 'cd mnt; ./makedev.sh'
 	ls -la mnt
 	sudo umount mnt
