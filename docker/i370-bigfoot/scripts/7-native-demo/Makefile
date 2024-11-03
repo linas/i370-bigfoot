@@ -4,7 +4,7 @@
 
 all: vmlinux.ins ramdisk
 
-BASE=..
+BASE=/home/bigfoot
 
 vmlinux: date-stamp
 	cp ${BASE}/i370-linux-2.2.1/vmlinux .
