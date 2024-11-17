@@ -26,9 +26,11 @@ Sound easy, right? Hah.
 
 * The line-mode 3215 interface is unpleasant. There are two ways to get
   a character-mode interface.
+
   -- One is to use Paul Edwards characer-mode Hercules device: its like
      3215, but does characters. However, a Linux kernel tty driver
      would need to be written for that.
+
   -- Provide networking interfaces for the Linux kernel. Easy, in
      principle. In practice, the required copy-in/copy-out with
      checksumming routines are stubs in the Linux kernel. These are
@@ -36,6 +38,7 @@ Sound easy, right? Hah.
      do checksumming; these are used by the tcp/ip stack. In addition,
      a System/390 CTCA driver would need to be written, to get the
      network interfaces. Can't be that hard, right?
+
 * The ramdisk is OK for a demo. Anything more serious requires having
   an actual disk. For this, a System/390 CKD or ECKD device driver
   needs to be written (for 3880/3990 access). The stubs are there.

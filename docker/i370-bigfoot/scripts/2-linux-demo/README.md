@@ -59,7 +59,7 @@ block devices). Without special files, there is no way for user-land
 processes to access devices; this includes accessing the console for
 printing and the keyboard for getting typed input.
 
-The example below creates a file named 'my-disk` holding a disk image
+The example below creates a file named `my-disk` holding a disk image
 that is (exactly) 2 MBytes in size. The `-r0` specifies ext2fs version
 zero; this is mandatory for the 2.2.1 kernel.
 

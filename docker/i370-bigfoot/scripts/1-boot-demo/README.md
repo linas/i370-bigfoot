@@ -51,7 +51,7 @@ Steps to running the demo:
   another in r15 (from `boot-demo.c`). This is the only evidence that
   the code actually ran (because we don't have a `printf` available.)
 * Note that `r14` is the link register; it contains the location that
-  the C code returns to, after exiting. Comare the value here to that
+  the C code returns to, after exiting. Compare the value here to that
   visible in `i370-ibm-linux-objdump -D boot-demo`.
 * Examine the system RAM. The `r 0.ff` command will show the initial
   PSW, and the text strings before the first executable insn. The first
