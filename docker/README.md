@@ -59,7 +59,7 @@ A short docker cheat sheet:
 * `docker start -i <container-name>`
 * `docker stop <container-name>`
 * `docker rm <container-name>`
-* `docker container cp <some-file> <container>:<path>
+* `docker container cp <some-file> <container>:<path>`
 * `docker attach <container-name>`
 
 #### Notes

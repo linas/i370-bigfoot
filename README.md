@@ -225,4 +225,4 @@ IBM document number SA22-7832-13. Has 2124 pages.
 For your convenience (and in case thigs on the net get lost),
 [a copy of the ESA/390 POC is here](docker/i370-bigfoot/scripts/SA22-7201-08.pdf)
 and a short
-[reference summary is here](docker/i370-bigfoot/scripts/System_370_Reference_Summary.pdf)`.
+[reference summary is here](docker/i370-bigfoot/scripts/System_370_Reference_Summary.pdf).

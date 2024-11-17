@@ -3,7 +3,7 @@ This container contains all the tools needed for creating an i370 Linux
 kernel, creating a bootable root disk, and creating i370 executables
 that run with this kernel. There are two options for actually running
 these:
-* Copy them out of this container, and running them on a VM session
+* Copy them out of this container, and run them on a VM session
   on actual System/390 hardware (should also work on z/Series.)
 * Run the Hercules emulator.
 
@@ -44,7 +44,8 @@ type output and accept keyboard input.  Note the port number is 3270.
 telnet localhost 3270
 ```
 
-The telnet menu cn be accessed at any time with ctrl-].
+The telnet menu cn be accessed at any time with ctrl-]. That's
+ctrl-close-square-bracket.
 
 ## Build the elf-stripper tool
 In a third window, build the elf-stripper tool. This is needed by all
@@ -93,7 +94,7 @@ details on creating a basic file system.
 Even with a root file system, the Linux kernel won't do anything
 interesting without some kind of `/sbin/init`. This is the very
 first program that runs, after the Linux kernel is booted. This
-demo provides a simple C program that write to the system console.
+demo provides a simple C program that writes to the system console.
 Because there is no C library (yet), the system call interfaces
 are minimalistic. In the demo, just enough to write to the screen.
 
@@ -111,10 +112,13 @@ For more info, see the [4-pdpclib-demo README](../4-pdpclib-demo/README.md)
 
 ## (optional) Build and run the uClibc demo
 The uClibc-ng is an LGPL'ed C Library tailored for microcontrollers
-running Linux. It's quite sophisticated, but does not have everything
-one might want from glibc.  The demo creates a bootable init binary
-that simply reads input and echoes it to output, using `fgets` and
-`printf`.
+running Linux. It's quite sophisticated, its very configurable, its easy
+to port. It's derived from glibc, but omits some of the more opaque
+and obscure corners (like C++ exception unwinding?? Perhaps symbol
+versioning? I dunno, things you won't normally need, unless you are
+going to run sophisticated server software stacks.).  The demo creates
+a bootable init binary that simply reads input and echoes it to output,
+using `fgets` and `printf`.
 
 For more info, see the [5-uclibc-demo README](../5-uclibc-demo/README.md)
 
@@ -142,9 +146,11 @@ It supposedly fixes many issues.  Also, it has a better web page:
 
 [Hercules 390 version 4](http://hercules-390.github.io/html/)
 
+It's not available on Debian, so its not installed here.
+
 ### Documentation
 * The [SA22-7201-08.pdf](SA22-7201-08.pdf) is a copy of the Enterprise
-  Systems Architecture/390 Principles of Operation, Nineth Edition,
+  Systems Architecture/390 Principles of Operation, Ninth Edition,
   June 2003
 
 * The [System 370 Reference Summary](System_370_Reference_Summary.pdf)
