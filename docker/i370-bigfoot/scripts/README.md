@@ -15,8 +15,8 @@ and some basic debugging hints.
 ## Run Docker
 Start your Docker container, if you haven't yet.
 ```
-docker create --privileged=true --name my-mainframe -it bigfoot/i370-bigfoot
-docker start -i my-mainframe
+   docker create --privileged=true --name my-mainframe -it bigfoot/i370-bigfoot
+   docker start -i my-mainframe
 ```
 The `--privileged=true` is required so that the `mount` command can be
 used to create root-disks.
@@ -35,13 +35,13 @@ To close windows, hit ctrl-D. Exit hercules with `quit`.
 ## Start Hercules
 In one window, start the Hercules emulator:
 ```
-hercules -f hercules/hercules.cnf
+   hercules -f hercules/hercules.cnf
 ```
 In another window, attach to the console with telnet. (Use pf3/pf4 to
 rotate to another window.) The console is where the Linux kernel will
 type output and accept keyboard input.  Note the port number is 3270.
 ```
-telnet localhost 3270
+   telnet localhost 3270
 ```
 
 The telnet menu cn be accessed at any time with ctrl-]. That's
@@ -51,9 +51,9 @@ ctrl-close-square-bracket.
 In a third window, build the elf-stripper tool. This is needed by all
 demos. It converts i370 ELF binaries into binaries that can be IPL'ed.
 ```
-cd elf-stripper
-make
-cd ..
+   cd elf-stripper
+   make
+   cd ..
 ```
 
 ## (optional) Build and run the boot demo
@@ -64,8 +64,8 @@ see that it actually ran, by examining memory.
 
 In another window, compile and build the boot demo:
 ```
-cd 1-boot-demo
-less README.md
+   cd 1-boot-demo
+   less README.md
 ```
 For more info, see the [boot-demo README](./1-boot-demo/README.md)
 
@@ -74,8 +74,8 @@ A demo of the Linux kernel is the main point of this project. So here it
 is. The Docker container has a kernel, already built, in the
 `i370-linux-2.2.1` directory. You can IPL it as follows:
 ```
-	cd 2-linux-demo
-	cp ../i370-linux-2.2.1/vmlinux .
+   cd 2-linux-demo
+   cp ../i370-linux-2.2.1/vmlinux .
    elf-stripper vmlinux > vmlinux.bin
    echo "* INS file to load a Linux OS" > vmlinux.ins
    echo "* Format: <file to load> [address where to load]" >> vmlinux.ins
@@ -84,7 +84,7 @@ is. The Docker container has a kernel, already built, in the
 ```
 Then, in the Hercules emulator:
 ```
-ipl 2-linux-demo/vmlinux.ins
+   ipl 2-linux-demo/vmlinux.ins
 ```
 The above will boot, but then kernel panic, since no root file system
 was provided. See the [2-linux-demo README](./2-linux-demo/README.md) for
@@ -147,6 +147,10 @@ It supposedly fixes many issues.  Also, it has a better web page:
 [Hercules 390 version 4](http://hercules-390.github.io/html/)
 
 It's not available on Debian, so its not installed here.
+
+There is also a version of Hercules from Paul Edwards, which includes a
+character-mode variant of the 3215 device. The patches for this device
+seem not to be included in either of the above.
 
 ### Documentation
 * The [SA22-7201-08.pdf](SA22-7201-08.pdf) is a copy of the Enterprise
