@@ -107,8 +107,8 @@ At this time, [binutils](https://github.com/linas/i370-binutils)
 (the assembler), [gcc](https://github.com/linas/i370-gcc) (the compiler)
 and the [Linux kernel](https://github.com/linas/i370-linux-2.2.1) have
 been revived. A port of
-[uClibcs](https://github.com/linas/i370-uclibc-ng) has been created, and
-busybox compiles and runs. Everything is stable, more or less: you can
+[uClibc-ng](https://github.com/linas/i370-uclibc-ng) has been created, and
+BusyBox compiles and runs. Everything is stable, more or less: you can
 boot one of the busybox shells (`ash`, `hush`) and everything runs,
 nothing crashes.  You can even double-cross-compile the assembler and
 the compiler and run them on i370-linux, and create working, runnable
