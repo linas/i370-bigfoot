@@ -158,12 +158,12 @@ Some issues:
   unix is annoying: normal unix shells expect character-mode access.
   There are two ways to get character-mode ttys/ptys:
 
--- Get a tty interface by using Paul Edwards characer-mode Hercules
+  -- Get a tty interface by using Paul Edwards characer-mode Hercules
      device: its like the 3215, but does characters. A Linux kernel tty
      driver would need to to be written for that. The current raw-3215
      driver does not use the kernel tty subsystem.
 
--- Get a pty interface by logging in over the net. This requires
+  -- Get a pty interface by logging in over the net. This requires
      network interfaces.  Providing networking for the Linux kernel is
      easy, in principle. In practice, this needs copy-in/copy-out with
      checksumming, and these are currently stubs in the Linux kernel.
