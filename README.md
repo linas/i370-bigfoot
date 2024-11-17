@@ -103,12 +103,16 @@ For a related project, somewhat overlapping this, see
 ## Status
 Version 1.0.0 - October 2024
 
-At this time, binutils (the assembler), gcc (the compiler) and the
-Linux kernel have been revived. A port of uClibc has been created, and
+At this time, [binutils](https://github.com/linas/i370-binutils)
+(the assembler), [gcc](https://github.com/linas/i370-gcc) (the compiler)
+and the [Linux kernel](https://github.com/linas/i370-linux-2.2.1) have
+been revived. A port of
+[uClibcs](https://github.com/linas/i370-uclibc-ng) has been created, and
 busybox compiles and runs. Everything is stable, more or less: you can
-boot one of the busybox shells (`ash`, `hush`) and everything runs.
-You can even double-cross-compile the assembler and the compiler
-and run them on i370-linux, and create working, runnable programs.
+boot one of the busybox shells (`ash`, `hush`) and everything runs,
+nothing crashes.  You can even double-cross-compile the assembler and
+the compiler and run them on i370-linux, and create working, runnable
+programs.
 
 Statically linked programs work great. Position-independent
 (PIC) binaries seem to work.  The dynamic loader implementation is
