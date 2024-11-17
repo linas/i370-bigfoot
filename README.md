@@ -23,7 +23,7 @@ System/370, the 3090 and eventually, the
 [z/Architecture](https://en.wikipedia.org/wiki/Z/Architecture).
 Many of the very earliest open source projects were created on S/360,
 shepharded by [SHARE](https://en.wikipedia.org/wiki/SHARE_(computing)),
-a volunteer-run user grouped for IBM mainframes.
+a volunteer-run user group for IBM mainframes.
 
 In the 1990's, David Pitts ported the GNU GCC compiler to the System/370
 instruction set, targeting the IBM HLASM assembler. This created the
@@ -107,10 +107,13 @@ At this time, binutils (the assembler), gcc (the compiler) and the
 Linux kernel have been revived. A port of uClibc has been created, and
 busybox compiles and runs. Everything is stable, more or less: you can
 boot one of the busybox shells (`ash`, `hush`) and everything runs.
-You can even double-cross-compile ("Candadian-cross") the assembler
-and run it on i370, and create a working, runnable "hello, world."
-GCC is harder, the `autotools` on GCC can't seem to do Candaian-cross
-correctly.
+You can even double-cross-compile the assembler and the compiler
+and run them on i370-linux, and create working, runnable programs.
+
+Statically linked programs work great. Position-independent
+(PIC) binaries seem to work.  The dynamic loader implementation is
+unfinished, and the shared library linker is probably incomplete
+and probably buggy because its untested.
 
 ## Issues
 Know what you are getting into! This is a revival of old work from 1999.
@@ -118,7 +121,7 @@ It remains in that era, more or less. This is a version of Linux for the
 System/390 of that era; this is ***NOT*** a port to the z/Architecture.
 That one is well-supported by IBM and runs on all modern metal. This
 version targets old systems that predate the z/Architecture. This is an
-explict design decision.
+explicit design decision.
 
 Some issues:
 * The current system is quasi-stable. It seems to run. Things seem to
@@ -136,11 +139,13 @@ Some issues:
   completed when the original project was abandoned. Most of the
   needed support is in the assembler, but might be buggy. The
   GOT/PLT design never got fully underway, the glibc `ld.so` compiled
-  but didn't run. There's been no work to create `ld.so` for uClibc.
+  but certainly wouldn't have worked. There's some basic groundwork
+  to create `ld.so` for uClibc, but the hard parts haven't been done.
 
 * SMP support in the kernel was started, but never finished.
 
-* The current uClibc/i370 version does not support (posix) threads.
+* The current uClibc/i370 version does not support either posix threads,
+  nor LinuxThreads of the era.
 
 * The kernel does not have any 3880/3990 CKD/ECKD drivers, which means
   that there is no disk storage. The demos all run from a ramdisk, but
@@ -152,12 +157,14 @@ Some issues:
 * The 3215 terminal driver works. However, line mode terminal access to
   unix is annoying: normal unix shells expect character-mode access.
   There are two ways to get character-mode ttys/ptys:
-  -- Get a tty interface by using Paul Edwards characer-mode Hercules
+
+-- Get a tty interface by using Paul Edwards characer-mode Hercules
      device: its like the 3215, but does characters. A Linux kernel tty
      driver would need to to be written for that. The current raw-3215
      driver does not use the kernel tty subsystem.
-  -- Get a pty interface by logging in over the net. This requires
-     network interfaces.  Provide networking for the Linux kernel is
+
+-- Get a pty interface by logging in over the net. This requires
+     network interfaces.  Providing networking for the Linux kernel is
      easy, in principle. In practice, this needs copy-in/copy-out with
      checksumming, and these are currently stubs in the Linux kernel.
      They are just like regular copy-in/copy-out (which work fine) but
@@ -214,3 +221,8 @@ IBM Document number GA22-7000-10. Has 558 pages.
 * [z/Architecture Principles of Operation, Fourteenth Edition (May,
 2022)](https://www.ibm.com/docs/en/module_1678991624569/pdf/SA22-7832-13.pdf)
 IBM document number SA22-7832-13. Has 2124 pages.
+
+For your convenience (and in case thigs on the net get lost),
+[a copy of the ESA/390 POC is here](docker/i370-bigfoot/scripts/SA22-7201-08.pdf)
+and a short
+[reference summary is here](docker/i370-bigfoot/scripts/System_370_Reference_Summary.pdf)`.
