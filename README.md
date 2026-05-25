@@ -259,7 +259,7 @@ revolutionary idea.
 promise, but the cloud is, well, out of our personal reach. By contrast,
 Ceph is perhaps the first reasonable, local, managable incarnation of
 what storage could be like at the local level.
-Unfortunately, its still early, and Unix is not year ready for Ceph. I have
+Unfortunately, its still early, and Unix is not yet ready for Ceph. I have
 different users, with different logons and different user ID's on different
 systems. viz. UID's and GID's. These are 16-bit numbers, they are hard-coded
 into the linux kernel, into `/etc/passwd`, into services and SystemD. UID's
