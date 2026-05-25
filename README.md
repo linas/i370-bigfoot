@@ -178,13 +178,87 @@ that could respond, character-at-a-time, to user typing. How this could have
 even been possible, without interrupting the CPU for each and every
 keystroke, is unknown to me. Maybe that is why it was never invented.
 
-* *** Storage keys***
+* *** Storage keys.*** Turning our gaze towards the future, the mainframes
+had a curious bit of technology: the storage keys. These are 4-bit hardware
+ID's associated with RAM, and if the (hardware) ID of your running process
+did not match (in hardware) the ID of the RAM you are trying to access, you
+have nothing. This is similar to the distinction between user-mode and
+kernel-mode in x86 PC's, but instead of one bit (user or kernel) its four
+bits. Now, why is this interesting? Well, in the bad old days, before
+multi-tasking, before client-server, if you ran an app, and the app had some
+bug, you would not only crash, but corrupt your entire dataset in the
+process. To shelter the data from the bad app, client-server was invented.
+The server, robust and debugged, could be trusted. Wild-west apps, they did
+whatever, but the server kept them at arms length. The price you paid for
+this was multi-tasking, and the copying/movement of data. Wouldn't it have
+just been more efficient to just toggle the storage key? Shared libraries
+could run in one storage key, the app in another. Shared libraries that each
+did not trust the other could have their own storage keys. Mandatory access
+control (MAC), but in the user-space, not the kernel.  Easier said than
+done, I suppose: storage keys continue to exist, but never became a
+fundamental part of unix. May that change someday? I suppose.
 
-systemd
+* ***Containers.*** BSD gaols, Docker, LXC. This is a truly revolutionary
+technology. These provide virtualization, but at the application level,
+not the hardware level.  These had not yet been invented in the 1990's.
+Contemplating the details of how containers differ from VM's, and what the
+security profiles look like, and how that containerization is acheived is
+worthy of attention. Containers are what allowed the cloud to bloom, and
+failure to appreciate this means missing the modern revolution. But look
+also at the other end: hypervisors, and low-level hardware+software advances
+like VPNs, MPLS, SAN fabrics and the like. The fabric of communications, both
+at the level of "bare metal", and at levels of high abstraction, continue to
+evolve at a prodigious pace. The end of the 1990's provides a good way-point,
+a place to stop and look around: compare what was known, what was imagined,
+and what actually came to be.
 
-storage keys
-containers
-line mode
+* ***SystemD.*** I have changed my mind. For much of the 2010's, I
+experienced a Linux that refused to boot, and required brain surgery to
+fix. This was absolutely infuriating, mind-boggling, brain-shmashingly
+difficult, and an endless sink of wasted time. I blamed SystemD. I have
+now turned around 180 degrees. A uniformized, consolidated, standardized
+framework for system services is the only rational path forward. At the end
+of the 1990's, the roll-your-own bag of daemons, servers and services was
+just plain normal, ordinary and unexceptional. One did not imagine that there
+might be another way. But frankly, there's no good reason for a hodge-podge
+of quirks: there's nothing wrong with smoothing out the lumpy bits, the
+pokey-sharp bits.
+
+* ***Ceph.*** In the 1990's, we had NFS. We also had RAID. And we had
+filesystems: ext2fs, and XFS and JFS and all the others. And its still much
+like this today (in 2026) But Ceph is another conceptual breakthrough: your
+data files can now live in a cluster, with RAID-like duplication and
+protections, but now spread across multiple machines, and not just one.
+Network access like NFS, but ithout a single point of failure. Self-healing,
+self-repairing, automated scrubbing and migration. The Ceph cluster is a bit
+of an organism: it "lives" on multiple machines, migrates and moves as
+needed, but always looking at avoiding data loss.  Again, this is an utterly
+revolutionary idea.
+
+* Unfortunately, its still early, and Unix is not year ready for Ceph. I have
+different users, with different logons and different user ID's on different
+systems. viz. UID's and GID's. These are 16-bit numbers, they are hard-coded
+into the linux kernel, into `/etc/passwd`, into services and systemd. UID's
+are not network transparant.  Yuck. There's no network logon; security is
+hard. Access control is hard. Then there's RBD's the Rados block device. It's
+great to have a network block device, but ext4fs means only one machine at a
+time can access the block device. I cannot have two different ext4fs's
+running on the same block device. So this idea of network migration and
+network transparency remains a dream. Oh. And performance. The 1GbE is still
+slower than 6Gbps SATA, and 10GbE pales compared to NVMe. Ceph is not yet
+smart enough to migrate data to the machine that access it the most often.
+Ceph is not yet a performance monster.  It needs to become one.
+
+* ***AI and LLM's.*** Of course, this is an ongoing story. With many
+opinions. I look forward to the day when I can ask my computer to do
+something, and it will do it. Instead of fighting to configure some
+foobar subsystem to work the way I want it to. Instead of fighting with
+my internet service provider, who seems to not understand the service
+they provide (looking at you, Grande/Astound Broadband. Why are y'all so
+incompetent?). Instead of fighting with google, or my android phone,
+or whatever stupid sh1t Samsung wants to strong-arm me into doing.
+But the ills of corporate capitalism, that's for another project.
+
 
 ## Issues
 Know what you are getting into! This is a revival of old work from 1999.
