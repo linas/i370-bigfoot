@@ -129,7 +129,7 @@ computing, while also entirely obscure, as they disappear into the general
 background of the common-place and taken-for-granted. Thus, important,
 forgotten and mis-understood.
 
-* ***The Shell.*** Unix can with the concept of a shell: bash, csh, sh.
+* ***The Shell.*** Unix came with the concept of a shell: bash, csh, sh.
 This is a fundamental breakthrough that the makers of DOS never quite
 wrapped their heads around: whether MS-DOS or mainframe DOS. The shell
 virtualized access to operating system. It would not have been possible
@@ -270,7 +270,7 @@ time can access the block device. I cannot have two different ext4fs's
 running on the same block device. So this idea of network migration and
 network transparency remains a dream. Oh. And performance. The 1GbE is still
 slower than 6Gbps SATA, and 10GbE pales compared to NVMe. Ceph is not yet
-smart enough to migrate data to the machine that access it the most often.
+smart enough to migrate data to the machine that accesses it the most often.
 Ceph is not yet a performance monster.  It needs to become one.
 
 * ***AI and LLM's.*** Of course, this is an ongoing story. With many
