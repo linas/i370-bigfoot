@@ -22,7 +22,7 @@ series of mainframes in the 1960s. In later decades, these evolved into
 System/370, the 3090 and eventually, the
 [z/Architecture](https://en.wikipedia.org/wiki/Z/Architecture).
 Many of the very earliest open source projects were created on S/360,
-shepharded by [SHARE](https://en.wikipedia.org/wiki/SHARE_(computing)),
+shepherded by [SHARE](https://en.wikipedia.org/wiki/SHARE_(computing)),
 a volunteer-run user group for IBM mainframes.
 
 In the 1990's, David Pitts ported the GNU GCC compiler to the System/370
@@ -83,7 +83,7 @@ the hardware at cost, and generate profit from software sales. This was
 a ten or twenty billion dollar business. The fear was that a "free"
 operating system, such as Linux, might tank a third of IBM's revenues:
 a veritable disaster! Of course, this is absurd, and cooler heads came
-to previal, but not before IBM's CEO, Lou Gerstner, heard of Linas'
+to prevail, but not before IBM's CEO, Lou Gerstner, heard of Linas'
 work. He then heard about the IBM Germany skunkworks project, and the
 decision was clear: if there was to be Linux on the mainframe, IBM would
 control it.
@@ -137,7 +137,7 @@ without multi-tasking, which, of course, came to be understood as
 important, but the further refinement into the concept of a shell seemed
 to be lost (or misunderstood) in both the Microsoft and the mainframe world.
 
-* Why was the shell underappreciated in some quarters? In the Microsoft
+* Why was the shell under-appreciated in some quarters? In the Microsoft
 world, this was perhaps due to the small size of early Intel x86 PC's. We had
 to wait for Linux to see a practical demonstration. In the mainframe world,
 this was due to a focus on transaction processing and batch processing. No
@@ -196,7 +196,7 @@ could run in one storage key, the app in another. Shared libraries that each
 did not trust the other could have their own storage keys. Mandatory access
 control (MAC), but in the user-space, not the kernel.  Easier said than
 done, I suppose: storage keys continue to exist, but never became a
-fundamental part of unix. May that change someday? I suppose.
+fundamental part of Unix. May that change someday? I suppose.
 
 * ***Containers.*** BSD gaols, Docker, LXC. This is a truly revolutionary
 technology. These provide virtualization, but at the application level,
@@ -214,7 +214,7 @@ and what actually came to be.
 
 * ***SystemD.*** I have changed my mind. For much of the 2010's, I
 experienced a Linux that refused to boot, and required brain surgery to
-fix. This was absolutely infuriating, mind-boggling, brain-shmashingly
+fix. This was absolutely infuriating, mind-boggling, brain-smashingly
 difficult, and an endless sink of wasted time. I blamed SystemD. I have
 now turned around 180 degrees. A uniformized, consolidated, standardized
 framework for system services is the only rational path forward. At the end
@@ -229,7 +229,7 @@ filesystems: ext2fs, and XFS and JFS and all the others. And its still much
 like this today (in 2026) But Ceph is another conceptual breakthrough: your
 data files can now live in a cluster, with RAID-like duplication and
 protections, but now spread across multiple machines, and not just one.
-Network access like NFS, but ithout a single point of failure. Self-healing,
+Network access like NFS, but without a single point of failure. Self-healing,
 self-repairing, automated scrubbing and migration. The Ceph cluster is a bit
 of an organism: it "lives" on multiple machines, migrates and moves as
 needed, but always looking at avoiding data loss.  Again, this is an utterly
@@ -238,7 +238,7 @@ revolutionary idea.
 * Unfortunately, its still early, and Unix is not year ready for Ceph. I have
 different users, with different logons and different user ID's on different
 systems. viz. UID's and GID's. These are 16-bit numbers, they are hard-coded
-into the linux kernel, into `/etc/passwd`, into services and systemd. UID's
+into the linux kernel, into `/etc/passwd`, into services and SystemD. UID's
 are not network transparent.  Yuck. There's no network logon; security is
 hard. Access control is hard. Then there's RBD's the Rados block device. It's
 great to have a network block device, but ext4fs means only one machine at a
@@ -303,7 +303,7 @@ Some issues:
   unix is annoying: normal unix shells expect character-mode access.
   There are two ways to get character-mode ttys/ptys:
 
-  -- Get a tty interface by using Paul Edwards characer-mode Hercules
+  -- Get a tty interface by using Paul Edwards character-mode Hercules
      device: its like the 3215, but does characters. A Linux kernel tty
      driver would need to to be written for that. The current raw-3215
      driver does not use the kernel tty subsystem.
@@ -367,7 +367,7 @@ IBM Document number GA22-7000-10. Has 558 pages.
 2022)](https://www.ibm.com/docs/en/module_1678991624569/pdf/SA22-7832-13.pdf)
 IBM document number SA22-7832-13. Has 2124 pages.
 
-For your convenience (and in case thigs on the net get lost),
+For your convenience (and in case things on the net get lost),
 [a copy of the ESA/390 POC is here](docker/i370-bigfoot/scripts/SA22-7201-08.pdf)
 and a short
 [reference summary is here](docker/i370-bigfoot/scripts/System_370_Reference_Summary.pdf).
