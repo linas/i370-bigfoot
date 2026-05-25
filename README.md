@@ -159,10 +159,28 @@ the fundamental magic of the IBM mainframe VM: it had a built-in debugger.
 You could single-step, run, set breakpoints and dis-assemble. This was a
 fundamentally important capability.  Somehow it remains often overlooked.
 
+* ***Shared Libraries.*** These came into being in the late 1980's, early
+1990's to solve the multiple problems: wasted disk space and wasted RAM
+from static-linked apps, and the dream of being able to ship bugfixes without
+forcing vendors to re-link thier apps. Its a great idea; the only critique is
+that every unix OS of the era invented a new and different and incompatible
+way of doing this.  There's just a lot of different ways it can be done. But
+as a lot of the heavy lifting has to happen in binutils, it became a mess.
+The current i370-bigfoot implementation is incomplete. It could be made to
+work, but note also that it, too, is quite unlike any of the other arches.
+This is because the the i370-bigfoot compiler handles lierals and symbols
+in a more-or-less MVS-compatible style, putting them into a per-page literal
+pool. This adheres to that very old design, which in turn was driven by the
+fact that s/390 addressing is 12-bit, and not 16-bit like almost every other
+modern CPU. So the literal pool is per-page, and that makes the design of
+shared libraries and weak symbols ... interesting. (Yes, yes, the z/Series
+guys did things completely differently. That's not the point. Or maybe that
+is the point.)
+
 * ***Line mode.*** This is more of a sad story, than anything else. In the
 1960's, even the most powerful computers had fractions of a megabyte of RAM,
 and processing input one line at a time made sense. Read all 80 characters,
-and a tight loop in the OS figured out what to do. This made sense.
+and a tight loop and the OS figured out what to do. This made sense.
 Unfortunately, this design decision was never amended on the mainframe.
 Unix, and shells made it clear that, from the user perspective, you wanted
 to be able to respond to each and every character typed at the keyboard.
@@ -178,7 +196,7 @@ that could respond, character-at-a-time, to user typing. How this could have
 even been possible, without interrupting the CPU for each and every
 keystroke, is unknown to me. Maybe that is why it was never invented.
 
-* *** Storage keys.*** Turning our gaze towards the future, the mainframes
+* ***Storage keys.*** Turning our gaze towards the future, the mainframes
 had a curious bit of technology: the storage keys. These are 4-bit hardware
 ID's associated with RAM, and if the (hardware) ID of your running process
 did not match (in hardware) the ID of the RAM you are trying to access, you
@@ -198,7 +216,8 @@ control (MAC), but in the user-space, not the kernel.  Easier said than
 done, I suppose: storage keys continue to exist, but never became a
 fundamental part of Unix. May that change someday? I suppose.
 
-* ***Containers.*** BSD gaols, Docker, LXC. This is a truly revolutionary
+* ***Containers.*** BSD gaols (pronounced "jail"), Docker, LXC.
+This is a truly revolutionary
 technology. These provide virtualization, but at the application level,
 not the hardware level.  These had not yet been invented in the 1990's.
 Contemplating the details of how containers differ from VM's, and what the
@@ -235,7 +254,12 @@ of an organism: it "lives" on multiple machines, migrates and moves as
 needed, but always looking at avoiding data loss.  Again, this is an utterly
 revolutionary idea.
 
-* Unfortunately, its still early, and Unix is not year ready for Ceph. I have
+* ***The network is the computer.*** An advertising slogan from Sun in the
+1980's. A technology promise. We can argue if the cloud delivers on that
+promise, but the cloud is, well, out of our personal reach. By contrast,
+Ceph is perhaps the first reasonable, local, managable incarnation of
+what storage could be like at the local level.
+Unfortunately, its still early, and Unix is not year ready for Ceph. I have
 different users, with different logons and different user ID's on different
 systems. viz. UID's and GID's. These are 16-bit numbers, they are hard-coded
 into the linux kernel, into `/etc/passwd`, into services and SystemD. UID's
@@ -256,7 +280,7 @@ foobar subsystem to work the way I want it to. Instead of fighting with
 my internet service provider, who seems to not understand the service
 they provide (looking at you, Grande/Astound Broadband. Why are y'all so
 incompetent?). Instead of fighting with google, or my android phone,
-or whatever stupid sh1t Samsung wants to strong-arm me into doing.
+or whatever stupid sh!t Samsung wants to strong-arm me into doing.
 But the ills of corporate capitalism, that's for another project.
 
 
