@@ -153,7 +153,7 @@ mind-warping to track the dance, the jig, that morphs the one into the other.
 
 * ***Virtual Machines.*** VM's. At the end of the 1990's, only the mainframes
 had this, and no one else. The fact that they are now widespread, pervasive and
-common-place attests to thier fundamental importance. I won't explain what a
+common-place attests to their fundamental importance. I won't explain what a
 VM is: this is deep, technical and interesting. But I do want to point out
 the fundamental magic of the IBM mainframe VM: it had a built-in debugger.
 You could single-step, run, set breakpoints and dis-assemble. This was a
@@ -165,7 +165,7 @@ and processing input one line at a time made sense. Read all 80 characters,
 and a tight loop in the OS figured out what to do. This made sense.
 Unfortunately, this design decision was never amended on the mainframe.
 Unix, and shells made it clear that, from the user perspective, you wanted
-to be able to responed to each and every character typed at the keyboard.
+to be able to respond to each and every character typed at the keyboard.
 But this was impossible with the mainframe channel architecture: the STARTIO
 instruction is a single CPU instruction that generated a cascade of disk
 access, running in the devices, outside of the CPU itself. The CPU was free
@@ -202,7 +202,7 @@ fundamental part of unix. May that change someday? I suppose.
 technology. These provide virtualization, but at the application level,
 not the hardware level.  These had not yet been invented in the 1990's.
 Contemplating the details of how containers differ from VM's, and what the
-security profiles look like, and how that containerization is acheived is
+security profiles look like, and how that containerization is achieved is
 worthy of attention. Containers are what allowed the cloud to bloom, and
 failure to appreciate this means missing the modern revolution. But look
 also at the other end: hypervisors, and low-level hardware+software advances
@@ -239,7 +239,7 @@ revolutionary idea.
 different users, with different logons and different user ID's on different
 systems. viz. UID's and GID's. These are 16-bit numbers, they are hard-coded
 into the linux kernel, into `/etc/passwd`, into services and systemd. UID's
-are not network transparant.  Yuck. There's no network logon; security is
+are not network transparent.  Yuck. There's no network logon; security is
 hard. Access control is hard. Then there's RBD's the Rados block device. It's
 great to have a network block device, but ext4fs means only one machine at a
 time can access the block device. I cannot have two different ext4fs's
