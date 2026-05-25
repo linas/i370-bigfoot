@@ -94,10 +94,10 @@ Mostly. The i370 compiler and assembler continued to receive patches
 from Paul Edwards, Dave Pitts and others: the compiler and assembler
 were also used in other projects, mostly relating to MVS.
 
-Recently, I was contacted (by Paul Edwards), and asked if I could revive the project.
-I don't know that I want to: its not as if I don't have enough to do,
-and enough interests to indulge. But what the heck, how hard can this
-be? Just a little bit more work, and bingo, we're back.
+Recently, I was contacted by Paul Edwards, and asked if I could revive
+the project.  I don't know that I want to: its not as if I don't have
+enough to do, and enough interests to indulge. But what the heck, how
+hard can this be? Just a little bit more work, and bingo, we're back.
 
 For a related project, somewhat overlapping this, see
 [PDOS, the Public Domain Operating System](https://pdos.org).
@@ -120,6 +120,71 @@ Statically linked programs work great. Position-independent
 (PIC) binaries seem to work.  The dynamic loader implementation is
 unfinished, and the shared library linker is probably incomplete
 and probably buggy because its untested.
+
+## Why is this interesting?
+This is a home hobbyist project that gives an opportunity to reflect upon
+computer system design issues as they stood at the end of the 1990's. These
+are both fundamentally and deeply important, altering the history of
+computing, while also entirely obscure, as they disappear into the general
+background of the common-place and taken-for-granted. Thus, important,
+forgotten and mis-understood.
+
+* ***The Shell.*** Unix can with the concept of a shell: bash, csh, sh.
+This is a fundamental breakthrough that the makers of DOS never quite
+wrapped their heads around: whether MS-DOS or mainframe DOS. The shell
+virtualized access to operating system. It would not have been possible
+without multi-tasking, which, of course, came to be understood as
+important, but the further refinement into the concept of a shell seemed
+to be lost (or misunderstood) in both the Microsoft and the mainframe world.
+
+* Why was the shell underappreciated in some quarters? In the Microsoft
+world, this was perhaps due to the small size of early Intel x86 PC's. We had
+to wait for Linux to see a practical demonstration. In the mainframe world,
+this was due to a focus on transaction processing and batch processing. No
+mainframe customer needed, wanted or used shells; the few developers who
+might have benefited had other ways of doing things.
+
+* ***Multi-tasking*** is a very clever little knot tied deep in the OS kernel:
+all CPU registers and process state are saved to RAM, and then a cute little
+jump that restores everything. It feels like you never left: you are executing
+instructions, but the process id, the memory mapping, the stack are suddenly
+just ... different. Its really quite impressive, and perhaps a bit
+mind-warping to track the dance, the jig, that morphs the one into the other.
+
+* ***Virtual Machines.*** VM's. At the end of the 1990's, only the mainframes
+had this, and no one else. The fact that they are now widespread, pervasive and
+common-place attests to thier fundamental importance. I won't explain what a
+VM is: this is deep, technical and interesting. But I do want to point out
+the fundamental magic of the IBM mainframe VM: it had a built-in debugger.
+You could single-step, run, set breakpoints and dis-assemble. This was a
+fundamentally important capability.  Somehow it remains often overlooked.
+
+* ***Line mode.*** This is more of a sad story, than anything else. In the
+1960's, even the most powerful computers had fractions of a megabyte of RAM,
+and processing input one line at a time made sense. Read all 80 characters,
+and a tight loop in the OS figured out what to do. This made sense.
+Unfortunately, this design decision was never amended on the mainframe.
+Unix, and shells made it clear that, from the user perspective, you wanted
+to be able to responed to each and every character typed at the keyboard.
+But this was impossible with the mainframe channel architecture: the STARTIO
+instruction is a single CPU instruction that generated a cascade of disk
+access, running in the devices, outside of the CPU itself. The CPU was free
+to do something else entirely: this is what made mainframes powerful. Like a
+brontosaur, a dinosaur, the CPU was a small brain, but the muscles, the
+disk-drives, the devices, these were huge, just massive processing subsystems
+interconnected with channels. This made sense for batch processing and
+transaction processing. But IBM never invented, manufactured or sold a device
+that could respond, character-at-a-time, to user typing. How this could have
+even been possible, without interrupting the CPU for each and every
+keystroke, is unknown to me. Maybe that is why it was never invented.
+
+* *** Storage keys***
+
+systemd
+
+storage keys
+containers
+line mode
 
 ## Issues
 Know what you are getting into! This is a revival of old work from 1999.
