@@ -180,7 +180,7 @@ is the point.)
 * ***Line mode.*** This is more of a sad story, than anything else. In the
 1960's, even the most powerful computers had fractions of a megabyte of RAM,
 and processing input one line at a time made sense. Read all 80 characters,
-and a tight loop and the OS figured out what to do. This made sense.
+and a tight loop in the OS figured out what to do. This made sense.
 Unfortunately, this design decision was never amended on the mainframe.
 Unix, and shells made it clear that, from the user perspective, you wanted
 to be able to respond to each and every character typed at the keyboard.
