@@ -52,10 +52,12 @@ were required:
   GNU GLibC, and a shell.  A port of glibc was begun, as well as
   of a very basic shell.
 * Help from lots of people. The following folks made significant
-  contributions to the project: Dan, who taught me VM and System/390
-  principles of operation; Neale Ferguson, who contributed multiple
-  files, and Peter Schulte-Stracke, who contributed the PSA definition
-  and string inlines.
+  contributions to the project: Dan Lepore, who taught me VM and
+  System/390 principles of operation, and, more generally, how to debug;
+  Neale Ferguson, who contributed multiple files, and Peter
+  Schulte-Stracke, who contributed the PSA definition and string inlines.
+  Later, at Princeton, Melinda Varian granted access to online VM systems
+  to continue development.
 
 The bundle of all of the above was given the project name of
 [Bigfoot](https://linas.org/linux/i370-bigfoot.html) alluding to the
