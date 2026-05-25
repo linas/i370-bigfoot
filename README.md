@@ -168,12 +168,12 @@ way of doing this.  There's just a lot of different ways it can be done. But
 as a lot of the heavy lifting has to happen in binutils, it became a mess.
 The current i370-bigfoot implementation is incomplete. It could be made to
 work, but note also that it, too, is quite unlike any of the other arches.
-This is because the the i370-bigfoot compiler handles lierals and symbols
+This is because the the i370-bigfoot compiler handles literals and symbols
 in a more-or-less MVS-compatible style, putting them into a per-page literal
 pool. This adheres to that very old design, which in turn was driven by the
-fact that s/390 addressing is 12-bit, and not 16-bit like almost every other
-modern CPU. So the literal pool is per-page, and that makes the design of
-shared libraries and weak symbols ... interesting. (Yes, yes, the z/Series
+fact that s/390 offset addressing is 12-bit, and not 16-bit like almost every
+other modern CPU. So the literal pool is per-page, and that makes the design
+of shared libraries and weak symbols ... interesting. (Yes, yes, the z/Series
 guys did things completely differently. That's not the point. Or maybe that
 is the point.)
 
